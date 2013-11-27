@@ -1,0 +1,53 @@
+﻿<Window x:Class="FestivalAdministration.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
+        xmlns:v="clr-namespace:FestivalAdministration.View"
+        Title="Festival administration" Height="350" Width="525"
+        MinWidth="500"
+        MinHeight="350">
+    <Window.DataContext>
+        <vm:ApplicationVM/>
+    </Window.DataContext>
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:GeneralVM}">
+            <v:General/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ContactVM}">
+            <v:Contact/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LineupVM}">
+            <v:Lineup/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketsVM}">
+            <v:Tickets/>
+        </DataTemplate>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Create Tabs -->
+        <ItemsControl ItemsSource="{Binding Pages}" HorizontalAlignment="Left">
+            <!-- Make the tabs next to each other -->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            
+            <!-- Add the buttons -->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+        <Separator VerticalAlignment="Bottom" Margin="0"/>
+
+        <!-- Add the current page -->
+        <ContentControl Grid.Row="1" Content="{Binding CurrentPage}"/>
+    </Grid>
+</Window>
