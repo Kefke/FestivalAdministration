@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FestivalAdministration.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,10 @@ namespace FestivalAdministration
         public MainWindow()
         {
             InitializeComponent();
+            /*ContactpersonType.GetContactpersonTypes();
+            ContactpersonType.AddContactpersonType("Ticket seller");
+            //ContactpersonType.DeleteContactpersonType(3);
+            ContactpersonType.UpdateContactpersonType(1, "Security");*/
         }
     }
 }

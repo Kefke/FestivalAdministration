@@ -73,7 +73,7 @@
 
                 <!-- Function -->
                 <Label Content="Function: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <ComboBox HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10"/>
+                <ComboBox HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding ContactTypes}" DisplayMemberPath="Name"/>
 
                 <!-- Address -->
                 <Label Content="Address: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>

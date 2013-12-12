@@ -32,9 +32,9 @@ namespace FestivalAdministration.Model
             set { _Company = value; }
         }
 
-        private ContactpersonType _Job;
+        private int _Job;
 
-        public ContactpersonType Job
+        public int Job
         {
             get { return _Job; }
             set { _Job = value; }
@@ -71,6 +71,13 @@ namespace FestivalAdministration.Model
             get { return _Email; }
             set { _Email = value; }
         }
-        
+
+        private string _Extra;
+
+        public string Extra
+        {
+            get { return _Extra; }
+            set { _Extra = value; }
+        }
     }
 }
