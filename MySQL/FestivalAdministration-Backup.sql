@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 12 dec 2013 om 15:23
+-- Genereertijd: 13 dec 2013 om 17:43
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -57,8 +57,17 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `Tel` varchar(15) NOT NULL,
   `Email` varchar(50) NOT NULL,
   `Extra` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`ID`),
+  KEY `Function_idx` (`Function`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `contact`
+--
+
+INSERT INTO `contact` (`ID`, `Name`, `Company`, `Function`, `Street`, `City`, `Tel`, `Email`, `Extra`) VALUES
+(1, 'Kefke', 'Kefkes Company', 25, 'Boerderijstraat 404', '8500 Kortrijk', '0478000000', 'kevin.aelterman@student.howest.be', 'Dummy data'),
+(2, 'Eva D', 'Evas Company', 27, 'Stationstraat 12', 'Gent', '020000000', 'evake@gmail.be', 'More dummy data');
 
 -- --------------------------------------------------------
 

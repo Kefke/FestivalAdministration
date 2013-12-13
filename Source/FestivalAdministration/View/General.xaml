@@ -72,12 +72,13 @@
             <Label Content="Contact Types" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="Bold"/>
             <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,5,35,10" VerticalAlignment="Top" Width="20" Grid.Row="0"/>
             <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,5,10,10" VerticalAlignment="Top" Width="20" Grid.Row="0"/>
-            <ListView Margin="10,30,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0">
+            <ListView Margin="10,30,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" ItemsSource="{Binding ContactTypes}">
                 <ListView.View>
                     <GridView>
-                        <GridViewColumn Header="Name" Width="auto"/>
+                        <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
                     </GridView>
                 </ListView.View>
+                
             </ListView>
 
             <!-- ROW 2 -->

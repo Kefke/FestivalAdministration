@@ -13,6 +13,7 @@ namespace FestivalAdministration.ViewModel
         public ContactVM()
         {
             ContactTypes = ContactpersonType.GetContactpersonTypes();
+            Contacts = Contactperson.GetContactpersons();
         }
 
         public string Name
@@ -27,6 +28,13 @@ namespace FestivalAdministration.ViewModel
             get { return _contactTypes; }
             set { _contactTypes = value; OnPropertyChanged("ContactTypes"); }
         }
-        
+
+        private ObservableCollection<Contactperson> _contacts;
+
+        public ObservableCollection<Contactperson> Contacts
+        {
+            get { return _contacts; }
+            set { _contacts = value; OnPropertyChanged("Contacts"); }
+        }
     }
 }
