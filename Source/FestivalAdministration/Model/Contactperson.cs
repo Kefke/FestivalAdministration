@@ -179,7 +179,7 @@ namespace FestivalAdministration.Model
 
                 // Get ID from db
                 int id = 0;
-                DbDataReader reader = Database.GetData("SELECT ID FROM contact WHERE name = @name AND company = @company AND function = @function AND street = @street AND city = @city AND tel = @tel AND email = @email AND extra = @extra)", param1, param2, param3, param4, param5, param6, param7, param8);
+                DbDataReader reader = Database.GetData("SELECT ID FROM contact WHERE Name = @name AND Company = @company AND Function = @function AND Street = @street AND City = @city AND Tel = @tel AND Email = @email AND Extra = @extra", param1, param2, param3, param4, param5, param6, param7, param8);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
@@ -260,5 +260,15 @@ namespace FestivalAdministration.Model
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public static int GetIndexByID(int id)
+        {
+            for (int i = 0; i < _Contactpersons.Count; ++i)
+            {
+                if (_Contactpersons[i].ID == id) return i;
+            }
+            return -1;
+        }
     }
 }
+
