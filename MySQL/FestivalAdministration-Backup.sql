@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 13 dec 2013 om 17:43
+-- Genereertijd: 14 dec 2013 om 17:46
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -115,10 +115,19 @@ CREATE TABLE IF NOT EXISTS `daterange` (
 --
 
 CREATE TABLE IF NOT EXISTS `festival` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
   `Name` varchar(50) NOT NULL,
   `Street` varchar(50) DEFAULT NULL,
-  `City` varchar(50) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `City` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `festival`
+--
+
+INSERT INTO `festival` (`ID`, `Name`, `Street`, `City`) VALUES
+(1, 'Awesome Festival', 'Awesomestreet 54', '12345 Surfcity');
 
 -- --------------------------------------------------------
 

@@ -13,6 +13,8 @@ namespace FestivalAdministration.ViewModel
         public GeneralVM()
         {
             ContactTypes = ContactpersonType.GetContactpersonTypes();
+            if (Festival.GetFestivals() != null) 
+                Festival = Festival.GetFestivals()[0];
         }
 
         public string Name
@@ -27,5 +29,14 @@ namespace FestivalAdministration.ViewModel
             get { return _contactTypes; }
             set { _contactTypes = value; OnPropertyChanged("ContactTypes"); }
         }
+
+        private Festival _Festival;
+
+        public Festival Festival
+        {
+            get { return _Festival; }
+            set { _Festival = value; }
+        }
+        
     }
 }

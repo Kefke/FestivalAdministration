@@ -91,14 +91,14 @@ namespace FestivalAdministration.Model
             {
                 try
                 {
-                    // Create _ContactpersonType
+                    // Create _Contactperson
                     _Contactpersons = new ObservableCollection<Contactperson>();
 
                     // Get data
                     DbDataReader reader = Database.GetData("SELECT * FROM contact");
                     foreach (DbDataRecord record in reader)
                     {
-                        // Create new ContactpersonType
+                        // Create new Contactperson
                         Contactperson contact = new Contactperson();
 
                         // Get ID
@@ -137,7 +137,7 @@ namespace FestivalAdministration.Model
                         if (DBNull.Value.Equals(record["Extra"])) contact.Extra = "";
                         else contact.Extra = record["Extra"].ToString();
 
-                        // Add ContactpersonType
+                        // Add Contactperson
                         _Contactpersons.Add(contact);
                     }
                 }
@@ -147,20 +147,20 @@ namespace FestivalAdministration.Model
                 {
                     Console.WriteLine(ex.Message);
 
-                    // Clear ContactpersonTypes
+                    // Clear Contactpersons
                     _Contactpersons.Clear();
                     _Contactpersons = null;
                 }
 
             }
 
-            // Return _ContactpersonType
+            // Return _Contactperson
             return _Contactpersons;
         }
 
         public static void AddContactperson(string name, string company, int function, string street, string city, string tel, string email, string extra)
         {
-            // If _ContactpersonType is null, create the Observable Collection
+            // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
 
             try
@@ -187,7 +187,7 @@ namespace FestivalAdministration.Model
                     else id = Convert.ToInt32(record["ID"]);
                 }
 
-                _Contactpersons.Add(new Contactperson() { ID = id, Name = name });
+                _Contactpersons.Add(new Contactperson() { ID = id, Name = name, Company = company, Job = function, Street = street, City = city, Phone = tel, Email = email, Extra = extra });
             }
 
             // Fail
@@ -199,7 +199,7 @@ namespace FestivalAdministration.Model
 
         public static void UpdateContactperson(int index, string newname, string newcompany, int newfunction, string newstreet, string newcity, string newtel, string newemail, string newextra)
         {
-            // If _ContactpersonType is null, create the Observable Collection
+            // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
 
             try
@@ -214,10 +214,10 @@ namespace FestivalAdministration.Model
                 DbParameter param7 = Database.AddParameter("@tel", newtel);
                 DbParameter param8 = Database.AddParameter("@email", newemail);
                 DbParameter param9 = Database.AddParameter("@extra", newextra);
-                int affectedRows = Database.ModifyData("UPDATE contacttype SET name = @name, company = @company, function = @function, street = @street, city = @city, tel = @tel, email = @email, extra = @extra WHERE id = @id", param1, param2, param3, param4, param5, param6, param7, param8, param9);
+                int affectedRows = Database.ModifyData("UPDATE contact SET name = @name, company = @company, function = @function, street = @street, city = @city, tel = @tel, email = @email, extra = @extra WHERE id = @id", param1, param2, param3, param4, param5, param6, param7, param8, param9);
                 if (affectedRows == 0) return;
 
-                // Update _ContactpersonTypes
+                // Update _Contactperson
                 _Contactpersons[index].Name = newname;
                 _Contactpersons[index].Company = newcompany;
                 _Contactpersons[index].Job = newfunction;
@@ -237,7 +237,7 @@ namespace FestivalAdministration.Model
 
         public static void DeleteContactperson(int index)
         {
-            // If _ContactpersonType is null, create the Observable Collection
+            // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
 
             // Only execute if index is valid
@@ -247,10 +247,10 @@ namespace FestivalAdministration.Model
             {
                 // Add to db
                 DbParameter param = Database.AddParameter("@id", _Contactpersons[index].ID);
-                int affectedRows = Database.ModifyData("DELETE FROM contacttype WHERE id = @id", param);
+                int affectedRows = Database.ModifyData("DELETE FROM contact WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
-                // Update _ContactpersonTypes
+                // Update _Contactperson
                 _Contactpersons.RemoveAt(index);
             }
 
