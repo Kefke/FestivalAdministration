@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FestivalAdministration.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,20 @@ namespace FestivalAdministration.View
         public General()
         {
             InitializeComponent();
+        }
+
+        private void ButtonAddContactType(object sender, RoutedEventArgs e)
+        {
+            string name = ContactTypeTextbox.Text;
+            ContactpersonType.AddContactpersonType(name);
+        }
+
+        private void ButtonRemoveContactType(object sender, RoutedEventArgs e)
+        {
+            ContactpersonType type = (ContactpersonType)ContactTypeListview.SelectedItem;
+            if (type == null) return;
+            int index = ContactpersonType.GetIndexByID(type.ID);
+            ContactpersonType.DeleteContactpersonType(index);
         }
     }
 }
