@@ -156,5 +156,33 @@ namespace FestivalAdministration.Model
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public static string GetTypeByID(int id)
+        {
+            // If _ContactpersonType is null, create the Observable Collection
+            if (_ContactpersonTypes == null) GetContactpersonTypes();
+
+            foreach (ContactpersonType type in _ContactpersonTypes)
+            {
+                if (type.ID == id)
+                    return type.Name;
+            }
+
+            return "";
+        }
+
+        public static int GetIndexByID(int id)
+        {
+            // If _ContactpersonType is null, create the Observable Collection
+            if (_ContactpersonTypes == null) GetContactpersonTypes();
+
+            for (int i = 0; i < _ContactpersonTypes.Count; ++i)
+            {
+                if (_ContactpersonTypes[i].ID == id)
+                    return i;
+            }
+
+            return -1;
+        }
     }
 }
