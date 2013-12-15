@@ -157,7 +157,7 @@ namespace FestivalAdministration.Model
                 DbParameter param3 = Database.AddParameter("@price", newprice);
                 DbParameter param4 = Database.AddParameter("@quantity", newquantity);
                 DbParameter param5 = Database.AddParameter("@available", newticketsleft);
-                int affectedRows = Database.ModifyData("UPDATE contact SET Name = @name, Price = @price, AvailableTickets = @quantity, TicketsLeft = @available WHERE id = @id", param1, param2, param3, param4, param5);
+                int affectedRows = Database.ModifyData("UPDATE tickettype SET Name = @name, Price = @price, AvailableTickets = @quantity, TicketsLeft = @available WHERE id = @id", param1, param2, param3, param4, param5);
                 if (affectedRows == 0) return;
 
                 // Update _TicketTypes
@@ -200,8 +200,25 @@ namespace FestivalAdministration.Model
             }
         }
 
+        public static string GetTypeByID(int id)
+        {
+            // If _TicketTypes is null, create the Observable Collection
+            if (_TicketTypes == null) GetTicketTypes();
+
+            foreach (TicketType type in _TicketTypes)
+            {
+                if (type.ID == id)
+                    return type.Name;
+            }
+
+            return "";
+        }
+
         public static int GetIndexByID(int id)
         {
+            // If _TicketTypes is null, create the Observable Collection
+            if (_TicketTypes == null) GetTicketTypes();
+
             for (int i = 0; i < _TicketTypes.Count; ++i)
             {
                 if (_TicketTypes[i].ID == id) return i;

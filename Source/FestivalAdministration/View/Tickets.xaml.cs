@@ -26,6 +26,32 @@ namespace FestivalAdministration.View
             InitializeComponent();
         }
 
+        private void ButtonAddTicket(object sender, RoutedEventArgs e)
+        {
+            string name = CustomerName.Text;
+            string email = CustomerEmail.Text;
+            TicketType type = (TicketType)CustomerTicketType.SelectedItem;
+            int typeid = Convert.ToInt32(type.ID);
+            int quantity = Convert.ToInt32(CustomerTicketQuantity.Text);
+
+            int index = TicketType.GetIndexByID(type.ID);
+            TicketType ticketType = TicketType.GetTicketTypes()[index];
+
+            if (ticketType.TicketsLeft - quantity >= 0)
+            {
+                TicketType.UpdateTicketType(index, ticketType.Name, (float)ticketType.Price, ticketType.AvailableTickets, ticketType.TicketsLeft - quantity);
+                Ticket.AddTicket(name, email, typeid, quantity);
+            }
+        }
+
+        private void ButtonRemoveTicket(object sender, RoutedEventArgs e)
+        {
+            Ticket type = (Ticket)CustomersListView.SelectedItem;
+            if (type == null) return;
+            int index = Ticket.GetIndexByID(type.ID);
+            Ticket.DeleteTicket(index);
+        }
+
         private void ButtonAddTicketType(object sender, RoutedEventArgs e)
         {
             string name = TicketName.Text;

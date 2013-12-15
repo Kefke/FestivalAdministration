@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 15 dec 2013 om 12:23
+-- Genereertijd: 15 dec 2013 om 17:11
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -182,7 +182,15 @@ CREATE TABLE IF NOT EXISTS `ticket` (
   `TicketType` int(11) NOT NULL,
   `Amount` int(11) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `ticket`
+--
+
+INSERT INTO `ticket` (`ID`, `TicketHolder`, `TicketHolderEmail`, `TicketType`, `Amount`) VALUES
+(4, 'test', 'testerdetest@test.be', 1, 10),
+(5, 'Kefke', 'kevin.aelterman@student.howest.be', 5, 3);
 
 -- --------------------------------------------------------
 
@@ -205,9 +213,9 @@ CREATE TABLE IF NOT EXISTS `tickettype` (
 --
 
 INSERT INTO `tickettype` (`ID`, `Name`, `Price`, `AvailableTickets`, `TicketsLeft`) VALUES
-(1, 'Normal', 50, 10000, 10000),
+(1, 'Normal', 50, 10000, 9990),
 (2, 'VIP', 150, 100, 100),
-(5, 'Exclusive', 249.99, 20, 20);
+(5, 'Exclusive', 249.99, 20, 17);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

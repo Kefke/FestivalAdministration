@@ -13,6 +13,7 @@ namespace FestivalAdministration.ViewModel
         public TicketsVM()
         {
             TicketTypes = TicketType.GetTicketTypes();
+            Tickets = Ticket.GetTickets();
         }
 
         public string Name
@@ -26,6 +27,14 @@ namespace FestivalAdministration.ViewModel
         {
             get { return _ticketTypes; }
             set { _ticketTypes = value; OnPropertyChanged("TicketTypes"); }
+        }
+
+        private ObservableCollection<Ticket> _tickets;
+
+        public ObservableCollection<Ticket> Tickets
+        {
+            get { return _tickets; }
+            set { _tickets = value; OnPropertyChanged("Tickets"); }
         }
     }
 }
