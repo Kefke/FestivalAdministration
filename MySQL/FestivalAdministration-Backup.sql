@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 15 dec 2013 om 12:04
+-- Genereertijd: 15 dec 2013 om 12:23
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -198,7 +198,7 @@ CREATE TABLE IF NOT EXISTS `tickettype` (
   `TicketsLeft` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `Name` (`Name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=6 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `tickettype`
@@ -206,7 +206,8 @@ CREATE TABLE IF NOT EXISTS `tickettype` (
 
 INSERT INTO `tickettype` (`ID`, `Name`, `Price`, `AvailableTickets`, `TicketsLeft`) VALUES
 (1, 'Normal', 50, 10000, 10000),
-(2, 'VIP', 150, 100, 100);
+(2, 'VIP', 150, 100, 100),
+(5, 'Exclusive', 249.99, 20, 20);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
