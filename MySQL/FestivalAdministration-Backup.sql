@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 14 dec 2013 om 17:46
+-- Genereertijd: 15 dec 2013 om 12:04
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `contact` (
   `Extra` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   KEY `Function_idx` (`Function`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `contact`
@@ -67,7 +67,8 @@ CREATE TABLE IF NOT EXISTS `contact` (
 
 INSERT INTO `contact` (`ID`, `Name`, `Company`, `Function`, `Street`, `City`, `Tel`, `Email`, `Extra`) VALUES
 (1, 'Kefke', 'Kefkes Company', 25, 'Boerderijstraat 404', '8500 Kortrijk', '0478000000', 'kevin.aelterman@student.howest.be', 'Dummy data'),
-(2, 'Eva D', 'Evas Company', 27, 'Stationstraat 12', 'Gent', '020000000', 'evake@gmail.be', 'More dummy data');
+(2, 'Eva D', 'Evas Company', 27, 'Stationstraat 12', 'Gent', '020000000', 'evake@gmail.be', 'More dummy data'),
+(3, 'Nina', 'Electrabel', 17, 'Schippersstraat 2', 'Brugge', '024562130', 'nina@electrabel.be', 'Werkt alleen op maandag, dinsdag en woensdag');
 
 -- --------------------------------------------------------
 
@@ -191,12 +192,21 @@ CREATE TABLE IF NOT EXISTS `ticket` (
 
 CREATE TABLE IF NOT EXISTS `tickettype` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `Name` int(11) NOT NULL,
+  `Name` varchar(50) NOT NULL,
   `Price` float NOT NULL,
   `AvailableTickets` int(11) NOT NULL,
   `TicketsLeft` int(11) NOT NULL,
-  PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `Name` (`Name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
+
+--
+-- Gegevens worden uitgevoerd voor tabel `tickettype`
+--
+
+INSERT INTO `tickettype` (`ID`, `Name`, `Price`, `AvailableTickets`, `TicketsLeft`) VALUES
+(1, 'Normal', 50, 10000, 10000),
+(2, 'VIP', 150, 100, 100);
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

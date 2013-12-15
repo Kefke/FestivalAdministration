@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FestivalAdministration.Model;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,22 @@ namespace FestivalAdministration.View
         public Tickets()
         {
             InitializeComponent();
+        }
+
+        private void ButtonAddTicketType(object sender, RoutedEventArgs e)
+        {
+            string name = TicketName.Text;
+            double price = Convert.ToDouble(TicketPrice.Text);
+            int quantity = Convert.ToInt32(TicketQuantity.Text);
+            TicketType.AddTicketType(name, (float)price, quantity);
+        }
+
+        private void ButtonRemoveTicketType(object sender, RoutedEventArgs e)
+        {
+            TicketType type = (TicketType)TicketsListView.SelectedItem;
+            if (type == null) return;
+            int index = TicketType.GetIndexByID(type.ID);
+            TicketType.DeleteTicketType(index);
         }
     }
 }
