@@ -88,7 +88,7 @@ namespace FestivalAdministration.Model
 
                 // Get ID from db
                 int id = 0;
-                DbDataReader reader = Database.GetData("SELECT ID FROM genre WHERE name = @name", param);
+                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID

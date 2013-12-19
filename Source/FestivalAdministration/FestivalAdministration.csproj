@@ -68,7 +68,9 @@
     <Compile Include="Converter\IDtoContactTypeConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeIndexConverter.cs" />
+    <Compile Include="Model\BandGenre.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Model\TimeSlot.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
     <Compile Include="ViewModel\ContactVM.cs" />
     <Compile Include="ViewModel\GeneralVM.cs" />
@@ -128,10 +130,8 @@
     <Compile Include="Model\Band.cs" />
     <Compile Include="Model\Contactperson.cs" />
     <Compile Include="Model\ContactpersonType.cs" />
-    <Compile Include="Model\DateRange.cs" />
     <Compile Include="Model\Festival.cs" />
     <Compile Include="Model\Genre.cs" />
-    <Compile Include="Model\LineUp.cs" />
     <Compile Include="Model\Stage.cs" />
     <Compile Include="Model\Ticket.cs" />
     <Compile Include="Model\TicketType.cs" />

@@ -128,7 +128,7 @@ namespace FestivalAdministration.Model
 
                 // Get ID from db
                 int id = 0;
-                DbDataReader reader = Database.GetData("SELECT ID FROM timeslot WHERE BandID = @bandid AND StageID = @stageid AND StartDate = @startdate AND EndDate = @enddate", param1, param2, param3, param4);
+                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID

@@ -179,7 +179,7 @@ namespace FestivalAdministration.Model
 
                 // Get ID from db
                 int id = 0;
-                DbDataReader reader = Database.GetData("SELECT ID FROM contact WHERE Name = @name AND Company = @company AND Function = @function AND Street = @street AND City = @city AND Tel = @tel AND Email = @email AND Extra = @extra", param1, param2, param3, param4, param5, param6, param7, param8);
+                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID

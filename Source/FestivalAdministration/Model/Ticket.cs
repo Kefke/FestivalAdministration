@@ -135,7 +135,7 @@ namespace FestivalAdministration.Model
 
                 // Get ID from db
                 int id = 0;
-                DbDataReader reader = Database.GetData("SELECT ID FROM ticket WHERE TicketHolder = @ticketholder AND TicketHolderEmail = @ticketholderemail AND TicketType = @tickettype AND Amount = @amount", param1, param2, param3, param4);
+                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
