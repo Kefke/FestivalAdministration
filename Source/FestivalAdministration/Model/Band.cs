@@ -41,14 +41,6 @@ namespace FestivalAdministration.Model
             set { _Contact = value; }
         }
 
-        private List<DateRange> _Dates;
-
-        public List<DateRange> Dates
-        {
-            get { return _Dates; }
-            set { _Dates = value; }
-        }
-
         private string _Twitter;
 
         public string Twitter

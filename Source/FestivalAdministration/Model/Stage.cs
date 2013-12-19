@@ -22,14 +22,6 @@ namespace FestivalAdministration.Model
         {
             get { return _Name; }
             set { _Name = value; }
-        }
-
-        private List<DateRange> _Dates;
-
-        public List<DateRange> Dates
-        {
-            get { return _Dates; }
-            set { _Dates = value; }
-        }
+        }        
     }
 }
