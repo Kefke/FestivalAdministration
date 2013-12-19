@@ -42,9 +42,9 @@ namespace FestivalAdministration.Model
             set { _Facebook = value; }
         }
 
-        private string _Picture;
+        private byte[] _Picture;
 
-        public string Picture
+        public byte[] Picture
         {
             get { return _Picture; }
             set { _Picture = value; }
@@ -94,8 +94,8 @@ namespace FestivalAdministration.Model
                         else band.Facebook = record["Facebook"].ToString();
 
                         // Get Picture
-                        if (DBNull.Value.Equals(record["Picture"])) band.Picture = "";
-                        else band.Picture = record["Picture"].ToString();
+                        if (DBNull.Value.Equals(record["Picture"])) band.Picture = null;
+                        else band.Picture = (byte[])record["Picture"];
 
                         // Get Description
                         if (DBNull.Value.Equals(record["Description"])) band.Description = "";
@@ -122,7 +122,7 @@ namespace FestivalAdministration.Model
             return _Bands;
         }
 
-        public static void AddBand(string name, string twitter, string facebook, string picture, string description)
+        public static void AddBand(string name, string twitter, string facebook, byte[] picture, string description)
         {
             // If _Band is null, create the Observable Collection
             if (_Bands == null) GetBands();
@@ -158,7 +158,7 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void UpdateBand(int index, string name, string twitter, string facebook, string picture, string description)
+        public static void UpdateBand(int index, string name, string twitter, string facebook, byte[] picture, string description)
         {
             // If _Band is null, create the Observable Collection
             if (_Bands == null) GetBands();
