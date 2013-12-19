@@ -25,22 +25,6 @@ namespace FestivalAdministration.Model
             set { _Name = value; }
         }
 
-        private ObservableCollection<Genre> _Genres;
-
-        public ObservableCollection<Genre> Genres
-        {
-            get { return _Genres; }
-            set { _Genres = value; }
-        }
-
-        private Contactperson _Contact;
-
-        public Contactperson Contact
-        {
-            get { return _Contact; }
-            set { _Contact = value; }
-        }
-
         private string _Twitter;
 
         public string Twitter
