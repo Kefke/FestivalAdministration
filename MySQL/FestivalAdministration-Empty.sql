@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS `festivaladmin`.`band` (
   `Twitter` VARCHAR(50) NOT NULL,
   `Facebook` VARCHAR(50) NOT NULL,
   `Picture` MEDIUMBLOB NOT NULL,
-  `Description` VARCHAR(200) NULL DEFAULT NULL,
+  `Description` VARCHAR(1500) NULL DEFAULT NULL,
   PRIMARY KEY (`ID`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
@@ -96,26 +96,6 @@ DEFAULT CHARACTER SET = latin1;
 
 
 -- -----------------------------------------------------
--- Table `festivaladmin`.`timeslot`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`timeslot` ;
-
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`timeslot` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `BandID` INT NOT NULL,
-  `StartDate` DATETIME NOT NULL,
-  `EndDate` DATETIME NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `BandID_idx` (`BandID` ASC),
-  CONSTRAINT `BandID`
-    FOREIGN KEY (`BandID`)
-    REFERENCES `festivaladmin`.`band` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
 -- Table `festivaladmin`.`stage`
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `festivaladmin`.`stage` ;
@@ -123,14 +103,7 @@ DROP TABLE IF EXISTS `festivaladmin`.`stage` ;
 CREATE TABLE IF NOT EXISTS `festivaladmin`.`stage` (
   `ID` INT(11) NOT NULL AUTO_INCREMENT,
   `Name` VARCHAR(50) NOT NULL,
-  `TimeSlotID` INT NOT NULL,
-  PRIMARY KEY (`ID`),
-  INDEX `TimeSlotID_idx` (`TimeSlotID` ASC),
-  CONSTRAINT `TimeSlotID`
-    FOREIGN KEY (`TimeSlotID`)
-    REFERENCES `festivaladmin`.`timeslot` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+  PRIMARY KEY (`ID`))
 ENGINE = InnoDB
 AUTO_INCREMENT = 1;
 
@@ -195,6 +168,33 @@ CREATE TABLE IF NOT EXISTS `festivaladmin`.`bandgenre` (
   CONSTRAINT `Genre`
     FOREIGN KEY (`GenreID`)
     REFERENCES `festivaladmin`.`genre` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `festivaladmin`.`timeslot`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `festivaladmin`.`timeslot` ;
+
+CREATE TABLE IF NOT EXISTS `festivaladmin`.`timeslot` (
+  `ID` INT NOT NULL AUTO_INCREMENT,
+  `BandID` INT NOT NULL,
+  `StageID` INT NOT NULL,
+  `StartDate` DATETIME NOT NULL,
+  `EndDate` DATETIME NOT NULL,
+  PRIMARY KEY (`ID`),
+  INDEX `BandID_idx` (`BandID` ASC),
+  INDEX `StageID_idx` (`StageID` ASC),
+  CONSTRAINT `BandID`
+    FOREIGN KEY (`BandID`)
+    REFERENCES `festivaladmin`.`band` (`ID`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `StageID`
+    FOREIGN KEY (`StageID`)
+    REFERENCES `festivaladmin`.`stage` (`ID`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
