@@ -25,28 +25,5 @@ namespace FestivalAdministration.View
         {
             InitializeComponent();
         }
-
-        private void ButtonAddContact(object sender, RoutedEventArgs e)
-        {
-            string name = ContactName.Text;
-            string company = ContactCompany.Text;
-            ContactpersonType type = (ContactpersonType)ContactFunction.SelectedItem;
-            int function = 0;
-            if (type != null) function = type.ID;
-            string street = ContactStreet.Text;
-            string city = ContactCity.Text;
-            string phone = ContactPhone.Text;
-            string email = ContactEmail.Text;
-            string extra = ContactInfo.Text;
-            Contactperson.AddContactperson(name, company, function, street, city, phone, email, extra);
-        }
-
-        private void ButtonRemoveContact(object sender, RoutedEventArgs e)
-        {
-            Contactperson contact = (Contactperson)ContactListView.SelectedItem;
-            if (contact == null) return;
-            int index = Contactperson.GetIndexByID(contact.ID);
-            Contactperson.DeleteContactperson(index);
-        }
     }
 }

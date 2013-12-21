@@ -1,40 +1,56 @@
 ﻿using FestivalAdministration.Model;
+using GalaSoft.MvvmLight.Command;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace FestivalAdministration.ViewModel
 {
     class ContactVM : ObservableObject, IPage
     {
-        public ContactVM()
-        {
-            ContactTypes = ContactpersonType.GetContactpersonTypes();
-            Contacts = Contactperson.GetContactpersons();
-        }
-
         public string Name
         {
             get { return "Contact"; }
         }
 
-        private ObservableCollection<ContactpersonType> _contactTypes;
-
-        public ObservableCollection<ContactpersonType> ContactTypes
+        public ContactVM()
         {
-            get { return _contactTypes; }
-            set { _contactTypes = value; OnPropertyChanged("ContactTypes"); }
+            Pages.Add(new ContactDetailsVM());
+            Pages.Add(new ContactTypeVM());
+
+            CurrentPage = Pages[0];
         }
 
-        private ObservableCollection<Contactperson> _contacts;
-
-        public ObservableCollection<Contactperson> Contacts
+        private IPage _currentpage;
+        public IPage CurrentPage
         {
-            get { return _contacts; }
-            set { _contacts = value; OnPropertyChanged("Contacts"); }
+            get { return _currentpage; }
+            set { _currentpage = value; OnPropertyChanged("CurrentPage"); }
+        }
+
+        private List<IPage> _pages;
+        public List<IPage> Pages
+        {
+            get
+            {
+                if (_pages == null)
+                    _pages = new List<IPage>();
+                return _pages;
+            }
+        }
+
+        public ICommand ChangePageCommand
+        {
+            get { return new RelayCommand<IPage>(ChangePage); }
+        }
+
+        private void ChangePage(IPage page)
+        {
+            CurrentPage = page;
         }
     }
 }

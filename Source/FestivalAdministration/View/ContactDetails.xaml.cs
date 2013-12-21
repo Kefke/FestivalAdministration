@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace FestivalAdministration.View
 {
     /// <summary>
-    /// Interaction logic for General.xaml
+    /// Interaction logic for ContactDetails.xaml
     /// </summary>
-    public partial class General : UserControl
+    public partial class ContactDetails : UserControl
     {
-        public General()
+        public ContactDetails()
         {
             InitializeComponent();
         }

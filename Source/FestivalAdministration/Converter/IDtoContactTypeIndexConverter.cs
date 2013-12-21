@@ -19,7 +19,11 @@ namespace FestivalAdministration.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            int index = (int)value;
+            if (ContactpersonType.GetContactpersonTypes().Count > index)
+                return ContactpersonType.GetContactpersonTypes()[index].ID;
+
+            return -1;
         }
     }
 }

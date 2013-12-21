@@ -158,7 +158,7 @@ namespace FestivalAdministration.Model
             return _Contactpersons;
         }
 
-        public static void AddContactperson(string name, string company, int function, string street, string city, string tel, string email, string extra)
+        public static int AddContactperson(Contactperson person)
         {
             // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
@@ -166,38 +166,36 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@name", name);
-                DbParameter param2 = Database.AddParameter("@company", company);
-                DbParameter param3 = Database.AddParameter("@function", function);
-                DbParameter param4 = Database.AddParameter("@street", street);
-                DbParameter param5 = Database.AddParameter("@city", city);
-                DbParameter param6 = Database.AddParameter("@tel", tel);
-                DbParameter param7 = Database.AddParameter("@email", email);
-                DbParameter param8 = Database.AddParameter("@extra", extra);
-                int affectedRows = Database.ModifyData("INSERT INTO contact(Name, Company, Function, Street, City, Tel, Email, Extra) VALUES(@name, @company, @function, @street, @city, @tel, @email, @extra)", param1, param2, param3, param4, param5, param6, param7, param8);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param1 = Database.AddParameter("@name", person.Name);
+                DbParameter param2 = Database.AddParameter("@company", person.Company);
+                DbParameter param3 = Database.AddParameter("@function", person.Job);
+                DbParameter param4 = Database.AddParameter("@street", person.Street);
+                DbParameter param5 = Database.AddParameter("@city", person.City);
+                DbParameter param6 = Database.AddParameter("@tel", person.Phone);
+                DbParameter param7 = Database.AddParameter("@email", person.Email);
+                DbParameter param8 = Database.AddParameter("@extra", person.Extra);
+                
+                DbDataReader reader = Database.GetData("INSERT INTO contact(Name, Company, Function, Street, City, Tel, Email, Extra) VALUES(@name, @company, @function, @street, @city, @tel, @email, @extra); SELECT LAST_INSERT_ID() AS ID;", param1, param2, param3, param4, param5, param6, param7, param8);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) person.ID = -1;
+                    else person.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _Contactpersons.Add(new Contactperson() { ID = id, Name = name, Company = company, Job = function, Street = street, City = city, Phone = tel, Email = email, Extra = extra });
+                _Contactpersons.Add(person);
+                return person.ID;
             }
 
             // Fail
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+                return -1;
             }
         }
 
-        public static void UpdateContactperson(int index, string newname, string newcompany, int newfunction, string newstreet, string newcity, string newtel, string newemail, string newextra)
+        public static void UpdateContactperson(Contactperson person)
         {
             // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
@@ -205,27 +203,20 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _Contactpersons[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
-                DbParameter param3 = Database.AddParameter("@company", newcompany);
-                DbParameter param4 = Database.AddParameter("@function", newfunction);
-                DbParameter param5 = Database.AddParameter("@street", newstreet);
-                DbParameter param6 = Database.AddParameter("@city", newcity);
-                DbParameter param7 = Database.AddParameter("@tel", newtel);
-                DbParameter param8 = Database.AddParameter("@email", newemail);
-                DbParameter param9 = Database.AddParameter("@extra", newextra);
+                DbParameter param1 = Database.AddParameter("@id", person.ID);
+                DbParameter param2 = Database.AddParameter("@name", person.Name);
+                DbParameter param3 = Database.AddParameter("@company", person.Company);
+                DbParameter param4 = Database.AddParameter("@function", person.Job);
+                DbParameter param5 = Database.AddParameter("@street", person.Street);
+                DbParameter param6 = Database.AddParameter("@city", person.City);
+                DbParameter param7 = Database.AddParameter("@tel", person.Phone);
+                DbParameter param8 = Database.AddParameter("@email", person.Email);
+                DbParameter param9 = Database.AddParameter("@extra", person.Extra);
                 int affectedRows = Database.ModifyData("UPDATE contact SET name = @name, company = @company, function = @function, street = @street, city = @city, tel = @tel, email = @email, extra = @extra WHERE id = @id", param1, param2, param3, param4, param5, param6, param7, param8, param9);
                 if (affectedRows == 0) return;
 
                 // Update _Contactperson
-                _Contactpersons[index].Name = newname;
-                _Contactpersons[index].Company = newcompany;
-                _Contactpersons[index].Job = newfunction;
-                _Contactpersons[index].Street = newstreet;
-                _Contactpersons[index].City = newcity;
-                _Contactpersons[index].Phone = newtel;
-                _Contactpersons[index].Email = newemail;
-                _Contactpersons[index].Extra = newextra;
+                _Contactpersons[GetIndexByID(person.ID)] = person;
             }
 
             // Fail
@@ -235,23 +226,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteContactperson(int index)
+        public static void DeleteContactperson(Contactperson person)
         {
             // If _Contactperson is null, create the Observable Collection
             if (_Contactpersons == null) GetContactpersons();
 
-            // Only execute if index is valid
-            if (_Contactpersons.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _Contactpersons[index].ID);
+                DbParameter param = Database.AddParameter("@id", person.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM contact WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _Contactperson
-                _Contactpersons.RemoveAt(index);
+                _Contactpersons.RemoveAt(GetIndexByID(person.ID));
             }
 
             // Fail
@@ -268,6 +256,11 @@ namespace FestivalAdministration.Model
                 if (_Contactpersons[i].ID == id) return i;
             }
             return -1;
+        }
+
+        public Contactperson Copy()
+        {
+            return new Contactperson() { ID = this.ID, Name = this.Name, Company = this.Company, Job = this.Job, Street = this.Street, City = this.City, Phone = this.Phone, Email = this.Email, Extra = this.Extra};
         }
     }
 }

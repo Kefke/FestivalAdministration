@@ -73,6 +73,8 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\TimeSlot.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
+    <Compile Include="ViewModel\ContactDetailsVM.cs" />
+    <Compile Include="ViewModel\ContactTypeVM.cs" />
     <Compile Include="ViewModel\ContactVM.cs" />
     <Compile Include="ViewModel\GeneralVM.cs" />
     <Compile Include="ViewModel\IPage.cs" />
@@ -81,6 +83,12 @@
     <Compile Include="ViewModel\TicketsVM.cs" />
     <Compile Include="View\Band.xaml.cs">
       <DependentUpon>Band.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContactDetails.xaml.cs">
+      <DependentUpon>ContactDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\ContactType.xaml.cs">
+      <DependentUpon>ContactType.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Tickets.xaml.cs">
       <DependentUpon>Tickets.xaml</DependentUpon>
@@ -92,6 +100,14 @@
     <Page Include="View\Contact.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\ContactDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\ContactType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\General.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -4,100 +4,50 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:FestivalAdministration.Converter"
+             xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
+             xmlns:v="clr-namespace:FestivalAdministration.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <vm:ContactVM />
+    </UserControl.DataContext>
+        
     <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:ContactDetailsVM}">
+            <v:ContactDetails/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:ContactTypeVM}">
+            <v:ContactType/>
+        </DataTemplate>
+        
         <c:IDtoContactTypeConverter x:Key="IDtoContactTypeConverter" />
         <c:IDtoContactTypeIndexConverter x:Key="IDtoContactTypeIndexConverter" />
     </UserControl.Resources>
-    <Grid>
-        <!-- Create 3 columns -->
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
-
-        <!-- Create 2 rows in the first column-->
-        <Grid Grid.Column="0">
+    <StackPanel>
+        <Label Content="Contact Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <!-- ROW 1 -->
-            <!-- Zoek -->
-            <TextBox Height="20" Margin="10,5,30,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
-            <Button Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0"/>
-
-            <!-- ROW 2 -->
-            <!-- Contacts -->
-            <ListView Name="ContactListView" Margin="10,5,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="0" Grid.Row="1" ItemsSource="{Binding Contacts}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Function" Width="auto" DisplayMemberBinding="{Binding Job, Converter={StaticResource IDtoContactTypeConverter}}"/>
-                        <GridViewColumn Header="Telephone" Width="auto" DisplayMemberBinding="{Binding Phone}"/>
-                        <GridViewColumn Header="Email" Width="auto" DisplayMemberBinding="{Binding Email}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
-
-        <!-- Line -->
-        <GridSplitter Grid.Column="1" Margin="0,10,0,10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray"/>
-
-        <!-- Create 2 rows in the last column-->
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-
-            <!-- ROW 1 -->
-            <!-- Contact Info -->
-            <Label Content="Contact Info" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="Bold"/>
-            <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,5,35,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonAddContact"/>
-            <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,5,10,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonRemoveContact"/>
-
-            <!-- ROW 2 -->
-            <!-- Create 2 Columns -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Name -->
-                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Name, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,3,10,10"/>
-
-                <!-- Company -->
-                <Label Content="Company: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactCompany" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Company, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,28,10,10"/>
-
-                <!-- Function -->
-                <Label Content="Function: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <ComboBox Name="ContactFunction" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding ContactTypes}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedItem.Job, ElementName=ContactListView, Converter={StaticResource IDtoContactTypeIndexConverter}, Mode=OneWay}"/>
-
-                <!-- Address -->
-                <Label Content="Address: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactStreet" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Street, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,78,10,10"/>
-                <TextBox Name="ContactCity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.City, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,103,10,10"/>
-
-                <!-- Telephone -->
-                <Label Content="Telephone: " HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactPhone" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Phone, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,128,10,10"/>
-
-                <!-- Email -->
-                <Label Content="Email: " HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Email, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,153,10,0"/>
-            </Grid>
             
-            <!-- ROW 3 -->
-            <!-- Exta Info -->
-            <Label Content="Extra Info: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="2"/>
-            <TextBox Name="ContactInfo" HorizontalAlignment="Stretch" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SelectedItem.Extra, ElementName=ContactListView, Mode=OneWay}" VerticalAlignment="Stretch" Margin="10,25,10,10"/>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
+                <!-- Make the tabs next to each other -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <!-- Add the buttons -->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
         </Grid>
-    </Grid>
+    </StackPanel>
 </UserControl>
