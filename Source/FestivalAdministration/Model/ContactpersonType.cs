@@ -75,7 +75,7 @@ namespace FestivalAdministration.Model
             return _ContactpersonTypes;
         }
 
-        public static void AddContactpersonType(string name)
+        public static int AddContactpersonType(ContactpersonType type)
         {
             // If _ContactpersonType is null, create the Observable Collection
             if (_ContactpersonTypes == null) GetContactpersonTypes();
@@ -83,21 +83,19 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@name", name);
-                int affectedRows = Database.ModifyData("INSERT INTO contacttype(name) VALUES(@name)", param);
-                if (affectedRows == 0) return;
+                DbParameter param = Database.AddParameter("@name", type.Name);
 
                 // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbDataReader reader = Database.GetData("INSERT INTO contacttype(name) VALUES(@name); SELECT LAST_INSERT_ID() AS ID;", param);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) type.ID = -1;
+                    else type.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _ContactpersonTypes.Add(new ContactpersonType() { ID = id, Name = name });
+                _ContactpersonTypes.Add(type);
+                return type.ID;
             }
 
             // Fail
@@ -105,9 +103,10 @@ namespace FestivalAdministration.Model
             { 
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateContactpersonType(int index, string newname)
+        public static void UpdateContactpersonType(ContactpersonType type)
         {
             // If _ContactpersonType is null, create the Observable Collection
             if (_ContactpersonTypes == null) GetContactpersonTypes();
@@ -115,13 +114,13 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _ContactpersonTypes[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
+                DbParameter param1 = Database.AddParameter("@id", type.ID);
+                DbParameter param2 = Database.AddParameter("@name", type.Name);
                 int affectedRows = Database.ModifyData("UPDATE contacttype SET name = @name WHERE id = @id", param1, param2);
                 if (affectedRows == 0) return;
 
                 // Update _ContactpersonTypes
-                _ContactpersonTypes[index].Name = newname;
+                _ContactpersonTypes[GetIndexByID(type.ID)] = type;
             }
 
             // Fail
@@ -131,23 +130,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteContactpersonType(int index)
+        public static void DeleteContactpersonType(ContactpersonType type)
         {
             // If _ContactpersonType is null, create the Observable Collection
             if (_ContactpersonTypes == null) GetContactpersonTypes();
 
-            // Only execute if index is valid
-            if (_ContactpersonTypes.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _ContactpersonTypes[index].ID);
+                DbParameter param = Database.AddParameter("@id", type.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM contacttype WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _ContactpersonTypes
-                _ContactpersonTypes.RemoveAt(index);
+                _ContactpersonTypes.RemoveAt(GetIndexByID(type.ID));
             }
 
             // Fail
@@ -183,6 +179,11 @@ namespace FestivalAdministration.Model
             }
 
             return -1;
+        }
+
+        public ContactpersonType Copy()
+        {
+            return new ContactpersonType() { ID = this.ID, Name = this.Name };
         }
     }
 }

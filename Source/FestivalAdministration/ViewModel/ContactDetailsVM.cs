@@ -196,6 +196,8 @@ namespace FestivalAdministration.ViewModel
         private void SelectionChanged(ContactDetailsVM contactvm)
         {
             if (SelectedPerson == null) return;
+            if (ShowCancel == "Visible") CancelUpdateContact(this);
+
             _oldPerson = SelectedPerson.Copy();
 
             contactvm.ShowEdit = "Visible";
