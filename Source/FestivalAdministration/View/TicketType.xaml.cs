@@ -1,5 +1,4 @@
-﻿using FestivalAdministration.Model;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +16,11 @@ using System.Windows.Shapes;
 namespace FestivalAdministration.View
 {
     /// <summary>
-    /// Interaction logic for Tickets.xaml
+    /// Interaction logic for TicketType.xaml
     /// </summary>
-    public partial class Tickets : UserControl
+    public partial class TicketType : UserControl
     {
-        public Tickets()
+        public TicketType()
         {
             InitializeComponent();
         }

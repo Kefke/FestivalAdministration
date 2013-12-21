@@ -1,0 +1,88 @@
+﻿<UserControl x:Class="FestivalAdministration.View.CustomerDetail"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
+             xmlns:c="clr-namespace:FestivalAdministration.Converter"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <UserControl.DataContext>
+        <vm:CustomerDetailVM />
+    </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <c:IDtoTicketTypeConverter x:Key="IDtoTicketTypeConverter" />
+        <c:IDtoTicketTypeIndexConverter x:Key="IDtoTicketTypeIndexConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+    <!-- Create 3 columns -->
+    <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="*" MinWidth="200"/>
+        <ColumnDefinition Width="auto"/>
+        <ColumnDefinition Width="*" MinWidth="200"/>
+    </Grid.ColumnDefinitions>
+        
+        <!-- Customers -->
+        <Label Content="Customers" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Column="0" FontWeight="Bold"/>
+        <ListView Name="CustomersListView" Margin="10,30,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" ItemsSource="{Binding Tickets, Mode=OneWay}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding TicketHolder}"/>
+                    <GridViewColumn Header="Type" Width="auto" DisplayMemberBinding="{Binding TicketType, Converter={StaticResource IDtoTicketTypeConverter}}"/>
+                    <GridViewColumn Header="Quantity" Width="auto" DisplayMemberBinding="{Binding Amount}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Line -->
+        <GridSplitter Grid.Column="1" Margin="0,10,0,10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray"/>
+
+        <!-- Column 3 -->
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <!-- Create 2 Columns -->
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+
+                <!-- Name -->
+                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="CustomerName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.TicketHolder, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,3,10,10" IsEnabled="{Binding Enabled}"/>
+
+                <!-- Email -->
+                <Label Content="Email: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="CustomerEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.TicketHolderEmail, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,28,10,10" IsEnabled="{Binding Enabled}"/>
+
+                <!-- Type -->
+                <Label Content="Type: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <ComboBox Name="CustomerTicketType" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding TicketTypes, Mode=OneWay}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedItem.TicketType, ElementName=CustomersListView, Converter={StaticResource IDtoTicketTypeIndexConverter}}" IsEnabled="{Binding Enabled}"/>
+
+                <!-- Quantity -->
+                <Label Content="Quantity: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="CustomerTicketQuantity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Amount, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,78,10,10" IsEnabled="{Binding Enabled}"/>
+            </Grid>
+
+            <!-- ROW 3 -->
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Edit" Margin="10" Grid.Column="0" Command="{Binding DataContext.EditCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Left"/>
+                <Button Content="Add" Margin="10" Grid.Column="1" Command="{Binding DataContext.AddCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Center"/>
+                <Button Content="Delete" Margin="10" Grid.Column="2" Command="{Binding DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Right"/>
+                <Button Content="Save" Margin="10" Grid.Column="2" Visibility="{Binding ShowSave}" Command="{Binding DataContext.SaveUpdateCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Right" />
+                <Button Content="Cancel" Margin="10" Grid.Column="1" Visibility="{Binding ShowCancel}" Command="{Binding DataContext.CancelUpdateCustomerCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Center" />
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -4,118 +4,47 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:c="clr-namespace:FestivalAdministration.Converter"
+             xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
+             xmlns:v="clr-namespace:FestivalAdministration.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <vm:TicketsVM />
+    </UserControl.DataContext>
+
     <UserControl.Resources>
-        <c:DoubleToPriceStringConverter x:Key="DoubleToPriceStringConverter" />
-        <c:IDtoTicketTypeConverter x:Key="IDtoTicketTypeConverter" />
-        <c:IDtoTicketTypeIndexConverter x:Key="IDtoTicketTypeIndexConverter" />
+        <DataTemplate DataType="{x:Type vm:CustomerDetailVM}">
+            <v:CustomerDetail/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:TicketTypesVM}">
+            <v:TicketType/>
+        </DataTemplate>
     </UserControl.Resources>
-    
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-            <ColumnDefinition Width="auto" />
-            <ColumnDefinition Width="*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
-        
-        <!-- COLUMN 1 -->
-        <!-- Create 2 rows -->
-        <Grid Grid.Column="0">
+    <StackPanel>
+        <Label Content="Ticket Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
+        <Grid>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <!-- ROW 1 -->
-            <!-- Customers -->
-            <Label Content="Customers" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="Bold"/>
-            <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,5,35,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonAddTicket"/>
-            <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,5,10,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonRemoveTicket"/>
-            <ListView Name="CustomersListView" Margin="10,30,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" ItemsSource="{Binding Tickets, Mode=OneWay}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding TicketHolder}"/>
-                        <GridViewColumn Header="Type" Width="auto" DisplayMemberBinding="{Binding TicketType, Converter={StaticResource IDtoTicketTypeConverter}}"/>
-                        <GridViewColumn Header="Quantity" Width="auto" DisplayMemberBinding="{Binding Amount}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
+                <!-- Make the tabs next to each other -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
 
-            <!-- ROW 2 -->
-            <!-- Create 2 Columns -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                <!-- Add the buttons -->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
 
-                <!-- Name -->
-                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.TicketHolder, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,3,10,10"/>
-
-                <!-- Email -->
-                <Label Content="Email: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.TicketHolderEmail, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,28,10,10"/>
-
-                <!-- Type -->
-                <Label Content="Type: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <ComboBox Name="CustomerTicketType" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding TicketTypes, Mode=OneWay}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedItem.TicketType, ElementName=CustomersListView, Converter={StaticResource IDtoTicketTypeIndexConverter}}"/>
-
-                <!-- Quantity -->
-                <Label Content="Quantity: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerTicketQuantity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Amount, ElementName=CustomersListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,78,10,10"/>
-            </Grid>
+            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
         </Grid>
-        
-        <!-- COLUMN 2 -->
-        <!-- Splitter -->
-        <GridSplitter Grid.Column="1" Margin="0, 10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray" />
-
-        <!-- COLUMN 3 -->
-        <!-- Create 2 rows -->
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-
-            <!-- ROW 1 -->
-            <!-- Tickets -->
-            <Label Content="Tickets" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Row="0" FontWeight="Bold"/>
-            <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,5,35,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonAddTicketType"/>
-            <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,5,10,10" VerticalAlignment="Top" Width="20" Grid.Row="0" Click="ButtonRemoveTicketType"/>
-            <ListView Name="TicketsListView" Margin="10,30,10,0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="0" ItemsSource="{Binding TicketTypes}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                        <GridViewColumn Header="Price" Width="auto" DisplayMemberBinding="{Binding Price, Converter={StaticResource DoubleToPriceStringConverter}}"/>
-                        <GridViewColumn Header="Left" Width="auto" DisplayMemberBinding="{Binding TicketsLeft}"/>
-                        <GridViewColumn Header="Quantity" Width="auto" DisplayMemberBinding="{Binding AvailableTickets}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-
-            <!-- ROW 2 -->
-            <!-- Create 2 Columns -->
-            <Grid Grid.Row="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-
-                <!-- Name -->
-                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="TicketName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Name, ElementName=TicketsListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,3,10,10"/>
-
-                <!-- Price -->
-                <Label Content="Price: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="TicketPrice" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.Price, ElementName=TicketsListView, Mode=OneWay, Converter={StaticResource DoubleToPriceStringConverter}}" VerticalAlignment="Top" Margin="5,28,10,10"/>
-
-                <!-- Quantity -->
-                <Label Content="Quantity: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="TicketQuantity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" TextWrapping="Wrap" Text="{Binding SelectedItem.AvailableTickets, ElementName=TicketsListView, Mode=OneWay}" VerticalAlignment="Top" Margin="5,53,10,10"/>
-            </Grid>
-        </Grid>
-    </Grid>
+    </StackPanel>
 </UserControl>

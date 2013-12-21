@@ -76,11 +76,13 @@
     <Compile Include="ViewModel\ContactDetailsVM.cs" />
     <Compile Include="ViewModel\ContactTypeVM.cs" />
     <Compile Include="ViewModel\ContactVM.cs" />
+    <Compile Include="ViewModel\CustomerDetailVM.cs" />
     <Compile Include="ViewModel\GeneralVM.cs" />
     <Compile Include="ViewModel\IPage.cs" />
     <Compile Include="ViewModel\LineupVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\TicketsVM.cs" />
+    <Compile Include="ViewModel\TicketTypesVM.cs" />
     <Compile Include="View\Band.xaml.cs">
       <DependentUpon>Band.xaml</DependentUpon>
     </Compile>
@@ -90,8 +92,14 @@
     <Compile Include="View\ContactType.xaml.cs">
       <DependentUpon>ContactType.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\CustomerDetail.xaml.cs">
+      <DependentUpon>CustomerDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Tickets.xaml.cs">
       <DependentUpon>Tickets.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\TicketType.xaml.cs">
+      <DependentUpon>TicketType.xaml</DependentUpon>
     </Compile>
     <Page Include="View\Band.xaml">
       <SubType>Designer</SubType>
@@ -106,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\ContactType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\CustomerDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -141,6 +153,10 @@
     <Page Include="View\Tickets.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\TicketType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
