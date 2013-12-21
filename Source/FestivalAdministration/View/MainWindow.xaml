@@ -7,7 +7,7 @@
         MinWidth="500"
         MinHeight="350">
     <Window.DataContext>
-        <vm:ApplicationVM/>
+        <vm:ApplicationVM />
     </Window.DataContext>
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:GeneralVM}">
@@ -22,32 +22,44 @@
         <DataTemplate DataType="{x:Type vm:TicketsVM}">
             <v:Tickets/>
         </DataTemplate>
+
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Create Tabs -->
-        <ItemsControl ItemsSource="{Binding Pages}" HorizontalAlignment="Left">
-            <!-- Make the tabs next to each other -->
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel />
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            
-            <!-- Add the buttons -->
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
-        <Separator VerticalAlignment="Bottom" Margin="0"/>
+        <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#AAA" Grid.Column="0"/>
+        <TextBlock Grid.Row="0" Text="Kefke's Festival Administation" Margin="10" FontSize="18" Foreground="#222"/>
+        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <!-- Add the current page -->
-        <ContentControl Grid.Row="1" Content="{Binding CurrentPage}"/>
+            <Rectangle HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="#DDD" Grid.Column="0"/>
+            <!-- Create Tabs -->
+            <ItemsControl ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="0, 25, 0, 0">
+                <!-- Make the tabs next to each other -->
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            
+                <!-- Add the buttons -->
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Margin="10,0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" CommandParameter="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <Separator VerticalAlignment="Bottom" Margin="0"/>
+
+            <!-- Add the current page -->
+            <ContentControl Grid.Column="1" Content="{Binding CurrentPage}" />
+        </Grid>
     </Grid>
 </Window>

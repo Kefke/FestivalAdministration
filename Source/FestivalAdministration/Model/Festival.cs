@@ -98,7 +98,7 @@ namespace FestivalAdministration.Model
             return _Festivals;
         }
 
-        public static void AddFestival(string name, string street, string city)
+        public static void AddFestival(Festival festival)
         {
             // If _Festivals is null, create the Observable Collection
             if (_Festivals == null) GetFestivals();
@@ -106,23 +106,22 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@name", name);
-                DbParameter param2 = Database.AddParameter("@street", street);
-                DbParameter param3 = Database.AddParameter("@city", city);
+                DbParameter param1 = Database.AddParameter("@name", festival.Name);
+                DbParameter param2 = Database.AddParameter("@street", festival.Street);
+                DbParameter param3 = Database.AddParameter("@city", festival.City);
                 int affectedRows = Database.ModifyData("INSERT INTO festival(Name, Street, City) VALUES(@name, @street, @city)", param1, param2, param3);
                 if (affectedRows == 0) return;
 
                 // Get ID from db
-                int id = 0;
                 DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) festival.ID = -1;
+                    else festival.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _Festivals.Add(new Festival() { ID = id, Name = name , Street = street, City = city});
+                _Festivals.Add(festival);
             }
 
             // Fail
@@ -132,7 +131,7 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void UpdateFestival(int index, string newname, string newstreet, string newcity)
+        public static void UpdateFestival(Festival festival)
         {
             // If _Festivals is null, create the Observable Collection
             if (_Festivals == null) GetFestivals();
@@ -140,17 +139,22 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _Festivals[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
-                DbParameter param3 = Database.AddParameter("@street", newstreet);
-                DbParameter param4 = Database.AddParameter("@city", newcity);
+                DbParameter param1 = Database.AddParameter("@id", festival.ID);
+                DbParameter param2 = Database.AddParameter("@name", festival.Name);
+                DbParameter param3 = Database.AddParameter("@street", festival.Street);
+                DbParameter param4 = Database.AddParameter("@city", festival.City);
                 int affectedRows = Database.ModifyData("UPDATE festival SET name = @name, street = @street, city = @city WHERE id = @id", param1, param2, param3, param4);
                 if (affectedRows == 0) return;
 
                 // Update _Festivals
-                _Festivals[index].Name = newname;
-                _Festivals[index].Street = newstreet;
-                _Festivals[index].City = newcity;
+                for (int i = 0; i < _Festivals.Count; ++i)
+                {
+                    if (_Festivals[i].ID == festival.ID)
+                    {
+                        _Festivals[i] = festival;
+                        i = _Festivals.Count;
+                    }
+                }
             }
 
             // Fail
@@ -160,7 +164,7 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteFestival(int index)
+        /*public static void DeleteFestival(int index)
         {
             // If _Festivals is null, create the Observable Collection
             if (_Festivals == null) GetFestivals();
@@ -184,6 +188,6 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
-        }
+        }*/
     }
 }

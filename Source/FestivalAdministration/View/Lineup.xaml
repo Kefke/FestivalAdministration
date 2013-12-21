@@ -6,50 +6,27 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <!-- ROW 1 -->
-        <!-- Create 3 columns -->
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200" MinWidth="200" MaxWidth="200"/>
-                <ColumnDefinition Width="auto"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <!-- COLUMN 1 -->
-            <!-- Calendar -->
-            <Calendar Grid.Column="0" Margin="10" />
-
-            <!-- COLUMN 2 -->
-            <!-- Splitter -->
-            <GridSplitter Grid.Column="1" Margin="0, 10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray" />
-
-            <!-- COLUMN 3 -->
-            <!-- Bands -->
-            <Label Content="Bands" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Column="2" FontWeight="Bold" />
-            <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,5,35,10" VerticalAlignment="Top" Width="20" Grid.Column="2" Click="Button_Band_Add_Click"/>
-            <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,5,10,10" VerticalAlignment="Top" Width="20" Grid.Column="2"/>
-            <ListView Margin="10,30,10,10" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Column="2">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Name" Width="auto"/>
-                        <GridViewColumn Header="Genre" Width="auto"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+        </Grid.ColumnDefinitions>
+        <ListView Name="bands" Grid.Column="0" ItemsSource="{Binding Bands}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Twitter" Width="auto" DisplayMemberBinding="{Binding Twitter}"/>
+                    <GridViewColumn Header="Facebook" Width="auto" DisplayMemberBinding="{Binding Facebook}"/>
+                    <GridViewColumn Header="Description" Width="auto" DisplayMemberBinding="{Binding Description}"/>
+                </GridView>
+            </ListView.View>
+        </ListView> 
         
-        <!-- ROW 2 -->
-        <!-- Stages -->
-        <Label Content="Stages:" HorizontalAlignment="Left" Margin="10,-7,0,0" VerticalAlignment="Top" Grid.Row="1" FontWeight="Bold" />
-        <Button Content="+" HorizontalAlignment="Right" Height="20" Margin="10,-2,35,10" VerticalAlignment="Top" Width="20" Grid.Row="1" />
-        <Button Content="-" HorizontalAlignment="Right" Height="20" Margin="10,-2,10,10" VerticalAlignment="Top" Width="20" Grid.Row="1" />
-        <TabControl Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10, 20, 10, 10">
-            <TabItem Header="Stage 1" />
-            <TabItem Header="Stage 2" />
-        </TabControl>
+        <StackPanel Grid.Column="1">
+            <TextBox Text="{Binding SelectedItem.Name, ElementName=bands}" Margin="10" />
+            <TextBox Text="{Binding SelectedItem.Twitter, ElementName=bands}" Margin="10" />
+            <TextBox Text="{Binding SelectedItem.Facebook, ElementName=bands}" Margin="10" />
+            <Image Source="{Binding SelectedItem.Picture, ElementName=bands}" Margin="10" Height="500"/>
+            <TextBox Text="{Binding SelectedItem.Description, ElementName=bands}" Margin="10" Height="auto" TextWrapping="Wrap" AcceptsReturn="True" />
+        </StackPanel>
     </Grid>
 </UserControl>
