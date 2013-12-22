@@ -34,14 +34,6 @@ namespace FestivalAdministration.Model
             set { _TicketHolderEmail = value; }
         }
 
-        /*private TicketType _TicketType;
-
-        public TicketType TicketType
-        {
-            get { return _TicketType; }
-            set { _TicketType = value; }
-        }*/
-
         private int _TicketType;
 
         public int TicketType
@@ -118,7 +110,7 @@ namespace FestivalAdministration.Model
             return _Tickets;
         }
 
-        public static void AddTicket(string ticketHolder, string ticketHolderEmail, int ticketType, int amount)
+        public static int AddTicket(Ticket ticket)
         {
             // If _Tickets is null, create the Observable Collection
             if (_Tickets == null) GetTickets();
@@ -126,24 +118,20 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@ticketholder", ticketHolder);
-                DbParameter param2 = Database.AddParameter("@ticketholderemail", ticketHolderEmail);
-                DbParameter param3 = Database.AddParameter("@tickettype", ticketType);
-                DbParameter param4 = Database.AddParameter("@amount", amount);
-                int affectedRows = Database.ModifyData("INSERT INTO ticket(TicketHolder, TicketHolderEmail, TicketType, Amount) VALUES(@ticketholder, @ticketholderemail, @tickettype, @amount)", param1, param2, param3, param4);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param1 = Database.AddParameter("@ticketholder", ticket.TicketHolder);
+                DbParameter param2 = Database.AddParameter("@ticketholderemail", ticket.TicketHolderEmail);
+                DbParameter param3 = Database.AddParameter("@tickettype", ticket.TicketType);
+                DbParameter param4 = Database.AddParameter("@amount", ticket.Amount);
+                DbDataReader reader = Database.GetData("INSERT INTO ticket(TicketHolder, TicketHolderEmail, TicketType, Amount) VALUES(@ticketholder, @ticketholderemail, @tickettype, @amount); SELECT LAST_INSERT_ID() AS ID;", param1, param2, param3, param4);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) ticket.ID = -1;
+                    else ticket.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _Tickets.Add(new Ticket() { ID = id, TicketHolder = ticketHolder, TicketHolderEmail = ticketHolderEmail, TicketType = ticketType, Amount = amount });
+                _Tickets.Add(ticket);
+                return ticket.ID;
             }
 
             // Fail
@@ -151,9 +139,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateTicket(int index, string newholder, string newemail, int newtype, int newamount)
+        public static void UpdateTicket(Ticket ticket)
         {
             // If _Tickets is null, create the Observable Collection
             if (_Tickets == null) GetTickets();
@@ -161,19 +150,16 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _Tickets[index].ID);
-                DbParameter param2 = Database.AddParameter("@ticketholder", newholder);
-                DbParameter param3 = Database.AddParameter("@ticketholderemail", newemail);
-                DbParameter param4 = Database.AddParameter("@tickettype", newtype);
-                DbParameter param5 = Database.AddParameter("@amount", newamount);
+                DbParameter param1 = Database.AddParameter("@id", ticket.ID);
+                DbParameter param2 = Database.AddParameter("@ticketholder", ticket.TicketHolder);
+                DbParameter param3 = Database.AddParameter("@ticketholderemail", ticket.TicketHolderEmail);
+                DbParameter param4 = Database.AddParameter("@tickettype", ticket.TicketType);
+                DbParameter param5 = Database.AddParameter("@amount", ticket.Amount);
                 int affectedRows = Database.ModifyData("UPDATE ticket SET TicketHolder = @ticketholder, TicketHolderEmail = @ticketholderemail, TicketType = @tickettype, Amount = @amount WHERE id = @id", param1, param2, param3, param4, param5);
                 if (affectedRows == 0) return;
 
                 // Update _Tickets
-                _Tickets[index].TicketHolder = newholder;
-                _Tickets[index].TicketHolderEmail = newemail;
-                _Tickets[index].TicketType = newtype;
-                _Tickets[index].Amount = newamount;
+                _Tickets[GetIndexByID(ticket.ID)] = ticket;
             }
 
             // Fail
@@ -183,23 +169,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteTicket(int index)
+        public static void DeleteTicket(Ticket ticket)
         {
             // If _Tickets is null, create the Observable Collection
             if (_Tickets == null) GetTickets();
 
-            // Only execute if index is valid
-            if (_Tickets.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _Tickets[index].ID);
+                DbParameter param = Database.AddParameter("@id", ticket.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM ticket WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _Tickets
-                _Tickets.RemoveAt(index);
+                _Tickets.RemoveAt(GetIndexByID(ticket.ID));
             }
 
             // Fail
@@ -217,6 +200,10 @@ namespace FestivalAdministration.Model
             }
             return -1;
         }
-        
+
+        public Ticket Copy()
+        {
+            return new Ticket() { ID = this.ID, TicketHolder = this.TicketHolder, TicketHolderEmail = this.TicketHolderEmail, TicketType = this.TicketType, Amount = this.Amount };
+        }
     }
 }

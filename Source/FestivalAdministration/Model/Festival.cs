@@ -98,7 +98,7 @@ namespace FestivalAdministration.Model
             return _Festivals;
         }
 
-        public static void AddFestival(Festival festival)
+        public static int AddFestival(Festival festival)
         {
             // If _Festivals is null, create the Observable Collection
             if (_Festivals == null) GetFestivals();
@@ -109,11 +109,7 @@ namespace FestivalAdministration.Model
                 DbParameter param1 = Database.AddParameter("@name", festival.Name);
                 DbParameter param2 = Database.AddParameter("@street", festival.Street);
                 DbParameter param3 = Database.AddParameter("@city", festival.City);
-                int affectedRows = Database.ModifyData("INSERT INTO festival(Name, Street, City) VALUES(@name, @street, @city)", param1, param2, param3);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbDataReader reader = Database.GetData("INSERT INTO festival(Name, Street, City) VALUES(@name, @street, @city);SELECT LAST_INSERT_ID() AS ID", param1, param2, param3);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
@@ -122,6 +118,7 @@ namespace FestivalAdministration.Model
                 }
 
                 _Festivals.Add(festival);
+                return festival.ID;
             }
 
             // Fail
@@ -129,6 +126,7 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
         public static void UpdateFestival(Festival festival)
