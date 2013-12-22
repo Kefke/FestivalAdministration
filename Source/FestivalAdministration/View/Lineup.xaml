@@ -8,6 +8,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="auto"/>
             <ColumnDefinition Width="*" MinWidth="200"/>
         </Grid.ColumnDefinitions>
         <ListView Name="bands" Grid.Column="0" ItemsSource="{Binding Bands}">
@@ -16,17 +17,26 @@
                     <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
                     <GridViewColumn Header="Twitter" Width="auto" DisplayMemberBinding="{Binding Twitter}"/>
                     <GridViewColumn Header="Facebook" Width="auto" DisplayMemberBinding="{Binding Facebook}"/>
-                    <GridViewColumn Header="Description" Width="auto" DisplayMemberBinding="{Binding Description}"/>
                 </GridView>
             </ListView.View>
-        </ListView> 
-        
-        <StackPanel Grid.Column="1">
-            <TextBox Text="{Binding SelectedItem.Name, ElementName=bands}" Margin="10" />
-            <TextBox Text="{Binding SelectedItem.Twitter, ElementName=bands}" Margin="10" />
-            <TextBox Text="{Binding SelectedItem.Facebook, ElementName=bands}" Margin="10" />
-            <Image Source="{Binding SelectedItem.Picture, ElementName=bands}" Margin="10" MaxHeight="500" HorizontalAlignment="Stretch" Stretch="Uniform"/>
-            <TextBox Text="{Binding SelectedItem.Description, ElementName=bands}" Margin="10" Height="auto" TextWrapping="Wrap" AcceptsReturn="True" />
-        </StackPanel>
+        </ListView>
+
+        <!-- Line -->
+        <GridSplitter Grid.Column="1" Margin="0,10,0,10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" MinHeight="100" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0">
+                <TextBox Text="{Binding SelectedItem.Name, ElementName=bands}" Margin="10" />
+                <TextBox Text="{Binding SelectedItem.Twitter, ElementName=bands}" Margin="10" />
+                <TextBox Text="{Binding SelectedItem.Facebook, ElementName=bands}" Margin="10" />
+            </StackPanel>
+            <Image Grid.Row="1" Source="{Binding SelectedItem.Picture, ElementName=bands}" Margin="10" MaxHeight="500" HorizontalAlignment="Stretch" Stretch="Uniform"/>
+            <TextBox Grid.Row="2" Text="{Binding SelectedItem.Description, ElementName=bands}" Margin="10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
+        </Grid>
     </Grid>
 </UserControl>

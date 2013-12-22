@@ -4,8 +4,73 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" d:DesignWidth="500">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*" MinWidth="200"/>
+        </Grid.ColumnDefinitions>
+        <ListView Name="bands" Grid.Column="0" SelectedItem="{Binding SelectedBand}" ItemsSource="{Binding Bands}" Margin="10">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Twitter" Width="auto" DisplayMemberBinding="{Binding Twitter}"/>
+                    <GridViewColumn Header="Facebook" Width="auto" DisplayMemberBinding="{Binding Facebook}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Line -->
+        <GridSplitter Grid.Column="1" Margin="0,10,0,10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray"/>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="2*" MinHeight="100" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <Label Content="Name: " HorizontalAlignment="Left" Margin="10,5,0,2" VerticalAlignment="Top" />
+                    <Label Content="Twitter: " HorizontalAlignment="Left" Margin="10,0,0,2" VerticalAlignment="Top" />
+                    <Label Content="Facebook: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+                </StackPanel>
+                <StackPanel Grid.Column="1">
+                    <TextBox Text="{Binding SelectedBand.Name}" Margin="5,10,10,5" IsEnabled="{Binding Enabled}" />
+                    <TextBox Text="{Binding SelectedBand.Twitter}" Margin="5,5,10,5" IsEnabled="{Binding Enabled}" />
+                    <TextBox Text="{Binding SelectedBand.Facebook}" Margin="5,5,10,0" IsEnabled="{Binding Enabled}" />
+                </StackPanel>
+            </Grid>
+            <Grid Grid.Row="1" Margin="0,25,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="72"/>
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="10,-2,0,5" VerticalAlignment="Top" />
+                <Button Grid.Column="0" Content="Browse" Margin="10" Visibility="{Binding ShowSave}" Command="{Binding DataContext.BrowseCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
+                <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="500" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
+            </Grid>
+            <Label Grid.Row="2" Content="Description: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+            <TextBox Grid.Row="2" Text="{Binding SelectedBand.Description}" Margin="10,25,10,10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsEnabled="{Binding Enabled}"/>
+            <!-- ROW 4 -->
+            <Grid Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Content="Edit" Margin="10" Grid.Column="0" Command="{Binding DataContext.EditBandCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Left"/>
+                <Button Content="Add" Margin="10" Grid.Column="1" Command="{Binding DataContext.AddBandCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Center"/>
+                <Button Content="Delete" Margin="10" Grid.Column="2" Command="{Binding DataContext.DeleteBandCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}" MaxWidth="100" HorizontalAlignment="Right"/>
+                <Button Content="Save" Margin="10" Grid.Column="2" Visibility="{Binding ShowSave}" Command="{Binding DataContext.SaveUpdateBandCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Right" />
+                <Button Content="Cancel" Margin="10" Grid.Column="1" Visibility="{Binding ShowCancel}" Command="{Binding DataContext.CancelUpdateBandCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Center" />
+            </Grid>
+        </Grid>
     </Grid>
 </UserControl>

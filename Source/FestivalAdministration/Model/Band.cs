@@ -122,7 +122,7 @@ namespace FestivalAdministration.Model
             return _Bands;
         }
 
-        public static void AddBand(string name, string twitter, string facebook, byte[] picture, string description)
+        public static int AddBand(Band band)
         {
             // If _Band is null, create the Observable Collection
             if (_Bands == null) GetBands();
@@ -130,25 +130,22 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@name", name);
-                DbParameter param2 = Database.AddParameter("@twitter", twitter);
-                DbParameter param3 = Database.AddParameter("@facebook", facebook);
-                DbParameter param4 = Database.AddParameter("@picture", picture);
-                DbParameter param5 = Database.AddParameter("@description", description);
-                int affectedRows = Database.ModifyData("INSERT INTO band(Name, Twitter, Facebook, Picture, Description) VALUES(@name, @twitter, @facebook, @picture, @description)", param1, param2, param3, param4, param5);
-                if (affectedRows == 0) return;
+                DbParameter param1 = Database.AddParameter("@name", band.Name);
+                DbParameter param2 = Database.AddParameter("@twitter", band.Twitter);
+                DbParameter param3 = Database.AddParameter("@facebook", band.Facebook);
+                DbParameter param4 = Database.AddParameter("@picture", band.Picture);
+                DbParameter param5 = Database.AddParameter("@description", band.Description);
 
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbDataReader reader = Database.GetData("INSERT INTO band(Name, Twitter, Facebook, Picture, Description) VALUES(@name, @twitter, @facebook, @picture, @description); SELECT LAST_INSERT_ID() AS ID;", param1, param2, param3, param4, param5);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) band.ID = -1;
+                    else band.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _Bands.Add(new Band() { ID = id, Name = name, Twitter = twitter, Facebook = facebook, Picture = picture, Description = description });
+                _Bands.Add(band);
+                return band.ID;
             }
 
             // Fail
@@ -156,9 +153,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateBand(int index, string name, string twitter, string facebook, byte[] picture, string description)
+        public static void UpdateBand(Band band)
         {
             // If _Band is null, create the Observable Collection
             if (_Bands == null) GetBands();
@@ -166,21 +164,17 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _Bands[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", name);
-                DbParameter param3 = Database.AddParameter("@twitter", twitter);
-                DbParameter param4 = Database.AddParameter("@facebook", facebook);
-                DbParameter param5 = Database.AddParameter("@picture", picture);
-                DbParameter param6 = Database.AddParameter("@description", description);
+                DbParameter param1 = Database.AddParameter("@id", band.ID);
+                DbParameter param2 = Database.AddParameter("@name", band.Name);
+                DbParameter param3 = Database.AddParameter("@twitter", band.Twitter);
+                DbParameter param4 = Database.AddParameter("@facebook", band.Facebook);
+                DbParameter param5 = Database.AddParameter("@picture", band.Picture);
+                DbParameter param6 = Database.AddParameter("@description", band.Description);
                 int affectedRows = Database.ModifyData("UPDATE band SET Name = @name, Twitter = @twitter, Facebook = @facebook, Picture = @picture, Description = @description WHERE id = @id", param1, param2, param3, param4, param5, param6);
                 if (affectedRows == 0) return;
 
                 // Update _Band
-                _Bands[index].Name = name;
-                _Bands[index].Twitter = twitter;
-                _Bands[index].Facebook = facebook;
-                _Bands[index].Picture = picture;
-                _Bands[index].Description= description;
+                _Bands[GetIndexByID(band.ID)] = band;
             }
 
             // Fail
@@ -190,23 +184,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteBand(int index)
+        public static void DeleteBand(Band band)
         {
             // If _Band is null, create the Observable Collection
             if (_Bands == null) GetBands();
 
-            // Only execute if index is valid
-            if (_Bands.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _Bands[index].ID);
+                DbParameter param = Database.AddParameter("@id", band.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM band WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _Band
-                _Bands.RemoveAt(index);
+                _Bands.RemoveAt(GetIndexByID(band.ID));
             }
 
             // Fail
@@ -214,6 +205,20 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public static int GetIndexByID(int id)
+        {
+            for (int i = 0; i < _Bands.Count; ++i)
+            {
+                if (_Bands[i].ID == id) return i;
+            }
+            return -1;
+        }
+
+        public Band Copy()
+        {
+            return new Band() { ID = this.ID, Name = this.Name, Twitter = this.Twitter, Facebook = this.Facebook, Picture = this.Picture, Description = this.Description };
         }
     }
 }
