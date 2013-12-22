@@ -111,7 +111,7 @@ namespace FestivalAdministration.Model
             return _TimeSlots;
         }
 
-        public static void AddTimeSlot(int bandid, int stageid, DateTime startdate, DateTime enddate)
+        public static int AddTimeSlot(TimeSlot timeSlot)
         {
             // If _TimeSlots is null, create the Observable Collection
             if (_TimeSlots == null) GetTimeSlots();
@@ -119,24 +119,20 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@bandid", bandid);
-                DbParameter param2 = Database.AddParameter("@stageid", stageid);
-                DbParameter param3 = Database.AddParameter("@startdate", startdate);
-                DbParameter param4 = Database.AddParameter("@enddate", enddate);
-                int affectedRows = Database.ModifyData("INSERT INTO TimeSlot(BandID, StageID, StartDate, EndDate) VALUES(@bandid, @stageid, @startdate, @enddate)", param1, param2, param3, param4);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param1 = Database.AddParameter("@bandid", timeSlot.BandID);
+                DbParameter param2 = Database.AddParameter("@stageid", timeSlot.StageID);
+                DbParameter param3 = Database.AddParameter("@startdate", timeSlot.StartDate);
+                DbParameter param4 = Database.AddParameter("@enddate", timeSlot.EndDate);
+                DbDataReader reader = Database.GetData("INSERT INTO TimeSlot(BandID, StageID, StartDate, EndDate) VALUES(@bandid, @stageid, @startdate, @enddate); SELECT LAST_INSERT_ID() AS ID;", param1, param2, param3, param4);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) timeSlot.ID = -1;
+                    else timeSlot.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _TimeSlots.Add(new TimeSlot() { ID = id, BandID = bandid, StageID = stageid, StartDate = startdate, EndDate = enddate });
+                _TimeSlots.Add(timeSlot);
+                return timeSlot.ID;
             }
 
             // Fail
@@ -144,9 +140,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateTimeSlot(int index, int bandid, int stageid, DateTime startdate, DateTime enddate)
+        public static void UpdateTimeSlot(TimeSlot timeSlot)
         {
             // If _TimeSlots is null, create the Observable Collection
             if (_TimeSlots == null) GetTimeSlots();
@@ -154,19 +151,16 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _TimeSlots[index].ID);
-                DbParameter param2 = Database.AddParameter("@bandid", bandid);
-                DbParameter param3 = Database.AddParameter("@stageid", stageid);
-                DbParameter param4 = Database.AddParameter("@startdate", startdate);
-                DbParameter param5 = Database.AddParameter("@enddate", enddate);
+                DbParameter param1 = Database.AddParameter("@id", timeSlot.ID);
+                DbParameter param2 = Database.AddParameter("@bandid", timeSlot.BandID);
+                DbParameter param3 = Database.AddParameter("@stageid", timeSlot.StageID);
+                DbParameter param4 = Database.AddParameter("@startdate", timeSlot.StartDate);
+                DbParameter param5 = Database.AddParameter("@enddate", timeSlot.EndDate);
                 int affectedRows = Database.ModifyData("UPDATE timeslot SET BandID = @bandid, StageID = @stageid, StartDate = @startdate, EndDate = @enddate WHERE id = @id", param1, param2, param3, param4, param5);
                 if (affectedRows == 0) return;
 
                 // Update _TimeSlots
-                _TimeSlots[index].BandID = bandid;
-                _TimeSlots[index].StageID = stageid;
-                _TimeSlots[index].StartDate = startdate;
-                _TimeSlots[index].EndDate = enddate;
+                _TimeSlots[GetIndexFromID(timeSlot.ID)] = timeSlot;
             }
 
             // Fail
@@ -176,23 +170,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteTimeSlot(int index)
+        public static void DeleteTimeSlot(TimeSlot timeSlot)
         {
             // If _TimeSlots is null, create the Observable Collection
             if (_TimeSlots == null) GetTimeSlots();
 
-            // Only execute if index is valid
-            if (_TimeSlots.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _TimeSlots[index].ID);
+                DbParameter param = Database.AddParameter("@id", timeSlot.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM TimeSlot WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _TimeSlots
-                _TimeSlots.RemoveAt(index);
+                _TimeSlots.RemoveAt(GetIndexFromID(timeSlot.ID));
             }
 
             // Fail
@@ -200,6 +191,16 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public static int GetIndexFromID(int id)
+        {
+            if (_TimeSlots == null) GetTimeSlots();
+            for (int i = 0; i < _TimeSlots.Count; ++i)
+            {
+                if (_TimeSlots[i].ID == id) return i;
+            }
+            return -1;
         }
     }
 }

@@ -74,7 +74,7 @@ namespace FestivalAdministration.Model
             return _stages;
         }
 
-        public static void AddStage(string name)
+        public static int AddStage(Stage stage)
         {
             // If _Stage is null, create the Observable Collection
             if (_stages == null) GetStages();
@@ -82,21 +82,17 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@name", name);
-                int affectedRows = Database.ModifyData("INSERT INTO stage(name) VALUES(@name)", param);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param = Database.AddParameter("@name", stage.Name);
+                DbDataReader reader = Database.GetData("INSERT INTO stage(name) VALUES(@name); SELECT LAST_INSERT_ID() AS ID;", param);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) stage.ID = -1;
+                    else stage.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _stages.Add(new Stage() { ID = id, Name = name });
+                _stages.Add(stage);
+                return stage.ID;
             }
 
             // Fail
@@ -104,9 +100,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateStage(int index, string newname)
+        public static void UpdateStage(Stage stage)
         {
             // If _Stage is null, create the Observable Collection
             if (_stages == null) GetStages();
@@ -114,13 +111,13 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _stages[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
+                DbParameter param1 = Database.AddParameter("@id", stage.ID);
+                DbParameter param2 = Database.AddParameter("@name", stage.Name);
                 int affectedRows = Database.ModifyData("UPDATE stage SET name = @name WHERE id = @id", param1, param2);
                 if (affectedRows == 0) return;
 
                 // Update _stages
-                _stages[index].Name = newname;
+                _stages[GetIndexByID(stage.ID)] = stage;
             }
 
             // Fail
@@ -130,23 +127,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteStage(int index)
+        public static void DeleteStage(Stage stage)
         {
             // If _Stage is null, create the Observable Collection
             if (_stages == null) GetStages();
 
-            // Only execute if index is valid
-            if (_stages.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _stages[index].ID);
+                DbParameter param = Database.AddParameter("@id", stage.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM stage WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _stages
-                _stages.RemoveAt(index);
+                _stages.RemoveAt(GetIndexByID(stage.ID));
             }
 
             // Fail
