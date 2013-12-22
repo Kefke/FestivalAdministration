@@ -141,6 +141,13 @@ namespace FestivalAdministration.ViewModel
         {
             if (SelectedCustomer == null) return;
 
+            // Add the removed tickets from the deleted order again
+            int ticketIndex = TicketType.GetIndexByID(_oldCustomer.TicketType);
+            TicketType updatedTicketType = TicketTypes[ticketIndex].Copy();
+            updatedTicketType.TicketsLeft = TicketTypes[ticketIndex].TicketsLeft + SelectedCustomer.Amount;
+            TicketType.UpdateTicketType(updatedTicketType);
+
+            // Remove the order
             Ticket.DeleteTicket(SelectedCustomer);
 
             SelectedCustomer = new Ticket();
@@ -160,13 +167,48 @@ namespace FestivalAdministration.ViewModel
             // Save Changes
             if (_oldCustomer == null)
             {
-                // Insert into db
-                SelectedCustomer.ID = Ticket.AddTicket(SelectedCustomer);
+                // Check if there are enough tickets left
+                int ticketIndex = TicketType.GetIndexByID(SelectedCustomer.TicketType);
+                if (TicketTypes[ticketIndex].TicketsLeft >= SelectedCustomer.Amount)
+                {
+                    // Reduce tickets left by the ordered amount
+                    TicketType updatedTicketType = TicketTypes[ticketIndex].Copy();
+                    updatedTicketType.TicketsLeft = TicketTypes[ticketIndex].TicketsLeft - SelectedCustomer.Amount;
+                    TicketType.UpdateTicketType(updatedTicketType);
+
+                    // Insert new order into ticket db
+                    SelectedCustomer.ID = Ticket.AddTicket(SelectedCustomer);
+                }
             }
             else
             {
-                // Update db
-                Ticket.UpdateTicket(SelectedCustomer);
+                // Check if there is a difference in the ordered tickets or types
+                if (_oldCustomer.Amount == SelectedCustomer.Amount && _oldCustomer.TicketType == SelectedCustomer.TicketType)
+                {
+                    // Nothing special to do, just update the ticket
+                    Ticket.UpdateTicket(SelectedCustomer);
+                }
+                else
+                {
+                    // Check if there are enough tickets left
+                    int newticketIndex = TicketType.GetIndexByID(SelectedCustomer.TicketType);
+                    if (TicketTypes[newticketIndex].TicketsLeft >= SelectedCustomer.Amount)
+                    {
+                        // Reduce tickets left by the ordered amount
+                        TicketType updatedTicketType = TicketTypes[newticketIndex].Copy();
+                        updatedTicketType.TicketsLeft = TicketTypes[newticketIndex].TicketsLeft - SelectedCustomer.Amount;
+                        TicketType.UpdateTicketType(updatedTicketType);
+
+                        // Add the removed tickets from the changed order again
+                        int oldticketIndex = TicketType.GetIndexByID(_oldCustomer.TicketType);
+                        updatedTicketType = TicketTypes[oldticketIndex].Copy();
+                        updatedTicketType.TicketsLeft = TicketTypes[oldticketIndex].TicketsLeft + _oldCustomer.Amount;
+                        TicketType.UpdateTicketType(updatedTicketType);
+
+                        // Insert update the order in ticket db
+                        Ticket.UpdateTicket(SelectedCustomer);
+                    }
+                }
             }
 
             // Update GUI
