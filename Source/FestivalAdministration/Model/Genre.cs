@@ -74,7 +74,7 @@ namespace FestivalAdministration.Model
             return _genres;
         }
 
-        public static void AddGenre(string name)
+        public static int AddGenre(Genre genre)
         {
             // If _Genre is null, create the Observable Collection
             if (_genres == null) GetGenres();
@@ -82,21 +82,17 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@name", name);
-                int affectedRows = Database.ModifyData("INSERT INTO genre(name) VALUES(@name)", param);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param = Database.AddParameter("@name", genre.Name);
+                DbDataReader reader = Database.GetData("INSERT INTO genre(name) VALUES(@name); SELECT LAST_INSERT_ID() AS ID;", param);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) genre.ID = -1;
+                    else genre.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _genres.Add(new Genre() { ID = id, Name = name });
+                _genres.Add(genre);
+                return genre.ID;
             }
 
             // Fail
@@ -104,9 +100,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateGenre(int index, string newname)
+        public static void UpdateGenre(Genre genre)
         {
             // If _Genre is null, create the Observable Collection
             if (_genres == null) GetGenres();
@@ -114,13 +111,13 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _genres[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
+                DbParameter param1 = Database.AddParameter("@id", genre.ID);
+                DbParameter param2 = Database.AddParameter("@name", genre.Name);
                 int affectedRows = Database.ModifyData("UPDATE genre SET name = @name WHERE id = @id", param1, param2);
                 if (affectedRows == 0) return;
 
                 // Update _genres
-                _genres[index].Name = newname;
+                _genres[GetIndexByID(genre.ID)] = genre;
             }
 
             // Fail
@@ -130,23 +127,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteGenre(int index)
+        public static void DeleteGenre(Genre genre)
         {
             // If _Genre is null, create the Observable Collection
             if (_genres == null) GetGenres();
 
-            // Only execute if index is valid
-            if (_genres.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _genres[index].ID);
+                DbParameter param = Database.AddParameter("@id", genre.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM genre WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _genres
-                _genres.RemoveAt(index);
+                _genres.RemoveAt(GetIndexByID(genre.ID));
             }
 
             // Fail
@@ -182,6 +176,11 @@ namespace FestivalAdministration.Model
             }
 
             return -1;
+        }
+
+        public Genre Copy()
+        {
+            return new Genre() { ID = this.ID, Name = this.Name };
         }
     }
 }

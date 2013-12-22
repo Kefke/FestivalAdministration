@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
         xmlns:v="clr-namespace:FestivalAdministration.View"
-        Title="Festival administration" Height="350" Width="525"
-        MinWidth="500"
-        MinHeight="350">
+        Title="Festival administration" Height="475" Width="550"
+        MinWidth="525"
+        MinHeight="450">
     <Window.DataContext>
         <vm:ApplicationVM />
     </Window.DataContext>

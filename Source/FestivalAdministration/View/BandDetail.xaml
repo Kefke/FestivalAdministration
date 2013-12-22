@@ -27,8 +27,8 @@
         <Grid Grid.Column="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
-                <RowDefinition Height="2*" MinHeight="100" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" MinHeight="75" MaxHeight="300"/>
+                <RowDefinition Height="*" MinHeight="50" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" >
@@ -37,9 +37,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <Label Content="Name: " HorizontalAlignment="Left" Margin="10,5,0,2" VerticalAlignment="Top" />
-                    <Label Content="Twitter: " HorizontalAlignment="Left" Margin="10,0,0,2" VerticalAlignment="Top" />
-                    <Label Content="Facebook: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+                    <Label Content="Name: " HorizontalAlignment="Left" Margin="5,5,0,2" VerticalAlignment="Top" />
+                    <Label Content="Twitter: " HorizontalAlignment="Left" Margin="5,0,0,2" VerticalAlignment="Top" />
+                    <Label Content="Facebook: " HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" />
                 </StackPanel>
                 <StackPanel Grid.Column="1">
                     <TextBox Text="{Binding SelectedBand.Name}" Margin="5,10,10,5" IsEnabled="{Binding Enabled}" />
@@ -47,16 +47,16 @@
                     <TextBox Text="{Binding SelectedBand.Facebook}" Margin="5,5,10,0" IsEnabled="{Binding Enabled}" />
                 </StackPanel>
             </Grid>
-            <Grid Grid.Row="1" Margin="0,25,0,0">
+            <Grid Grid.Row="1" Margin="0,5,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" MinWidth="72"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="10,-2,0,5" VerticalAlignment="Top" />
+                <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="5,-2,0,5" VerticalAlignment="Top" />
                 <Button Grid.Column="0" Content="Browse" Margin="10" Visibility="{Binding ShowSave}" Command="{Binding DataContext.BrowseCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="500" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
+                <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="300" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
             </Grid>
-            <Label Grid.Row="2" Content="Description: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+            <Label Grid.Row="2" Content="Description: " HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" />
             <TextBox Grid.Row="2" Text="{Binding SelectedBand.Description}" Margin="10,25,10,10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsEnabled="{Binding Enabled}"/>
             <!-- ROW 4 -->
             <Grid Grid.Row="3">
