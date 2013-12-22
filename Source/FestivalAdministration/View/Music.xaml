@@ -1,33 +1,32 @@
-﻿<UserControl x:Class="FestivalAdministration.View.Tickets"
+﻿<UserControl x:Class="FestivalAdministration.View.Music"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:c="clr-namespace:FestivalAdministration.Converter"
              xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
              xmlns:v="clr-namespace:FestivalAdministration.View"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="500">
+             d:DesignHeight="300" d:DesignWidth="300">
     <UserControl.DataContext>
-        <vm:TicketsVM />
+        <vm:MusicVM />
     </UserControl.DataContext>
 
     <UserControl.Resources>
-        <DataTemplate DataType="{x:Type vm:CustomerDetailVM}">
-            <v:CustomerDetail/>
+        <DataTemplate DataType="{x:Type vm:BandVM}">
+            <v:BandDetail/>
         </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:TicketTypesVM}">
-            <v:TicketType/>
+        <DataTemplate DataType="{x:Type vm:GenreVM}">
+            <v:GenreDetail/>
         </DataTemplate>
     </UserControl.Resources>
-        <Grid>
-            <Grid.RowDefinitions>
+    <Grid>
+        <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
+        </Grid.RowDefinitions>
 
-        <Label Grid.Row="0" Content="Ticket Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
+        <Label Grid.Row="0" Content="Music Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
 
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
             <!-- Make the tabs next to each other -->

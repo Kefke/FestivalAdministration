@@ -8,15 +8,17 @@ using System.Windows.Input;
 
 namespace FestivalAdministration.ViewModel
 {
-    class ApplicationVM : ObservableObject
+    class MusicVM: ObservableObject, IPage
     {
-        public ApplicationVM()
+        public string Name
         {
-            Pages.Add(new GeneralVM());
-            Pages.Add(new ContactVM());
-            Pages.Add(new MusicVM());
-            Pages.Add(new LineupVM());
-            Pages.Add(new TicketsVM());
+            get { return "Music"; }
+        }
+
+        public MusicVM()
+        {
+            Pages.Add(new BandVM());
+            Pages.Add(new GenreVM());
 
             CurrentPage = Pages[0];
         }

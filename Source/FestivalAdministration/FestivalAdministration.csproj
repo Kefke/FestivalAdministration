@@ -73,18 +73,21 @@
     <Compile Include="Model\Database.cs" />
     <Compile Include="Model\TimeSlot.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
+    <Compile Include="ViewModel\BandVM.cs" />
     <Compile Include="ViewModel\ContactDetailsVM.cs" />
     <Compile Include="ViewModel\ContactTypeVM.cs" />
     <Compile Include="ViewModel\ContactVM.cs" />
     <Compile Include="ViewModel\CustomerDetailVM.cs" />
     <Compile Include="ViewModel\GeneralVM.cs" />
+    <Compile Include="ViewModel\GenreVM.cs" />
     <Compile Include="ViewModel\IPage.cs" />
     <Compile Include="ViewModel\LineupVM.cs" />
+    <Compile Include="ViewModel\MusicVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
     <Compile Include="ViewModel\TicketsVM.cs" />
     <Compile Include="ViewModel\TicketTypesVM.cs" />
-    <Compile Include="View\Band.xaml.cs">
-      <DependentUpon>Band.xaml</DependentUpon>
+    <Compile Include="View\BandDetail.xaml.cs">
+      <DependentUpon>BandDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\ContactDetails.xaml.cs">
       <DependentUpon>ContactDetails.xaml</DependentUpon>
@@ -95,13 +98,22 @@
     <Compile Include="View\CustomerDetail.xaml.cs">
       <DependentUpon>CustomerDetail.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\GenreDetail.xaml.cs">
+      <DependentUpon>GenreDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Music.xaml.cs">
+      <DependentUpon>Music.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\StageDetail.xaml.cs">
+      <DependentUpon>StageDetail.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Tickets.xaml.cs">
       <DependentUpon>Tickets.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\TicketType.xaml.cs">
       <DependentUpon>TicketType.xaml</DependentUpon>
     </Compile>
-    <Page Include="View\Band.xaml">
+    <Page Include="View\BandDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -124,6 +136,10 @@
     <Page Include="View\General.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="View\GenreDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="View\Lineup.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -150,6 +166,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Music.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\StageDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Tickets.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

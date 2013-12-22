@@ -23,31 +23,31 @@
         <c:IDtoContactTypeConverter x:Key="IDtoContactTypeConverter" />
         <c:IDtoContactTypeIndexConverter x:Key="IDtoContactTypeIndexConverter" />
     </UserControl.Resources>
-    <StackPanel>
-        <Label Content="Contact Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            
-            <ItemsControl Grid.Row="0" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
-                <!-- Make the tabs next to each other -->
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-                <!-- Add the buttons -->
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+        <Label Grid.Row="0" Content="Contact Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
+        
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
+            <!-- Make the tabs next to each other -->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <!-- Add the buttons -->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
             
-            <ContentControl Grid.Row="1" Content="{Binding CurrentPage}" />
-        </Grid>
-    </StackPanel>
+        <ContentControl Grid.Row="2" Content="{Binding CurrentPage}" />
+    </Grid>
 </UserControl>

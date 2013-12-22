@@ -16,6 +16,9 @@
         <DataTemplate DataType="{x:Type vm:ContactVM}">
             <v:Contact/>
         </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:MusicVM}">
+            <v:Music/>
+        </DataTemplate>
         <DataTemplate DataType="{x:Type vm:LineupVM}">
             <v:Lineup/>
         </DataTemplate>
