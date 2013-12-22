@@ -18,7 +18,9 @@ namespace FestivalAdministration.Converter
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            string price = (string)value;
+            return System.Convert.ToDouble(price);
+            //throw new NotImplementedException();
         }
     }
 }

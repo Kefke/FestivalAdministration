@@ -110,7 +110,7 @@ namespace FestivalAdministration.Model
             return _TicketTypes;
         }
 
-        public static void AddTicketType(string name, float price, int quantity)
+        public static int AddTicketType(TicketType type)
         {
             // If _TicketTypes is null, create the Observable Collection
             if (_TicketTypes == null) GetTicketTypes();
@@ -118,23 +118,19 @@ namespace FestivalAdministration.Model
             try
             {
                 // Add to db
-                DbParameter param1 = Database.AddParameter("@name", name);
-                DbParameter param2 = Database.AddParameter("@price", price);
-                DbParameter param3 = Database.AddParameter("@quantity", quantity);
-                int affectedRows = Database.ModifyData("INSERT INTO tickettype(Name, Price, AvailableTickets, TicketsLeft) VALUES(@name, @price, @quantity, @quantity)", param1, param2, param3);
-                if (affectedRows == 0) return;
-
-                // Get ID from db
-                int id = 0;
-                DbDataReader reader = Database.GetData("SELECT LAST_INSERT_ID() AS ID");
+                DbParameter param1 = Database.AddParameter("@name", type.Name);
+                DbParameter param2 = Database.AddParameter("@price", type.Price);
+                DbParameter param3 = Database.AddParameter("@quantity", type.Price);
+                DbDataReader reader = Database.GetData("INSERT INTO tickettype(Name, Price, AvailableTickets, TicketsLeft) VALUES(@name, @price, @quantity, @quantity); SELECT LAST_INSERT_ID() AS ID;", param1, param2, param3);
                 foreach (DbDataRecord record in reader)
                 {
                     // Get ID
-                    if (DBNull.Value.Equals(record["ID"])) id = -1;
-                    else id = Convert.ToInt32(record["ID"]);
+                    if (DBNull.Value.Equals(record["ID"])) type.ID = -1;
+                    else type.ID = Convert.ToInt32(record["ID"]);
                 }
 
-                _TicketTypes.Add(new TicketType() { ID = id, Name = name, Price = price, AvailableTickets = quantity, TicketsLeft = quantity });
+                _TicketTypes.Add(type);
+                return type.ID;
             }
 
             // Fail
@@ -142,9 +138,10 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+            return -1;
         }
 
-        public static void UpdateTicketType(int index, string newname, float newprice, int newquantity, int newticketsleft)
+        public static void UpdateTicketType(TicketType type)
         {
             // If _TicketTypes is null, create the Observable Collection
             if (_TicketTypes == null) GetTicketTypes();
@@ -152,19 +149,16 @@ namespace FestivalAdministration.Model
             try
             {
                 // Update db
-                DbParameter param1 = Database.AddParameter("@id", _TicketTypes[index].ID);
-                DbParameter param2 = Database.AddParameter("@name", newname);
-                DbParameter param3 = Database.AddParameter("@price", newprice);
-                DbParameter param4 = Database.AddParameter("@quantity", newquantity);
-                DbParameter param5 = Database.AddParameter("@available", newticketsleft);
+                DbParameter param1 = Database.AddParameter("@id", type.ID);
+                DbParameter param2 = Database.AddParameter("@name", type.Name);
+                DbParameter param3 = Database.AddParameter("@price", type.Price);
+                DbParameter param4 = Database.AddParameter("@quantity", type.AvailableTickets);
+                DbParameter param5 = Database.AddParameter("@available", type.TicketsLeft);
                 int affectedRows = Database.ModifyData("UPDATE tickettype SET Name = @name, Price = @price, AvailableTickets = @quantity, TicketsLeft = @available WHERE id = @id", param1, param2, param3, param4, param5);
                 if (affectedRows == 0) return;
 
                 // Update _TicketTypes
-                _TicketTypes[index].Name = newname;
-                _TicketTypes[index].Price = newprice;
-                _TicketTypes[index].AvailableTickets = newquantity;
-                _TicketTypes[index].TicketsLeft = newticketsleft;
+                _TicketTypes[GetIndexByID(type.ID)] = type;
             }
 
             // Fail
@@ -174,23 +168,20 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static void DeleteTicketType(int index)
+        public static void DeleteTicketType(TicketType type)
         {
             // If _TicketTypes is null, create the Observable Collection
             if (_TicketTypes == null) GetTicketTypes();
 
-            // Only execute if index is valid
-            if (_TicketTypes.Count <= index) return;
-
             try
             {
                 // Add to db
-                DbParameter param = Database.AddParameter("@id", _TicketTypes[index].ID);
+                DbParameter param = Database.AddParameter("@id", type.ID);
                 int affectedRows = Database.ModifyData("DELETE FROM tickettype WHERE id = @id", param);
                 if (affectedRows == 0) return;
 
                 // Update _TicketTypes
-                _TicketTypes.RemoveAt(index);
+                _TicketTypes.RemoveAt(GetIndexByID(type.ID));
             }
 
             // Fail
@@ -224,6 +215,11 @@ namespace FestivalAdministration.Model
                 if (_TicketTypes[i].ID == id) return i;
             }
             return -1;
+        }
+
+        public TicketType Copy()
+        {
+            return new TicketType() { ID = this.ID, Name = this.Name, Price = this.Price, AvailableTickets = this.AvailableTickets, TicketsLeft = this.TicketsLeft };
         }
     }
 }
