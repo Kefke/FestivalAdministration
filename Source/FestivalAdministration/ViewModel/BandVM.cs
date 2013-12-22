@@ -17,8 +17,13 @@ namespace FestivalAdministration.ViewModel
         public BandVM()
         {
             Bands = Band.GetBands();
+            Genres = Genre.GetGenres();
 
             SelectedBand = new Band();
+
+            SelectedBandGenres = new ObservableCollection<BandGenre>();
+            AddGenre(this);
+
             Enabled = true;
             ShowEdit = "Hidden";
             ShowCancel = "Hidden";
@@ -41,6 +46,14 @@ namespace FestivalAdministration.ViewModel
             set { _bands = value; OnPropertyChanged("ContactTypes"); }
         }
 
+        private ObservableCollection<Genre> _genres;
+
+        public ObservableCollection<Genre> Genres
+        {
+            get { return _genres; }
+            set { _genres = value; OnPropertyChanged("Genres"); }
+        }
+
         private bool _changeNotify;
         private Band _oldBand;
         private Band _selectedBand;
@@ -60,6 +73,16 @@ namespace FestivalAdministration.ViewModel
                 SelectionChanged(this);
             }
         }
+
+        private ObservableCollection<BandGenre> _selectedBandGenres;
+        private ObservableCollection<BandGenre> _oldBandGenres;
+
+        public ObservableCollection<BandGenre> SelectedBandGenres
+        {
+            get { return _selectedBandGenres; }
+            set { _selectedBandGenres = value; OnPropertyChanged("SelectedBandGenres");}
+        }
+        
 
         private string _showedit;
 
@@ -105,6 +128,10 @@ namespace FestivalAdministration.ViewModel
         private void AddBand(BandVM bandvm)
         {
             SelectedBand = new Band();
+
+            SelectedBandGenres = new ObservableCollection<BandGenre>();
+            AddGenre(this);
+
             _oldBand = null;
             bandvm.ShowEdit = "Hidden";
             bandvm.ShowCancel = "Visible";
@@ -134,6 +161,12 @@ namespace FestivalAdministration.ViewModel
         {
             if (SelectedBand == null) return;
 
+            // Delete the previous genres
+            foreach (BandGenre bg in _oldBandGenres)
+            {
+                BandGenre.DeleteBandGenre(bg);
+            }
+
             Band.DeleteBand(SelectedBand);
 
             SelectedBand = new Band();
@@ -150,17 +183,52 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateBand(BandVM bandvm)
         {
+            int bandID = SelectedBand.ID;
             // Save Changes
             if (_oldBand == null)
             {
                 // Insert into db
-                SelectedBand.ID = Band.AddBand(SelectedBand);
+                bandID = Band.AddBand(SelectedBand);
             }
             else
             {
                 // Update db
                 Band.UpdateBand(SelectedBand);
             }
+
+            // Check valid genre parameters
+            ObservableCollection<BandGenre> bandGenreResults = new ObservableCollection<BandGenre>();
+            foreach (BandGenre bg in SelectedBandGenres)
+            {
+                bool allreadyExists = false;
+                foreach (BandGenre bgr in bandGenreResults)
+                {
+                    if (bgr.GenreID == bg.GenreID || bgr.GenreID == -1) allreadyExists = true;
+                }
+
+                if (!allreadyExists)
+                {
+                    bg.BandID = bandID;
+                    bandGenreResults.Add(bg);
+                }
+            }
+
+            // Delete the previous genres
+            if (_oldBandGenres != null)
+            {
+                foreach (BandGenre bg in _oldBandGenres)
+                {
+                    BandGenre.DeleteBandGenre(bg);
+                }
+            }
+
+            // Add the new band genres
+            foreach (BandGenre bgr in bandGenreResults)
+            {
+                bgr.ID = BandGenre.AddBandGenre(bgr);
+            }
+
+            SelectedBandGenres = bandGenreResults;
 
             // Update GUI
             bandvm.ShowEdit = "Visible";
@@ -176,9 +244,11 @@ namespace FestivalAdministration.ViewModel
 
         private void CancelUpdateBand(BandVM bandvm)
         {
-            // Reset person
+            // Reset band
             _changeNotify = false;
             SelectedBand = _oldBand;
+
+            SelectedBandGenres = BandGenre.GetBandGenres(SelectedBand.ID);
 
             bandvm.ShowEdit = "Visible";
             bandvm.ShowCancel = "Hidden";
@@ -197,6 +267,9 @@ namespace FestivalAdministration.ViewModel
             if (ShowCancel == "Visible") CancelUpdateBand(this);
             _oldBand = SelectedBand.Copy();
 
+            SelectedBandGenres = BandGenre.GetBandGenres(SelectedBand.ID);
+            _oldBandGenres = BandGenre.GetBandGenres(SelectedBand.ID);
+
             bandvm.ShowEdit = "Visible";
             bandvm.ShowCancel = "Hidden";
             bandvm.ShowSave = "Hidden";
@@ -212,15 +285,29 @@ namespace FestivalAdministration.ViewModel
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.DefaultExt = ".jpg";
-            dlg.Filter = "Image files (*.jpg, *.jpeg, *.png, *.gif)|*.jpg; *.jpeg; *.png; *.gif" ;
+            dlg.Filter = "Image files (*.jpg, *.jpeg, *.png, *.gif)|*.jpg; *.jpeg; *.png; *.gif";
 
             Nullable<bool> result = dlg.ShowDialog();
             if (result == true)
             {
                 ImagePathToByteArrayConverter converter = new ImagePathToByteArrayConverter();
-                SelectedBand.Picture = (byte[]) converter.Convert(dlg.FileName, null, null, null);
+                SelectedBand.Picture = (byte[])converter.Convert(dlg.FileName, null, null, null);
                 OnPropertyChanged("SelectedBand");
             }
+        }
+
+        public ICommand AddGenreCommand
+        {
+            get { return new RelayCommand<BandVM>(AddGenre); }
+        }
+
+        private void AddGenre(BandVM bandvm)
+        {
+            if (SelectedBandGenres == null) return;
+            if (SelectedBandGenres.Count > 5) return;
+
+            SelectedBandGenres.Add(new BandGenre() { ID = -1, BandID = -1, GenreID = -1 });
+            OnPropertyChanged("SelectedBandGenres");
         }
         //************************
     }

@@ -34,7 +34,90 @@ namespace FestivalAdministration.Model
             set { _genreID = value; }
         }
 
-        private static ObservableCollection<BandGenre> _bandgenres = null;
+        public static ObservableCollection<BandGenre> GetBandGenres(int bandID)
+        {
+            try
+            {
+                // Create _bandgenres
+                ObservableCollection<BandGenre>  result = new ObservableCollection<BandGenre>();
+
+                // Get data
+                DbParameter param = Database.AddParameter("@bandid", bandID);
+                DbDataReader reader = Database.GetData("SELECT * FROM bandgenre WHERE BandID = @bandid;", param);
+                foreach (DbDataRecord record in reader)
+                {
+                    // Create new BandGenre
+                    BandGenre bandgenre = new BandGenre();
+
+                    // Get ID
+                    if (DBNull.Value.Equals(record["ID"])) bandgenre.ID = -1;
+                    else bandgenre.ID = Convert.ToInt32(record["ID"]);
+
+                    // Get BandID
+                    if (DBNull.Value.Equals(record["BandID"])) bandgenre.BandID = -1;
+                    else bandgenre.BandID = Convert.ToInt32(record["BandID"]);
+
+                    // Get GenreID
+                    if (DBNull.Value.Equals(record["GenreID"])) bandgenre.GenreID = -1;
+                    else bandgenre.GenreID = Convert.ToInt32(record["GenreID"]);
+
+                    // Add BandGenre
+                    result.Add(bandgenre);
+                }
+                return result;
+            }
+
+                // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+
+                return new ObservableCollection<BandGenre>();
+            }
+        }
+
+        public static int AddBandGenre(BandGenre bandgenre)
+        {
+            try
+            {
+                // Add to db
+                DbParameter param1 = Database.AddParameter("@bandid", bandgenre.BandID);
+                DbParameter param2 = Database.AddParameter("@genreid", bandgenre.GenreID);
+                DbDataReader reader = Database.GetData("INSERT INTO bandgenre(BandID, GenreID) VALUES(@bandid, @genreid); SELECT LAST_INSERT_ID() AS ID;", param1, param2);
+                foreach (DbDataRecord record in reader)
+                {
+                    // Get ID
+                    if (DBNull.Value.Equals(record["ID"])) bandgenre.ID = -1;
+                    else bandgenre.ID = Convert.ToInt32(record["ID"]);
+                }
+                return bandgenre.ID;
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return -1;
+        }
+
+        public static void DeleteBandGenre(BandGenre bandGenre)
+        {
+           try
+            {
+                // Add to db
+                DbParameter param = Database.AddParameter("@id", bandGenre.ID);
+                int affectedRows = Database.ModifyData("DELETE FROM bandgenre WHERE id = @id", param);
+                if (affectedRows == 0) return;
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        /*private static ObservableCollection<BandGenre> _bandgenres = null;
 
         public static ObservableCollection<BandGenre> GetBandGenres()
         {
@@ -170,6 +253,6 @@ namespace FestivalAdministration.Model
                 Console.WriteLine(ex.Message);
             }
         }
-
+        */
     }
 }

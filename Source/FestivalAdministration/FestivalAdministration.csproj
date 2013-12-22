@@ -66,6 +66,7 @@
     <Compile Include="Converter\DoubleToPriceStringConverter.cs" />
     <Compile Include="Converter\IDtoContactTypeIndexConverter.cs" />
     <Compile Include="Converter\IDtoContactTypeConverter.cs" />
+    <Compile Include="Converter\IDtoGenreConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeIndexConverter.cs" />
     <Compile Include="Converter\ImagePathToByteArrayConverter.cs" />
