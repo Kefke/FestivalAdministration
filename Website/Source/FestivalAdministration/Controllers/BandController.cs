@@ -12,12 +12,14 @@ namespace FestivalAdministration.Controllers
         //
         // GET: /Band/
 
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(BandSQLRepository.GetBands());
         }
 
-        public ActionResult GetBand(int bandID)
+        [AllowAnonymous]
+        public ActionResult Detail(int bandID)
         {
             return View(BandSQLRepository.GetBand(bandID));
         }

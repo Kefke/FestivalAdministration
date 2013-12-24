@@ -23,8 +23,55 @@
         <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" width="250" height="250" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
     </div>
 
+    @if(Model.TimeSlots.Count == 0)
+    {
     <div class="display-label">
-         @Html.DisplayNameFor(model => model.Genres)
+        Date:
+    </div>
+    <div class="display-field">
+        <div>To Be Anounced</div>
+    </div>
+    } else if(Model.TimeSlots.Count == 1)
+    {
+    <div class="display-label">
+        Date:
+    </div>
+    <div class="display-field">
+        <div>@Model.TimeSlots[0].DateToString()</div>
+        <div>@Model.TimeSlots[0].TimeToString()</div>
+    </div>
+    } else {
+    <div class="display-label">
+        Dates:
+    </div>
+    
+    <div class="display-field">
+        <ul>
+        @foreach (var item in Model.TimeSlots)
+        {
+            <li>
+                @*<div>Date: </div>*@
+                <div>@item.DateToString()</div>
+                @*<div>Time: </div>*@
+                <div>@item.TimeToString()</div>
+            </li>
+        }
+        </ul>
+    </div>
+    }
+    <br />
+
+    @if(Model.Genres.Count == 1)
+    {
+    <div class="display-label">
+        Genre:
+    </div>
+    <div class="display-field">
+        @Model.Genres[0].Name
+    </div>
+    } else {
+    <div class="display-label">
+        Genres:
     </div>
     <div class="display-field">
         <ul>
@@ -34,6 +81,7 @@
         }
         </ul>
     </div>
+    }
     <br />
 
     <div class="display-label">
@@ -61,7 +109,6 @@
         @*@Html.DisplayFor(model => model.Facebook)*@
     </div>
 </fieldset>
-@*<p>
-    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+<p>
     @Html.ActionLink("Back to List", "Index")
-</p>*@
+</p>

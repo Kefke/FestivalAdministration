@@ -41,6 +41,35 @@ namespace FestivalAdministration.Models.DAL
             return result;
         }
 
+        public static Stage GetStage(int ID)
+        {
+            Stage stage = new Stage();
+            try
+            {
+                // Get data
+                DbParameter param = Database.AddParameter("@id", ID);
+                DbDataReader reader = Database.GetData("SELECT * FROM stage WHERE ID = @id", param);
+                foreach (DbDataRecord record in reader)
+                {
+                    // Get ID
+                    if (DBNull.Value.Equals(record["ID"])) stage.ID = -1;
+                    else stage.ID = Convert.ToInt32(record["ID"]);
+
+                    // Get Name
+                    if (DBNull.Value.Equals(record["Name"])) stage.Name = "";
+                    else stage.Name = record["Name"].ToString();
+                }
+                return stage;
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
+        }
+
         /*public static int AddStage(Stage stage)
         {
             // If _Stage is null, create the Observable Collection

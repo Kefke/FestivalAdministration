@@ -103,13 +103,10 @@ namespace FestivalAdministration.Controllers
 							db.UserProperties.Add(new UserProperty
 							{
 								UserId = userId,
-								UserName = model.UserName/*,
-								Age = model.Age,
+								UserName = model.UserName,
 								Email = model.Email,
-								Facebook = model.Facebook,
-								Rate = model.Rate,
 								LastName = model.LastName,
-								FirstName = model.FirstName,*/
+								FirstName = model.FirstName,
 							});
 							db.SaveChanges();
 						}
@@ -196,12 +193,9 @@ namespace FestivalAdministration.Controllers
 				{
 					model.PropertyModel = new PropertyModel
 					{
-						Age = userProperties.Age,
 						Email = userProperties.Email,
-						Facebook = userProperties.Facebook,
 						FirstName = userProperties.FirstName,
 						LastName = userProperties.LastName,
-						Rate = userProperties.Rate,
 					};
 				}
 			}
@@ -244,12 +238,9 @@ namespace FestivalAdministration.Controllers
 								db.UserProperties.Add(userProperty);
 							}
 
-							userProperty.Age = model.PropertyModel.Age;
 							userProperty.Email = model.PropertyModel.Email;
-							userProperty.Facebook = model.PropertyModel.Facebook;
 							userProperty.FirstName = model.PropertyModel.FirstName;
 							userProperty.LastName = model.PropertyModel.LastName;
-							userProperty.Rate = model.PropertyModel.Rate;
 
 							changePasswordSucceeded = db.SaveChanges() > 0;
 						}

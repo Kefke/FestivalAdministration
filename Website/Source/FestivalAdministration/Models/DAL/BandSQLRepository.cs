@@ -47,6 +47,9 @@ namespace FestivalAdministration.Models.DAL
                     // Get Genres
                     band.Genres = GenreSQLRepository.GetGenresFromBand(band.ID);
 
+                    //Get Timeslots
+                    band.TimeSlots = TimeSlotSQLRepository.GetTimeSlotFromBand(band.ID);
+
                     bands.Add(band);
                 }
                 
@@ -99,6 +102,9 @@ namespace FestivalAdministration.Models.DAL
                 }
                 // Get Genres
                 band.Genres = GenreSQLRepository.GetGenresFromBand(ID);
+
+                //Get Timeslots
+                band.TimeSlots = TimeSlotSQLRepository.GetTimeSlotFromBand(band.ID);
 
                 return band;
             }

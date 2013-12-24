@@ -203,9 +203,11 @@
     <Compile Include="Models\DAL\BandSQLRepository.cs" />
     <Compile Include="Models\DAL\GenreSQLRepository.cs" />
     <Compile Include="Models\DAL\StageSQLRepository.cs" />
+    <Compile Include="Models\DAL\TimeSlotSQLRepository.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Stage.cs" />
+    <Compile Include="Models\TimeSlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -334,7 +336,7 @@
     <Content Include="Views\Web.config" />
     <Content Include="Views\Account\_ManagePartial.cshtml" />
     <Content Include="Views\Stage\Index.cshtml" />
-    <Content Include="Views\Band\GetBand.cshtml" />
+    <Content Include="Views\Band\Detail.cshtml" />
     <Content Include="Views\Band\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
