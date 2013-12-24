@@ -56,24 +56,6 @@ namespace FestivalAdministration.Models
 			set;
 		}
 
-		public string Facebook
-		{
-			get;
-			set;
-		}
-
-		public int? Age
-		{
-			get;
-			set;
-		}
-
-		public double? Rate
-		{
-			get;
-			set;
-		}
-
 		public string LastName
 		{
 			get;
@@ -174,42 +156,27 @@ namespace FestivalAdministration.Models
 			set;
 		}
 
-		/*[DataType(DataType.EmailAddress)]
+        [Required]
+		[DataType(DataType.EmailAddress)]
 		public string Email
 		{
 			get;
 			set;
 		}
 
-		public string Facebook
-		{
-			get;
-			set;
-		}
-
-		public int Age
-		{
-			get;
-			set;
-		}
-
-		public double? Rate
-		{
-			get;
-			set;
-		}
-
+        [Required]
 		public string LastName
 		{
 			get;
 			set;
 		}
-
+        
+        [Required]
 		public string FirstName
 		{
 			get;
 			set;
-		}*/
+		}
 	}
 
 	public class ExternalLogin

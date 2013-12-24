@@ -1,0 +1,46 @@
+﻿@model IEnumerable<FestivalAdministration.Models.Band>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Bands</h2>
+
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Picture)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Twitter)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Facebook)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            <img src="data:image;base64,@System.Convert.ToBase64String(item.Picture)" width="100" height="100" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Twitter)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Facebook)
+        </td>
+        <td>
+            @Html.ActionLink("Details", "GetBand", new { bandID=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

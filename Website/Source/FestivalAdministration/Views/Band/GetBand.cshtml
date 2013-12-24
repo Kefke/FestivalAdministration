@@ -1,0 +1,67 @@
+﻿@model FestivalAdministration.Models.Band
+
+@{
+    ViewBag.Title = "Band Information - "+@Model.Name;
+}
+
+<h2>@Model.Name</h2>
+
+<fieldset>
+    <legend>Band</legend>
+
+    @*<div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Picture)
+    </div>*@
+    <div class="display-field">
+        <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" width="250" height="250" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Genres)
+    </div>
+    <div class="display-field">
+        <ul>
+        @foreach (FestivalAdministration.Models.Genre genre in Model.Genres)
+        {
+            <li>@genre.Name</li>
+        }
+        </ul>
+    </div>
+    <br />
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <br />
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Twitter)
+    </div>
+    <div class="display-field">
+        <a href="@Model.Twitter">@Model.Twitter</a>
+        @*@Html.DisplayFor(model => model.Twitter)*@
+    </div>
+    <br />
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Facebook)
+    </div>
+    <div class="display-field">
+        <a href="@Model.Facebook">@Model.Facebook</a>
+        @*@Html.DisplayFor(model => model.Facebook)*@
+    </div>
+</fieldset>
+@*<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>*@

@@ -18,7 +18,7 @@ namespace FestivalAdministration
 				url: "{controller}/{action}/{id}",
 				defaults: new
 				{
-					controller = "Home",
+					controller = "Band",
 					action = "Index",
 					id = UrlParameter.Optional
 				},

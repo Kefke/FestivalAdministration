@@ -33,7 +33,7 @@ namespace MySqlSimpleMembership.Dac
 			set;
 		}
 
-		public string Facebook
+		/*public string Facebook
 		{
 			get;
 			set;
@@ -49,7 +49,7 @@ namespace MySqlSimpleMembership.Dac
 		{
 			get;
 			set;
-		}
+		}*/
 
 		public string LastName
 		{

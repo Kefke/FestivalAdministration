@@ -11,17 +11,14 @@ namespace MySqlSimpleMembership.Dac
 	{
 		protected override void Seed(MySqlSimpleMembershipDbContext db)
 		{
-			db.UserProperties.Add(new UserProperty
+			/*db.UserProperties.Add(new UserProperty
 			{
 				UserId = 1,
 				UserName = "admin",
-				Age = 40,
 				Email = "xyz3710@gmail.com",
-				Facebook = "http://facebook.com/xyz37",
-				Rate = 100,
 				LastName = "Kim",
-				FirstName = "Ki Won",
-			});
+				FirstName = "Ki Won"
+			});*/
 		}
 	}
 }
