@@ -65,6 +65,14 @@ namespace FestivalAdministration.Models
             get { return _genres; }
             set { _genres = value; }
         }
+
+        private List<TimeSlot> _timeslots;
+
+        public List<TimeSlot> TimeSlots
+        {
+            get { return _timeslots; }
+            set { _timeslots = value; }
+        }
         
 
         /*private static ObservableCollection<Band> _Bands = null;

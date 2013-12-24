@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 23 dec 2013 om 21:19
+-- Genereertijd: 24 dec 2013 om 23:33
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -45,14 +45,11 @@ CREATE TABLE IF NOT EXISTS `userprofile` (
   `UserId` int(11) NOT NULL AUTO_INCREMENT,
   `UserName` longtext NOT NULL,
   `Email` longtext,
-  `Facebook` longtext,
-  `Age` int(11) DEFAULT NULL,
-  `Rate` double DEFAULT NULL,
   `LastName` longtext,
   `FirstName` longtext,
   `Discriminator` varchar(128) CHARACTER SET utf8 NOT NULL,
   PRIMARY KEY (`UserId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=5 ;
 
 -- --------------------------------------------------------
 
@@ -111,14 +108,7 @@ CREATE TABLE IF NOT EXISTS `webpages_roles` (
   `RoleId` int(11) NOT NULL AUTO_INCREMENT,
   `RoleName` varchar(256) CHARACTER SET utf8 DEFAULT NULL,
   PRIMARY KEY (`RoleId`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=2 ;
-
---
--- Gegevens worden uitgevoerd voor tabel `webpages_roles`
---
-
-INSERT INTO `webpages_roles` (`RoleId`, `RoleName`) VALUES
-(1, 'Administrators');
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
 
 -- --------------------------------------------------------
 

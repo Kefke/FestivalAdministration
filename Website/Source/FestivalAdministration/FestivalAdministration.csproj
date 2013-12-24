@@ -194,6 +194,7 @@
     <Compile Include="Controllers\BandController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\StageController.cs" />
+    <Compile Include="Controllers\TicketController.cs" />
     <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -203,10 +204,14 @@
     <Compile Include="Models\DAL\BandSQLRepository.cs" />
     <Compile Include="Models\DAL\GenreSQLRepository.cs" />
     <Compile Include="Models\DAL\StageSQLRepository.cs" />
+    <Compile Include="Models\DAL\TicketSQLRepository.cs" />
+    <Compile Include="Models\DAL\TicketTypeSQLRepository.cs" />
     <Compile Include="Models\DAL\TimeSlotSQLRepository.cs" />
     <Compile Include="Models\Database.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Stage.cs" />
+    <Compile Include="Models\Ticket.cs" />
+    <Compile Include="Models\TicketType.cs" />
     <Compile Include="Models\TimeSlot.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -338,6 +343,8 @@
     <Content Include="Views\Stage\Index.cshtml" />
     <Content Include="Views\Band\Detail.cshtml" />
     <Content Include="Views\Band\Index.cshtml" />
+    <Content Include="Views\Ticket\Overview.cshtml" />
+    <Content Include="Views\Ticket\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
