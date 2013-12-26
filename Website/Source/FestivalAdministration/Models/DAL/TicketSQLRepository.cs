@@ -92,7 +92,7 @@ namespace FestivalAdministration.Models.DAL
                     else ticket.Amount = Convert.ToInt32(record["Amount"].ToString());
 
                     // Get TicketType
-                    TicketTypeSQLRepository.GetTicketType(ticket.TicketTypeID);
+                    ticket.TicketType = TicketTypeSQLRepository.GetTicketType(ticket.TicketTypeID);
 
                     tickets.Add(ticket);
                 }
@@ -105,6 +105,26 @@ namespace FestivalAdministration.Models.DAL
                 Console.WriteLine(ex.Message);
 
                 return null;
+            }
+        }
+
+        public static void AddTicket(Ticket ticket)
+        {
+            try
+            {
+                // Add to db
+                DbParameter param1 = Database.AddParameter("@ticketholder", ticket.TicketHolder);
+                DbParameter param2 = Database.AddParameter("@ticketholderemail", ticket.TicketHolderEmail);
+                DbParameter param3 = Database.AddParameter("@tickettype", ticket.TicketTypeID);
+                DbParameter param4 = Database.AddParameter("@amount", ticket.Amount);
+                
+                Database.ModifyData("INSERT INTO ticket(TicketHolder, TicketHolderEmail, TicketType, Amount) VALUES(@ticketholder, @ticketholderemail, @tickettype, @amount)", param1, param2, param3, param4);
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
             }
         }
     }
