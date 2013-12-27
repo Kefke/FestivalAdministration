@@ -15,7 +15,7 @@ namespace FestivalAdministration.Models.DAL
             try
             {
                 // Get data
-                DbDataReader reader = Database.GetData("SELECT * FROM ticket");
+                DbDataReader reader = Database.GetData("SELECT * FROM ticket ORDER BY TicketHolder");
                 foreach (DbDataRecord record in reader)
                 {
                     // Create new Ticket
@@ -42,7 +42,7 @@ namespace FestivalAdministration.Models.DAL
                     else ticket.Amount = Convert.ToInt32(record["Amount"].ToString());
 
                     // Get TicketType
-                    TicketTypeSQLRepository.GetTicketType(ticket.TicketTypeID);
+                    ticket.TicketType = TicketTypeSQLRepository.GetTicketType(ticket.TicketTypeID);
 
                     // Add _Tickets
                     Tickets.Add(ticket);

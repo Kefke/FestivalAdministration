@@ -200,7 +200,9 @@ namespace FestivalAdministration.Controllers
         [Authorize(Roles = "Administrators")]
         public ActionResult Overview()
         {
-            return View("Overview",TicketSQLRepository.GetTickets());
+            ViewBag.Tickets = TicketSQLRepository.GetTickets();
+            ViewBag.Types = TicketTypeSQLRepository.GetTicketTypes();
+            return View("Overview");
         }
 
     }

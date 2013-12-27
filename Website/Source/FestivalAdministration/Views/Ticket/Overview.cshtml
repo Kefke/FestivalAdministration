@@ -1,51 +1,50 @@
-﻿@model IEnumerable<FestivalAdministration.Models.Ticket>
-
-@{
+﻿@{
     ViewBag.Title = "Admin - Ordered Tickets";
 }
 
-<h2>Ordered Tickets</h2>
+<h2>Ticket Types</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table>
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketHolder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketHolderEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th></th>
+        <th>Type</th>
+        <th>Price</th>
+        <th>Available</th>
+        <th>Left</th>
+        <th>Sold</th>
+        <th>Money</th>
     </tr>
-
-@foreach (var item in Model) {
+@foreach (var item in ViewBag.Types)
+{
+    int sold = @item.AvailableTickets - @item.TicketsLeft;
     <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketHolder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketHolderEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketType)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
+        <td>@item.Name</td>
+        <td>@item.Price euro</td>
+        <td>@item.AvailableTickets</td>
+        <td>@item.TicketsLeft</td>
+        <td>@sold</td>
+        <td>@(sold*item.Price) euro</td>
     </tr>
 }
+</table>
 
+<h2>Customers</h2>
+
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Type</th>
+        <th>Quantity</th>
+        <th>Money</th>
+    </tr>
+@foreach (var item in ViewBag.Tickets)
+{
+    <tr>
+        <td>@item.TicketHolder</td>
+        <td>@item.TicketHolderEmail</td>
+        <td>@item.TicketType.Name</td>
+        <td>@item.Amount</td>
+        <td>@(item.TicketType.Price*item.Amount) euro</td>
+    </tr>
+}
 </table>
