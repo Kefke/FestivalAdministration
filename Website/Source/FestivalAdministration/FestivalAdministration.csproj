@@ -351,6 +351,7 @@
     <Content Include="Views\Error.cshtml" />
     <Content Include="Views\Band\Error.cshtml" />
     <Content Include="Views\Home\Location.cshtml" />
+    <Content Include="Views\Ticket\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

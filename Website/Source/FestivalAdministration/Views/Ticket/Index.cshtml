@@ -7,11 +7,11 @@
 <h2>Ordered Tickets</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Order New", "Order")
 </p>
 <table>
     <tr>
-        <th>
+        @*<th>
             @Html.DisplayNameFor(model => model.TicketHolder)
         </th>
         <th>
@@ -22,21 +22,28 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Amount)
+        </th>*@
+        <th>
+            Type
         </th>
         <th>
-            Total Price
+            Amount
         </th>
-        <th></th>
+        <th>
+            Price
+        </th>
+        @*<th></th>*@
     </tr>
 
+    @{ double totalPrice = 0;}
 @foreach (var item in Model) {
     <tr>
-        <td>
+        @*<td>
             @Html.DisplayFor(modelItem => item.TicketHolder)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TicketHolderEmail)
-        </td>
+        </td>*@
         <td>
             @*@Html.DisplayFor(modelItem => item.TicketType.Name)*@
             @item.TicketType.Name
@@ -45,14 +52,26 @@
             @Html.DisplayFor(modelItem => item.Amount)
         </td>
         <td>
-            @(item.TicketType.Price*item.Amount) euro
+            @{ 
+               double price = item.TicketType.Price*item.Amount;
+               totalPrice += price;
+            }
+            @price euro
         </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
-        </td>
+        @*<td>
+            @Html.ActionLink("Details", "Details", new { id=item.ID })
+        </td>*@
     </tr>
 }
 
 </table>
+
+@if (Model.Count() > 1)
+{
+<p>
+    Total Price: 
+</p>
+<p>
+    @totalPrice euro
+</p>
+}

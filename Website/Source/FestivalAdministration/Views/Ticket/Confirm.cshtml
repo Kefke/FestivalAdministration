@@ -1,0 +1,63 @@
+﻿@model FestivalAdministration.Models.Ticket
+
+@{
+    ViewBag.Title = "Confirm";
+}
+
+<h2>Confirm</h2>
+
+<fieldset>
+    <legend>Ticket</legend>
+
+    <div class="display-label">
+        Name
+    </div>
+    <div class="display-field">
+        @ViewBag.Name
+    </div>
+
+    <div class="display-label">
+        Email
+    </div>
+    <div class="display-field">
+        @ViewBag.Email
+    </div>
+
+    <div class="display-label">
+        Ticket Type
+    </div>
+    <div class="display-field">
+        @ViewBag.Type.Name
+    </div>
+
+    <div class="display-label">
+        Amount
+    </div>
+    <div class="display-field">
+        @ViewBag.Amount
+    </div>
+
+    <div class="display-label">
+        Total Price
+    </div>
+    <div class="display-field">
+        @(ViewBag.Type.Price * ViewBag.Amount) euro
+    </div>
+</fieldset>
+<p>
+    @using (Html.BeginForm("Order", "Ticket", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("TicketType", (object)ViewBag.Type.ID)
+    @Html.Hidden("Amount", (object)ViewBag.Amount)
+        <input type="submit" value="Back" />
+    }
+
+    @using (Html.BeginForm("Save", "Ticket", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+    @Html.Hidden("TicketType", (object)ViewBag.Type.ID)
+    @Html.Hidden("Amount", (object)ViewBag.Amount)
+        <input type="submit" value="Save" />
+    }
+</p>

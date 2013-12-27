@@ -50,15 +50,16 @@ namespace FestivalAdministration.Controllers
         [Authorize]
         public ActionResult Order(int? TicketType, uint? Amount)
         {
-            // Check input
+            /*// Check input
             bool valid = true;
             if (!TicketType.HasValue) valid = false;
             if (!Amount.HasValue) valid = false;
             else if (Amount <= 0) valid = false;
             else ViewBag.Amount = Amount;
+            if (ViewBag.Left != null) valid = false;
 
-            if (valid)
-            {
+            /*if (valid)
+            {*/
                 /*// Get Customer Details
                 string email = "";
                 string name = "";
@@ -75,8 +76,12 @@ namespace FestivalAdministration.Controllers
 
                 //TicketSQLRepository.AddTicket(new Ticket() { TicketHolder = /*"customer1"*/name, TicketHolderEmail = /*"customer1@test.com"*/email, TicketTypeID = TicketType.Value, Amount = (int)Amount.Value });
                 //return Index();
-                return Confirm(TicketType, Amount);
-            }
+                /*return Confirm(TicketType, Amount);
+            }*/
+
+            if (Amount.HasValue) 
+                if (Amount > 0) 
+                    ViewBag.Amount = Amount;
 
             List<TicketType> ticketTypes = TicketTypeSQLRepository.GetTicketTypes();
             if (ticketTypes == null) return View();
@@ -89,8 +94,8 @@ namespace FestivalAdministration.Controllers
                 item.Text = type.Name;
                 item.Value = type.ID.ToString();
 
-                if (TicketType != null)
-                    if (TicketType == type.ID)
+                if (TicketType.HasValue)
+                    if (TicketType.Value == type.ID)
                         item.Selected = true;
 
                 cboTicketType.Add(item);
@@ -99,6 +104,7 @@ namespace FestivalAdministration.Controllers
             return View("Order"/*new Ticket()*/);
         }
 
+        [HttpPost]
         [Authorize]
         public ActionResult Confirm(int? TicketType, uint? Amount)
         {
@@ -109,7 +115,86 @@ namespace FestivalAdministration.Controllers
             else if (Amount <= 0) valid = false;
             
             if (!valid) return Order(TicketType, Amount);
+
+            TicketType tickettype = TicketTypeSQLRepository.GetTicketType(TicketType.Value);
+            if (tickettype == null) return Order(null, Amount);
+
+            int ticketsLeft = tickettype.TicketsLeft;/*tickettype.AvailableTickets - TicketSQLRepository.GetNumberOfTicketsByType(TicketType.Value);*/
+            if (Amount > ticketsLeft)
+            {
+                ViewBag.left = ticketsLeft;
+                return Order(TicketType, Amount);
+            }
+
+            // Fill ViewBag with info
+            using (var db = MySqlSimpleMembershipDbContext.CreateContext())
+            {
+                var userProperties = db.UserProperties.SingleOrDefault(x => x.UserName == User.Identity.Name);
+
+                if (userProperties != null)
+                {
+                    ViewBag.Name = userProperties.LastName + " " + userProperties.FirstName;
+                    ViewBag.Email = userProperties.Email;
+                }
+            }
+
+            ViewBag.Type = tickettype;
+            ViewBag.Amount = Amount.Value;
+
             return View("Confirm");
+        }
+
+        [HttpPost]
+        [Authorize]
+        public ActionResult Save(int? TicketType, uint? Amount)
+        {
+            // Check input
+            bool valid = true;
+            if (!TicketType.HasValue) valid = false;
+            if (!Amount.HasValue) valid = false;
+            else if (Amount <= 0) valid = false;
+
+            if (!valid) return Order(TicketType, Amount);
+
+            TicketType tickettype = TicketTypeSQLRepository.GetTicketType(TicketType.Value);
+            if (tickettype == null) return Order(null, Amount);
+
+            int ticketsLeft = tickettype.TicketsLeft;/*tickettype.AvailableTickets - TicketSQLRepository.GetNumberOfTicketsByType(TicketType.Value);*/
+            if (Amount > ticketsLeft)
+            {
+                ViewBag.left = ticketsLeft;
+                return Order(TicketType, Amount);
+            }
+
+            // Reserve ticket in database
+            TicketTypeSQLRepository.UpdateTicketTypeLeft(tickettype.ID, ticketsLeft-(int)Amount);
+            tickettype = TicketTypeSQLRepository.GetTicketType(tickettype.ID);
+            // Overbooked
+            if (tickettype.TicketsLeft < 0)
+            {
+                TicketTypeSQLRepository.UpdateTicketTypeLeft(tickettype.ID, tickettype.TicketsLeft + (int)Amount);
+                ViewBag.left = ticketsLeft;
+                return Order(TicketType, Amount);
+            }
+
+            // Get data to create the ticket
+            string name = "";
+            string email = "";
+            using (var db = MySqlSimpleMembershipDbContext.CreateContext())
+            {
+                var userProperties = db.UserProperties.SingleOrDefault(x => x.UserName == User.Identity.Name);
+
+                if (userProperties != null)
+                {
+                    name = userProperties.LastName + " " + userProperties.FirstName;
+                    email = userProperties.Email;
+                }
+            }
+
+            // Add the ticket
+            TicketSQLRepository.AddTicket(new Ticket() { TicketHolder = name, TicketHolderEmail = email, TicketTypeID = tickettype.ID, Amount = (int)Amount });
+
+            return Index();
         }
 
         [Authorize(Roles = "Administrators")]

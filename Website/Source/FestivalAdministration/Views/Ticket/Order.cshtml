@@ -6,7 +6,7 @@
 
 <h2>Order new ticket</h2>
 
-@using (Html.BeginForm("Order", "Ticket", FormMethod.Post)) {
+@using (Html.BeginForm("Confirm", "Ticket", FormMethod.Post)) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
 
@@ -49,6 +49,13 @@
             @Html.ValidationMessageFor(model => model.Amount)*@
             @Html.Editor("Amount")
             @Html.ValidationMessage("Amount", "Please insert a number greater than 0")
+
+            @if (ViewBag.Left != null)
+            {
+            <div class="error">
+                Oops, there are only @ViewBag.Left tickets left.
+            </div>
+            }
         </div>
 
         <p>

@@ -99,5 +99,23 @@ namespace FestivalAdministration.Models.DAL
                 return null;
             }
         }
+
+        public static void UpdateTicketTypeLeft(int ticketTypeID, int left)
+        {
+            try
+            {
+                // Update db
+                DbParameter param1 = Database.AddParameter("@id", ticketTypeID);
+                DbParameter param2 = Database.AddParameter("@left", left);
+                int affectedRows = Database.ModifyData("UPDATE tickettype SET TicketsLeft = @left WHERE id = @id", param1, param2);
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
     }
 }
