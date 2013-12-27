@@ -20,7 +20,7 @@
          @Html.DisplayNameFor(model => model.Picture)
     </div>*@
     <div class="display-field">
-        <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" width="250" height="250" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
+        <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" alt="@Model.Name" width="250" height="250" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
     </div>
 
     @if(Model.TimeSlots.Count == 0)

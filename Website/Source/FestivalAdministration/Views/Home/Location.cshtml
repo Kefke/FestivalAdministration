@@ -1,0 +1,50 @@
+﻿@model FestivalAdministration.Models.Festival
+
+@{
+    ViewBag.Title = "Location";
+}
+
+<h2>Location</h2>
+
+<fieldset>
+    <legend>Festival</legend>
+
+    @*<div class="display-label">
+         @Html.DisplayNameFor(model => model.Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>*@
+
+    <div class="display-label">
+         @*@Html.DisplayNameFor(model => model.Street)*@
+        Address
+    </div>
+    @if (Model == null) { 
+        <div class="display-field">
+            To Be Anounced 
+        </div>
+    } else {
+        <div class="display-field">
+            @Html.DisplayFor(model => model.Street) 
+        </div>
+
+        <div class="display-field">
+            @Html.DisplayFor(model => model.City)
+        </div> 
+        }
+    
+       
+@*
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.City)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.City)
+    </div>*@
+</fieldset>
+@if (Model != null)
+{
+    string location = Model.Street + "," + Model.City;
+<img src="http://maps.googleapis.com/maps/api/staticmap?center=@location&zoom=12&size=400x400&markers=@location&sensor=false" />
+}

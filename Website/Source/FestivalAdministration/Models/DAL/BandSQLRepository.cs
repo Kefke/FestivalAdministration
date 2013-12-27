@@ -67,8 +67,6 @@ namespace FestivalAdministration.Models.DAL
 
         public static Band GetBand(int ID)
         {
-            Band band = new Band();
-
             try
             {
                 // Get data
@@ -76,6 +74,8 @@ namespace FestivalAdministration.Models.DAL
                 DbDataReader reader = Database.GetData("SELECT * FROM band WHERE ID = @id", param);
                 foreach (DbDataRecord record in reader)
                 {
+                    Band band = new Band();
+
                     // Get ID
                     if (DBNull.Value.Equals(record["ID"])) band.ID = -1;
                     else band.ID = Convert.ToInt32(record["ID"]);
@@ -99,14 +99,15 @@ namespace FestivalAdministration.Models.DAL
                     // Get Description
                     if (DBNull.Value.Equals(record["Description"])) band.Description = "";
                     else band.Description = record["Description"].ToString();
+
+                    // Get Genres
+                    band.Genres = GenreSQLRepository.GetGenresFromBand(ID);
+
+                    //Get Timeslots
+                    band.TimeSlots = TimeSlotSQLRepository.GetTimeSlotFromBand(band.ID);
+
+                    return band;
                 }
-                // Get Genres
-                band.Genres = GenreSQLRepository.GetGenresFromBand(ID);
-
-                //Get Timeslots
-                band.TimeSlots = TimeSlotSQLRepository.GetTimeSlotFromBand(band.ID);
-
-                return band;
             }
 
             // Fail

@@ -127,5 +127,28 @@ namespace FestivalAdministration.Models.DAL
                 Console.WriteLine(ex.Message);
             }
         }
+
+        public static int GetNumberOfTicketsByType(int ticketTypeID)
+        {
+            try
+            {
+                // Get data
+                DbParameter param = Database.AddParameter("@ticketType", ticketTypeID);
+                DbDataReader reader = Database.GetData("SELECT SUM(Amount) AS Amount FROM Ticket WHERE TicketType = @ticketType", param);
+                foreach (DbDataRecord record in reader)
+                {
+                    // Get Amount
+                    if (DBNull.Value.Equals(record["Amount"])) return 0;
+                    else return Convert.ToInt32(record["Amount"].ToString());
+                }
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return 0;
+        }
     }
 }

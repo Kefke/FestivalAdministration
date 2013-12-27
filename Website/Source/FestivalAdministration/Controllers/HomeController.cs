@@ -1,4 +1,6 @@
-﻿using System;
+﻿using FestivalAdministration.Models;
+using FestivalAdministration.Models.DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,7 +17,13 @@ namespace FestivalAdministration.Controllers
 			return View();
 		}
 
-		public ActionResult About()
+        public ActionResult Location()
+        {
+            Festival festival = FestivalSQLRepository.GetFestival();
+            return View("Location", festival);
+        }
+
+		/*public ActionResult About()
 		{
 			ViewBag.Message = "Your app description page.";
 
@@ -27,6 +35,6 @@ namespace FestivalAdministration.Controllers
 			ViewBag.Message = "Your contact page.";
 
 			return View();
-		}
+		}*/
 	}
 }

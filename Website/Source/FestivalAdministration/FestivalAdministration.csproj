@@ -202,12 +202,14 @@
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Band.cs" />
     <Compile Include="Models\DAL\BandSQLRepository.cs" />
+    <Compile Include="Models\DAL\FestivalSQLRepository.cs" />
     <Compile Include="Models\DAL\GenreSQLRepository.cs" />
     <Compile Include="Models\DAL\StageSQLRepository.cs" />
     <Compile Include="Models\DAL\TicketSQLRepository.cs" />
     <Compile Include="Models\DAL\TicketTypeSQLRepository.cs" />
     <Compile Include="Models\DAL\TimeSlotSQLRepository.cs" />
     <Compile Include="Models\Database.cs" />
+    <Compile Include="Models\Festival.cs" />
     <Compile Include="Models\Genre.cs" />
     <Compile Include="Models\Stage.cs" />
     <Compile Include="Models\Ticket.cs" />
@@ -346,6 +348,9 @@
     <Content Include="Views\Ticket\Overview.cshtml" />
     <Content Include="Views\Ticket\Index.cshtml" />
     <Content Include="Views\Ticket\Order.cshtml" />
+    <Content Include="Views\Error.cshtml" />
+    <Content Include="Views\Band\Error.cshtml" />
+    <Content Include="Views\Home\Location.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -12,7 +12,7 @@
         <header>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p class="site-title"><a href="http://xyz37.blog.me" target="_blank">Goto my blog...</a></p>
+                    <p class="site-title">@*<a href="http://xyz37.blog.me" target="_blank">Goto my blog...</a>*@@Html.ActionLink("Home", "Index", "Band")</p>
                 </div>
                 <div class="float-right">
                     <section id="login">
@@ -20,9 +20,12 @@
                     </section>
                     <nav>
                         <ul id="menu">
-                            <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
                             <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
+                            <li>@Html.ActionLink("Home", "Index", "Band")</li>
+                            <li>@Html.ActionLink("Location", "Location", "Home")</li>
+                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
                         </ul>
                     </nav>
                 </div>

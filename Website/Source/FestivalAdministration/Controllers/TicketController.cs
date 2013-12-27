@@ -52,14 +52,14 @@ namespace FestivalAdministration.Controllers
         {
             // Check input
             bool valid = true;
-            if (TicketType == null) valid = false;
-            if (Amount == null) valid = false;
+            if (!TicketType.HasValue) valid = false;
+            if (!Amount.HasValue) valid = false;
             else if (Amount <= 0) valid = false;
             else ViewBag.Amount = Amount;
 
             if (valid)
             {
-                // Get Customer Details
+                /*// Get Customer Details
                 string email = "";
                 string name = "";
                 using (var db = MySqlSimpleMembershipDbContext.CreateContext())
@@ -71,10 +71,11 @@ namespace FestivalAdministration.Controllers
                         email = userProperties.Email;
                         name = userProperties.LastName + " " + userProperties.FirstName;
                     }
-                }
+                }*/
 
-                TicketSQLRepository.AddTicket(new Ticket() { TicketHolder = /*"customer1"*/name, TicketHolderEmail = /*"customer1@test.com"*/email, TicketTypeID = (int)TicketType, Amount = (int)Amount });
-                return Index();
+                //TicketSQLRepository.AddTicket(new Ticket() { TicketHolder = /*"customer1"*/name, TicketHolderEmail = /*"customer1@test.com"*/email, TicketTypeID = TicketType.Value, Amount = (int)Amount.Value });
+                //return Index();
+                return Confirm(TicketType, Amount);
             }
 
             List<TicketType> ticketTypes = TicketTypeSQLRepository.GetTicketTypes();
@@ -96,6 +97,19 @@ namespace FestivalAdministration.Controllers
             }
             ViewBag.TicketType = cboTicketType;
             return View("Order"/*new Ticket()*/);
+        }
+
+        [Authorize]
+        public ActionResult Confirm(int? TicketType, uint? Amount)
+        {
+            // Check input
+            bool valid = true;
+            if (!TicketType.HasValue) valid = false;
+            if (!Amount.HasValue) valid = false;
+            else if (Amount <= 0) valid = false;
+            
+            if (!valid) return Order(TicketType, Amount);
+            return View("Confirm");
         }
 
         [Authorize(Roles = "Administrators")]
