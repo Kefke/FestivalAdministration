@@ -10,39 +10,30 @@
     </head>
     <body>
         <header>
-            <div class="content-wrapper">
-                <div class="float-left">
-                    <p class="site-title">@*<a href="http://xyz37.blog.me" target="_blank">Goto my blog...</a>*@@Html.ActionLink("Home", "Index", "Band")</p>
-                </div>
-                <div class="float-right">
-                    <section id="login">
-                        @Html.Partial("_LoginPartial")
-                    </section>
-                    <nav>
-                        <ul id="menu">
-                            @*<li>@Html.ActionLink("Home", "Index", "Home")</li>
-                            <li>@Html.ActionLink("About", "About", "Home")</li>
-                            <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                            <li>@Html.ActionLink("Home", "Index", "Band")</li>
-                            <li>@Html.ActionLink("Location", "Location", "Home")</li>
-                            <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
-                        </ul>
-                    </nav>
-                </div>
+            <div class="content">
+                <figure>
+                    <img src="~/Images/logo.png"/>
+                </figure>
+                <section id="login">
+                    @Html.Partial("_LoginPartial")
+                </section>
+                <nav>
+                    <ul>
+                        <li>@Html.ActionLink("Home", "Index", "Band")</li>
+                        <li>@Html.ActionLink("Location", "Location", "Home")</li>
+                        <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                    </ul>
+                </nav>
             </div>
         </header>
-        <div id="body">
+        <div>
             @RenderSection("featured", required: false)
-            <section class="content-wrapper main-content clear-fix">
+            <section>
                 @RenderBody()
             </section>
         </div>
         <footer>
-            @*<div class="content-wrapper">
-                <div style="text-align:center;">
-                    <p style="margin:0;">Copyright &copy; @DateTime.Now.Year <a href="http://x10.mine.nu/redmine" target="_blank">HaveSimple.com</a> All Rights Reserved.</p>
-                </div>
-            </div>*@
+            <p>Final Server Side Application - Kevin Aelterman - 2NMCT2</p>
         </footer>
 
         @Scripts.Render("~/bundles/jquery")
