@@ -58,7 +58,7 @@ namespace FestivalAdministration.Controllers
 		{
 			MySqlWebSecurity.Logout();
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index", "Band");
 		}
 
 		//
@@ -116,7 +116,7 @@ namespace FestivalAdministration.Controllers
 					}
 
 
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Band");
 				}
 				catch (MembershipCreateUserException e)
 				{
@@ -467,7 +467,7 @@ namespace FestivalAdministration.Controllers
 			}
 			else
 			{
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index", "Band");
 			}
 		}
 

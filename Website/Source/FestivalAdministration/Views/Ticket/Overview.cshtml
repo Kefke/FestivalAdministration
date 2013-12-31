@@ -5,6 +5,10 @@
 <h1>Ticket Types</h1>
 
 <section class="data">
+@if (ViewBag.Types != null)
+{
+if (ViewBag.Types.Count > 0)
+{
 <table>
     <tr>
         <th>Type</th>
@@ -27,7 +31,17 @@
     </tr>
 }
 </table>
+} else {
+    <p>No TicketTypes found.</p>
+} 
+} else {
+    <p>No TicketTypes found.</p>
+}
 
+@if (ViewBag.Tickets != null)
+{
+if (ViewBag.Tickets.Count > 0)
+{
 <h1>Customers</h1>
 
 <table>
@@ -49,4 +63,10 @@
     </tr>
 }
 </table>
+} else {
+    <p>No Customers found.</p>
+}
+} else {
+    <p>No Customers found.</p>
+}
 </section>

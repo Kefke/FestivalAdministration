@@ -34,11 +34,12 @@ namespace FestivalAdministration.Controllers
                     }
                 }
 
-                if (email == null) return View();
+                if (email == null) return RedirectToAction("Error", "Home");
 
                 // Get Tickets of customer
                 List<Ticket> tickets = TicketSQLRepository.GetTickets(/*"customer1@test.com"*/email);
-                if (tickets == null) return View();
+                tickets = null;
+                if (tickets == null) return RedirectToAction("Error", "Home");
 
                 // Either make new order or show current order(s)
                 if (tickets.Count > 0)
@@ -50,35 +51,7 @@ namespace FestivalAdministration.Controllers
         [Authorize]
         public ActionResult Order(int? TicketType, uint? Amount)
         {
-            /*// Check input
-            bool valid = true;
-            if (!TicketType.HasValue) valid = false;
-            if (!Amount.HasValue) valid = false;
-            else if (Amount <= 0) valid = false;
-            else ViewBag.Amount = Amount;
-            if (ViewBag.Left != null) valid = false;
-
-            /*if (valid)
-            {*/
-                /*// Get Customer Details
-                string email = "";
-                string name = "";
-                using (var db = MySqlSimpleMembershipDbContext.CreateContext())
-                {
-                    var userProperties = db.UserProperties.SingleOrDefault(x => x.UserName == User.Identity.Name);
-
-                    if (userProperties != null)
-                    {
-                        email = userProperties.Email;
-                        name = userProperties.LastName + " " + userProperties.FirstName;
-                    }
-                }*/
-
-                //TicketSQLRepository.AddTicket(new Ticket() { TicketHolder = /*"customer1"*/name, TicketHolderEmail = /*"customer1@test.com"*/email, TicketTypeID = TicketType.Value, Amount = (int)Amount.Value });
-                //return Index();
-                /*return Confirm(TicketType, Amount);
-            }*/
-
+            // Check input
             if (Amount.HasValue) 
                 if (Amount > 0) 
                     ViewBag.Amount = Amount;

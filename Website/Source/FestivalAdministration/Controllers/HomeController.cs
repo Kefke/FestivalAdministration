@@ -10,11 +10,9 @@ namespace FestivalAdministration.Controllers
 {
 	public class HomeController : Controller
 	{
-		public ActionResult Index()
+		public ActionResult Error()
 		{
-			ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-			return View();
+			return View("Error");
 		}
 
         public ActionResult Location()
