@@ -1,28 +1,25 @@
 ﻿@model FestivalAdministration.Models.ChangePropertyModel
 
-<h3>Change your properties.</h3>
+<h3>Change your properties:</h3>
 
 @using (Html.BeginForm("Manage", "Account"))
 {
 	@Html.AntiForgeryToken()
 	@Html.ValidationSummary()
 
-		<fieldset>
-		<legend>Set Password Form</legend>
-		<ol>
-			<li>
-				@Html.LabelFor(m => m.PropertyModel.LastName)
-				@Html.TextBoxFor(m => m.PropertyModel.LastName)
-			</li>
-			<li>
-				@Html.LabelFor(m => m.PropertyModel.FirstName)
-				@Html.TextBoxFor(m => m.PropertyModel.FirstName)
-			</li>
-            <li>
-				@Html.LabelFor(m => m.PropertyModel.Email)
-				@Html.TextBoxFor(m => m.PropertyModel.Email)
-			</li>
-		</ol>
-		<input type="submit" value="Change Properties" />
-	</fieldset>
+	<ol>
+		<li>
+			@Html.LabelFor(m => m.PropertyModel.LastName, "Last Name:")
+			@Html.TextBoxFor(m => m.PropertyModel.LastName)
+		</li>
+		<li>
+			@Html.LabelFor(m => m.PropertyModel.FirstName, "First Name:")
+			@Html.TextBoxFor(m => m.PropertyModel.FirstName)
+		</li>
+        <li>
+			@Html.LabelFor(m => m.PropertyModel.Email, "Email:")
+			@Html.TextBoxFor(m => m.PropertyModel.Email)
+		</li>
+	</ol>
+	<input type="submit" value="Change Properties" />
 }

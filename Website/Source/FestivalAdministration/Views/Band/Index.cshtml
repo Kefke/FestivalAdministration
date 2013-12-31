@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Bands</h2>
+<h1>Bands</h1>
 
 <table>
     <tr>
@@ -51,12 +51,12 @@
         <td>@item.Name</td>
         @if (item.TimeSlots == null)
         {
-        <td>To Be Anounced</td>
-        <td>To Be Anounced</td>
+        <td>TBA</td>
+        <td>TBA</td>
         } else if (item.TimeSlots.Count == 0)
         {
-        <td>To Be Anounced</td>
-        <td>To Be Anounced</td>
+        <td>TBA</td>
+        <td>TBA</td>
         } else if (item.TimeSlots.Count == 1)
         {
         <td>@item.TimeSlots[0].Stage.Name</td>

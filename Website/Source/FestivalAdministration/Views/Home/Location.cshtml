@@ -4,9 +4,9 @@
     ViewBag.Title = "Location";
 }
 
-<h2>Location</h2>
+<h1>Location</h1>
 
-<fieldset>
+@*<fieldset>
     <legend>Festival</legend>
 
     @*<div class="display-label">
@@ -16,35 +16,61 @@
         @Html.DisplayFor(model => model.Name)
     </div>*@
 
-    <div class="display-label">
-         @*@Html.DisplayNameFor(model => model.Street)*@
-        Address
-    </div>
-    @if (Model == null) { 
-        <div class="display-field">
-            To Be Anounced 
-        </div>
-    } else {
-        <div class="display-field">
-            @Html.DisplayFor(model => model.Street) 
-        </div>
+<h2>Address:</h2>
 
-        <div class="display-field">
-            @Html.DisplayFor(model => model.City)
-        </div> 
-        }
-    
-       
+@if (Model == null) { 
+<p>To Be Anounced</p>
+} else {
+<ul>
+    <li>@Html.DisplayFor(model => model.Street)</li>
+    <li>@Html.DisplayFor(model => model.City)</li>
+</ul>
+}
+      
 @*
     <div class="display-label">
          @Html.DisplayNameFor(model => model.City)
     </div>
     <div class="display-field">
         @Html.DisplayFor(model => model.City)
-    </div>*@
-</fieldset>
+    </div>
+</fieldset>*@
 @if (Model != null)
 {
     string location = Model.Street + "," + Model.City;
-<img src="http://maps.googleapis.com/maps/api/staticmap?center=@location&zoom=12&size=400x400&markers=@location&sensor=false" />
+
+<figure id="static-map">   
+    <img src="http://maps.googleapis.com/maps/api/staticmap?center=@location&zoom=12&size=470x300&scale=2&markers=@location&sensor=false" alt="Map" />
+</figure> 
+        
+<div id="dynamic-map"></div>
+    
+<script src="https://maps.googleapis.com/maps/api/js?v=3&sensor=false"></script>
+
+<script>
+    function createMap() {
+        var geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'address': '@location' }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var mapOptions = {
+                    zoom: 12,
+                    center: results[0].geometry.location
+                }
+
+                var dynamicMap = document.getElementById('dynamic-map');
+
+                var map = new google.maps.Map(dynamicMap, mapOptions);
+
+                var marker = new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location,
+                    title: '@Model.Name'
+                });
+            }
+        });
+    }
+
+    google.maps.event.addDomListener(window, 'load', createMap);
+</script>
+
 }

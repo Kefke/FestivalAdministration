@@ -4,111 +4,72 @@
     ViewBag.Title = "Band Information - "+@Model.Name;
 }
 
-<h2>@Model.Name</h2>
+<h1>@Model.Name</h1>
 
-<fieldset>
-    <legend>Band</legend>
+<figure class="bigpicture">
+    <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" alt="@Model.Name" />
+</figure>
 
-    @*<div class="display-label">
-         @Html.DisplayNameFor(model => model.Name)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Name)
-    </div>
-
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Picture)
-    </div>*@
-    <div class="display-field">
-        <img src="data:image;base64,@System.Convert.ToBase64String(Model.Picture)" alt="@Model.Name" width="250" height="250" style="float:right;padding:10px;background-color:#FFF;margin:10px;"/>
-    </div>
-
-    @if(Model.TimeSlots.Count == 0)
+@if(Model.TimeSlots == null)
+{
+<h2>Date:</h2>
+        
+<p>To Be Anounced</p>
+} else if(Model.TimeSlots.Count == 0)
+{
+<h2>Date:</h2>
+        
+<p>To Be Anounced</p>
+} else if(Model.TimeSlots.Count == 1)
+{
+<h2>Date:</h2>
+        
+<p>@Model.TimeSlots[0].DateToString()</p>
+<p>@Model.TimeSlots[0].TimeToString()</p>
+} else {
+<h2>Dates:</h2>    
+<ul>
+    @foreach (var item in Model.TimeSlots)
     {
-    <div class="display-label">
-        Date:
-    </div>
-    <div class="display-field">
-        <div>To Be Anounced</div>
-    </div>
-    } else if(Model.TimeSlots.Count == 1)
-    {
-    <div class="display-label">
-        Date:
-    </div>
-    <div class="display-field">
-        <div>@Model.TimeSlots[0].DateToString()</div>
-        <div>@Model.TimeSlots[0].TimeToString()</div>
-    </div>
-    } else {
-    <div class="display-label">
-        Dates:
-    </div>
+    <li>
+        @*<div>Date: </div>*@
+        <div>@item.DateToString()</div>
+        @*<div>Time: </div>*@
+        <div>@item.TimeToString()</div>
+    </li>
+    }
+</ul>
+}
+
+@if(Model.Genres.Count == 1)
+{
+<h2>Genre:</h2>
     
-    <div class="display-field">
-        <ul>
-        @foreach (var item in Model.TimeSlots)
-        {
-            <li>
-                @*<div>Date: </div>*@
-                <div>@item.DateToString()</div>
-                @*<div>Time: </div>*@
-                <div>@item.TimeToString()</div>
-            </li>
-        }
-        </ul>
-    </div>
-    }
-    <br />
+<p>@Model.Genres[0].Name</p>
+} else {
+<h2>Genres:</h2>
+        
+<ul>
+@foreach (FestivalAdministration.Models.Genre genre in Model.Genres)
+{
+    <li>@genre.Name</li>
+}
+</ul>
+}
 
-    @if(Model.Genres.Count == 1)
-    {
-    <div class="display-label">
-        Genre:
-    </div>
-    <div class="display-field">
-        @Model.Genres[0].Name
-    </div>
-    } else {
-    <div class="display-label">
-        Genres:
-    </div>
-    <div class="display-field">
-        <ul>
-        @foreach (FestivalAdministration.Models.Genre genre in Model.Genres)
-        {
-            <li>@genre.Name</li>
-        }
-        </ul>
-    </div>
-    }
-    <br />
+<h2>Description:</h2>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Description)
-    </div>
-    <div class="display-field">
-        @Html.DisplayFor(model => model.Description)
-    </div>
-    <br />
+<p>@Html.DisplayFor(model => model.Description)</p>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Twitter)
-    </div>
-    <div class="display-field">
-        <a href="@Model.Twitter">@Model.Twitter</a>
-        @*@Html.DisplayFor(model => model.Twitter)*@
-    </div>
-    <br />
+<h2>Twitter:</h2>
 
-    <div class="display-label">
-         @Html.DisplayNameFor(model => model.Facebook)
-    </div>
-    <div class="display-field">
-        <a href="@Model.Facebook">@Model.Facebook</a>
-        @*@Html.DisplayFor(model => model.Facebook)*@
-    </div>
-</fieldset>
+<p><a href="@Model.Twitter">@Model.Twitter</a></p>
+
+<h2>Facebook:</h2>
+
+<p><a href="@Model.Facebook">@Model.Facebook</a></p>
+
+<p />
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

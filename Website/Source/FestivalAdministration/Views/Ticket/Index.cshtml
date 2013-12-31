@@ -4,11 +4,8 @@
     ViewBag.Title = "Ordered Tickets";
 }
 
-<h2>Ordered Tickets</h2>
+<h1>Ordered Tickets</h1>
 
-<p>
-    @Html.ActionLink("Order New", "Order")
-</p>
 <table>
     <tr>
         @*<th>
@@ -68,10 +65,14 @@
 
 @if (Model.Count() > 1)
 {
-<p>
+<h2>
     Total Price: 
-</p>
+</h2>
 <p>
     @totalPrice euro
+</p>
+    
+<p>
+    @Html.ActionLink("Order New", "Order")
 </p>
 }
