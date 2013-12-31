@@ -13,6 +13,7 @@ using MySqlSimpleMembership.Dac;
 using FestivalAdministration.Filters;
 using FestivalAdministration.Models;
 using WebMatrix.WebData;
+using FestivalAdministration.Models.DAL;
 
 namespace FestivalAdministration.Controllers
 {
@@ -238,6 +239,8 @@ namespace FestivalAdministration.Controllers
 								db.UserProperties.Add(userProperty);
 							}
 
+                            TicketSQLRepository.UpdateEmail(userProperty.Email, model.PropertyModel.Email);
+
 							userProperty.Email = model.PropertyModel.Email;
 							userProperty.FirstName = model.PropertyModel.FirstName;
 							userProperty.LastName = model.PropertyModel.LastName;
@@ -261,12 +264,13 @@ namespace FestivalAdministration.Controllers
 					{
 						return RedirectToAction("Manage", new
 						{
-							Message = ManageMessageId.ChangePasswordSuccess
+							Message = /*ManageMessageId.ChangePasswordSuccess*/"Settings are saved"
 						});
 					}
 					else
 					{
-						ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");
+						/*ModelState.AddModelError("", "The current password is incorrect or the new password is invalid.");*/
+                        ModelState.AddModelError("", "The settings could not be saved.");
 					}
 				}
 			}

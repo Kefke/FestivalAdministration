@@ -6,45 +6,23 @@
 
 <h1>Confirm</h1>
 
-<fieldset>
-    <legend>Ticket</legend>
+<h2>Name:</h2>
+<p>@ViewBag.Name</p>
 
-    <div class="display-label">
-        Name
-    </div>
-    <div class="display-field">
-        @ViewBag.Name
-    </div>
+<h2>Email:</h2>
+<p>@ViewBag.Email</p>
 
-    <div class="display-label">
-        Email
-    </div>
-    <div class="display-field">
-        @ViewBag.Email
-    </div>
+<h2>Ticket Type:</h2>
+<p>@ViewBag.Type.Name</p>
+    
+<h2>Amount:</h2>
+<p>@ViewBag.Amount</p>
 
-    <div class="display-label">
-        Ticket Type
-    </div>
-    <div class="display-field">
-        @ViewBag.Type.Name
-    </div>
+<h2>Total Price:</h2>
+<p>@(ViewBag.Type.Price * ViewBag.Amount) euro</p>
 
-    <div class="display-label">
-        Amount
-    </div>
-    <div class="display-field">
-        @ViewBag.Amount
-    </div>
-
-    <div class="display-label">
-        Total Price
-    </div>
-    <div class="display-field">
-        @(ViewBag.Type.Price * ViewBag.Amount) euro
-    </div>
-</fieldset>
-<p>
+<table>
+    <tr>
     @using (Html.BeginForm("Order", "Ticket", FormMethod.Post)) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -52,7 +30,8 @@
     @Html.Hidden("Amount", (object)ViewBag.Amount)
         <input type="submit" value="Back" />
     }
-
+    </tr>
+    <tr>
     @using (Html.BeginForm("Save", "Ticket", FormMethod.Post)) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
@@ -60,4 +39,5 @@
     @Html.Hidden("Amount", (object)ViewBag.Amount)
         <input type="submit" value="Save" />
     }
-</p>
+    </tr>
+</table>

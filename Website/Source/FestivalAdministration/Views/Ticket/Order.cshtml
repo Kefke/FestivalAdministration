@@ -6,13 +6,10 @@
 
 <h1>Order new ticket</h1>
 
+<section class="form">
 @using (Html.BeginForm("Confirm", "Ticket", FormMethod.Post)) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-
-    <fieldset>
-        <legend>Create new order</legend>
-
         @*<div class="editor-label">
             @Html.LabelFor(model => model.TicketHolder)
         </div>
@@ -28,25 +25,23 @@
             @Html.EditorFor(model => model.TicketHolderEmail)
             @Html.ValidationMessageFor(model => model.TicketHolderEmail)
         </div>*@
+    <ul>
+        <li>
+            @*@Html.LabelFor(model => model.TicketType, "Ticket Type:")*@
 
-        <div class="editor-label">
-            @*@Html.LabelFor(model => model.TicketType)*@
-            Ticket Type
-        </div>
-        <div class="editor-field">
             @*@Html.EditorFor(model => model.TicketType)
             @Html.ValidationMessageFor(model => model.TicketType)*@
+            @Html.Label("TicketType", "Ticket Type:")
             @Html.DropDownList("TicketType", null, "--- Choose a Type ---")
             @Html.ValidationMessage("TicketType", "Please select a Ticket Type")
-        </div>
-
-        <div class="editor-label">
-            @*@Html.LabelFor(model => model.Amount)*@
-            Quantity
-        </div>
-        <div class="editor-field">
+        </li>
+        <li>
+            @*@Html.LabelFor(model => model.Amount, "Quantity:")*@
+            
+        
             @*@Html.EditorFor(model => model.Amount)
             @Html.ValidationMessageFor(model => model.Amount)*@
+            @Html.Label("Amount", "Quantity:")
             @Html.Editor("Amount")
             @Html.ValidationMessage("Amount", "Please insert a number greater than 0")
 
@@ -56,13 +51,13 @@
                 Oops, there are only @ViewBag.Left tickets left.
             </div>
             }
-        </div>
-
-        <p>
-            <input type="submit" value="Add Order" />
-        </p>
-    </fieldset>
+        </li>
+    </ul>
+    <p>
+        <input type="submit" value="Add Order" />
+    </p>
 }
+</section>
 
 <div>
     @Html.ActionLink("Back to List", "Index")

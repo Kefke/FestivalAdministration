@@ -128,6 +128,26 @@ namespace FestivalAdministration.Models.DAL
             }
         }
 
+        public static void UpdateTicket(Ticket ticket)
+        {
+           try
+            {
+                // Update db
+                DbParameter param1 = Database.AddParameter("@id", ticket.ID);
+                DbParameter param2 = Database.AddParameter("@ticketholder", ticket.TicketHolder);
+                DbParameter param3 = Database.AddParameter("@ticketholderemail", ticket.TicketHolderEmail);
+                DbParameter param4 = Database.AddParameter("@tickettype", ticket.TicketTypeID);
+                DbParameter param5 = Database.AddParameter("@amount", ticket.Amount);
+                Database.ModifyData("UPDATE ticket SET TicketHolder = @ticketholder, TicketHolderEmail = @ticketholderemail, TicketType = @tickettype, Amount = @amount WHERE id = @id", param1, param2, param3, param4, param5);
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+
         public static int GetNumberOfTicketsByType(int ticketTypeID)
         {
             try
@@ -149,6 +169,17 @@ namespace FestivalAdministration.Models.DAL
                 Console.WriteLine(ex.Message);
             }
             return 0;
+        }
+
+        public static void UpdateEmail(string oldemail, string newemail)
+        {
+            if (oldemail == newemail) return;
+            List<Ticket> tickets = GetTickets(oldemail);
+            foreach (Ticket ticket in tickets)
+            {
+                ticket.TicketHolderEmail = newemail;
+                UpdateTicket(ticket);
+            }
         }
     }
 }

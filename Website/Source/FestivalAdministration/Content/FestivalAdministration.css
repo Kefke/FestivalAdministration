@@ -143,6 +143,13 @@ body>div li {
     border:1px solid #999;
 }
 
+.smallpicture>img {
+    width:100px;
+    height:auto;
+    padding:0;
+    border:1px solid #999;
+}
+
 #static-map {
     width:100%;
 	height:auto;
@@ -169,6 +176,7 @@ body>div li {
     margin:10px auto 0 auto;
 }
 
+select,
 input {
     border: 1px solid #E2E2E2;
     background: #FFF;
@@ -177,6 +185,10 @@ input {
     margin: 5px 0 6px 0;
     padding: 5px;
     width: 100%;
+}
+
+select {
+    width: auto;
 }
 
 input[type="checkbox"] {
@@ -208,6 +220,7 @@ button {
 
 label {
     display:block;
+    font-size:1.2em;
 }
 
 .message-info {
@@ -218,15 +231,15 @@ label {
 
 .message-error {
     clear: both;
-    color: #e80c4d;
+    color: #D31818;
     font-size: 1.1em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
 
 .message-success {
-    color: #7ac0da;
-    font-size: 1.3em;
+    color: #2A6B1D;
+    font-size: 1.2em;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
@@ -238,12 +251,59 @@ label {
 }
 
 .field-validation-error {
-    color: #e80c4d;
+    color: #D31818;
     font-weight: bold;
 }
 
 .field-validation-valid {
     display: none;
+}
+
+/*input.input-validation-error {
+    border: 1px solid #D31818;
+}
+
+input[type="checkbox"].input-validation-error {
+    border: 0 none;
+}*/
+
+.validation-summary-errors {
+    color: #D31818;
+    font-weight: bold;
+    font-size: 1.1em;
+}
+
+.validation-summary-valid {
+    display: none;
+}
+
+.linebreak {
+    white-space:pre-line;
+}
+
+.data {
+    margin:0 auto;
+    text-align:center;
+}
+
+.data table{
+    text-align:center;
+    padding:0 0 0 -5px;
+    margin:0 auto;
+    background-color:#ECF0F0; 
+}
+
+.data th {
+    padding:5px;
+    font-weight:bold;
+    font-size:1em;
+    text-align:center;
+}
+
+.data tr {
+    padding:5px;
+    text-align:center;
+    font-size:1em;
 }
 
 /* Footer */
@@ -261,4 +321,10 @@ footer>p {
     padding:0;
     text-align:center;
     font-size:.8em;
+}
+
+@media only screen and (max-width:600px) {
+    .hideable {
+        display:none;
+    }
 }

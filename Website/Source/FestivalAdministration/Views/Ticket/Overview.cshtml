@@ -4,6 +4,7 @@
 
 <h1>Ticket Types</h1>
 
+<section class="data">
 <table>
     <tr>
         <th>Type</th>
@@ -11,7 +12,7 @@
         <th>Available</th>
         <th>Left</th>
         <th>Sold</th>
-        <th>Money</th>
+        <th class="hideable">Money</th>
     </tr>
 @foreach (var item in ViewBag.Types)
 {
@@ -22,7 +23,7 @@
         <td>@item.AvailableTickets</td>
         <td>@item.TicketsLeft</td>
         <td>@sold</td>
-        <td>@(sold*item.Price) euro</td>
+        <td class="hideable">@(sold*item.Price) euro</td>
     </tr>
 }
 </table>
@@ -32,7 +33,7 @@
 <table>
     <tr>
         <th>Name</th>
-        <th>Email</th>
+        <th class="hideable">Email</th>
         <th>Type</th>
         <th>Quantity</th>
         <th>Money</th>
@@ -41,10 +42,11 @@
 {
     <tr>
         <td>@item.TicketHolder</td>
-        <td>@item.TicketHolderEmail</td>
+        <td class="hideable">@item.TicketHolderEmail</td>
         <td>@item.TicketType.Name</td>
         <td>@item.Amount</td>
         <td>@(item.TicketType.Price*item.Amount) euro</td>
     </tr>
 }
 </table>
+</section>
