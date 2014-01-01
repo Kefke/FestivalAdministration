@@ -32,9 +32,7 @@
     @foreach (var item in Model.TimeSlots)
     {
     <li>
-        @*<div>Date: </div>*@
         <div>@item.DateToString()</div>
-        @*<div>Time: </div>*@
         <div>@item.TimeToString()</div>
     </li>
     }
@@ -69,7 +67,7 @@
 
 <p><a href="@Model.Facebook">@Model.Facebook</a></p>
 
-<p />
+<br />
 <p>
     @Html.ActionLink("Back to List", "Index")
 </p>

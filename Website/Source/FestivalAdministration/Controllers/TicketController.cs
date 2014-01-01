@@ -38,7 +38,6 @@ namespace FestivalAdministration.Controllers
 
                 // Get Tickets of customer
                 List<Ticket> tickets = TicketSQLRepository.GetTickets(/*"customer1@test.com"*/email);
-                tickets = null;
                 if (tickets == null) return RedirectToAction("Error", "Home");
 
                 // Either make new order or show current order(s)

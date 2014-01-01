@@ -20,19 +20,5 @@ namespace FestivalAdministration.Controllers
             Festival festival = FestivalSQLRepository.GetFestival();
             return View("Location", festival);
         }
-
-		/*public ActionResult About()
-		{
-			ViewBag.Message = "Your app description page.";
-
-			return View();
-		}
-
-		public ActionResult Contact()
-		{
-			ViewBag.Message = "Your contact page.";
-
-			return View();
-		}*/
 	}
 }

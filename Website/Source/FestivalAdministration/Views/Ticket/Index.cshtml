@@ -6,59 +6,32 @@
 
 <h1>Ordered Tickets</h1>
 
+@if (Model == null)
+{
+<h2>Error</h2> 
+<p>Could not get the ordered tickets.</p>  
+} else if (Model.Count() == 0){
+<p>No tickets found.</p>  
+} else {
 <section class="data">
 <table>
     <tr>
-        @*<th>
-            @Html.DisplayNameFor(model => model.TicketHolder)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketHolderEmail)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TicketType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>*@
-        <th>
-            Type
-        </th>
-        <th>
-            Amount
-        </th>
-        <th>
-            Price
-        </th>
-        @*<th></th>*@
+        <th>Type</th>
+        <th>Amount</th>
+        <th>Price</th>
     </tr>
 
-    @{ double totalPrice = 0;}
+@{ double totalPrice = 0;}
+
 @foreach (var item in Model) {
     <tr>
-        @*<td>
-            @Html.DisplayFor(modelItem => item.TicketHolder)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TicketHolderEmail)
-        </td>*@
-        <td>
-            @*@Html.DisplayFor(modelItem => item.TicketType.Name)*@
-            @item.TicketType.Name
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Amount)
-        </td>
-        <td>
-            @{ 
-               double price = item.TicketType.Price*item.Amount;
-               totalPrice += price;
-            }
-            @price euro
-        </td>
-        @*<td>
-            @Html.ActionLink("Details", "Details", new { id=item.ID })
-        </td>*@
+        <td>@item.TicketType.Name</td>
+        <td>@item.Amount</td>
+        @{ 
+            double price = item.TicketType.Price*item.Amount;
+            totalPrice += price;
+        }
+        <td>@price euro</td>
     </tr>
 }
 
@@ -66,15 +39,10 @@
 <br />
 @if (Model.Count() > 1)
 {
-<h2>
-    Total Price: 
-</h2>
-<p>
-    @totalPrice euro
-</p>
+<h2>Total Price:</h2>
     
-<p>
-    @Html.ActionLink("Order New", "Order")
-</p>
+<p>@totalPrice euro</p>
+<p>@Html.ActionLink("Order New", "Order")</p>
 }
 </section>
+}

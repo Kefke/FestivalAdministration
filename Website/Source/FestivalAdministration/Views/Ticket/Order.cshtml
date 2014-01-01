@@ -1,6 +1,4 @@
-﻿@*@model FestivalAdministration.Models.Ticket*@
-
-@{
+﻿@{
     ViewBag.Title = "Order";
 }
 
@@ -10,37 +8,14 @@
 @using (Html.BeginForm("Confirm", "Ticket", FormMethod.Post)) {
     @Html.AntiForgeryToken()
     @Html.ValidationSummary(true)
-        @*<div class="editor-label">
-            @Html.LabelFor(model => model.TicketHolder)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TicketHolder)
-            @Html.ValidationMessageFor(model => model.TicketHolder)
-        </div>
 
-        <div class="editor-label">
-            @Html.LabelFor(model => model.TicketHolderEmail)
-        </div>
-        <div class="editor-field">
-            @Html.EditorFor(model => model.TicketHolderEmail)
-            @Html.ValidationMessageFor(model => model.TicketHolderEmail)
-        </div>*@
     <ul>
         <li>
-            @*@Html.LabelFor(model => model.TicketType, "Ticket Type:")*@
-
-            @*@Html.EditorFor(model => model.TicketType)
-            @Html.ValidationMessageFor(model => model.TicketType)*@
             @Html.Label("TicketType", "Ticket Type:")
             @Html.DropDownList("TicketType", null, "--- Choose a Type ---")
             @Html.ValidationMessage("TicketType", "Please select a Ticket Type")
         </li>
         <li>
-            @*@Html.LabelFor(model => model.Amount, "Quantity:")*@
-            
-        
-            @*@Html.EditorFor(model => model.Amount)
-            @Html.ValidationMessageFor(model => model.Amount)*@
             @Html.Label("Amount", "Quantity:")
             @Html.Editor("Amount")
             @Html.ValidationMessage("Amount", "Please insert a number greater than 0")
