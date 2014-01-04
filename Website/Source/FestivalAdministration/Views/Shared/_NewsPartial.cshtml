@@ -1,0 +1,10 @@
+﻿@model FestivalAdministration.Models.RssItem
+
+@if (Model != null)
+{
+<section class="news">
+    <h1>@Model.Title</h1>
+    <p>@Model.Description</p>
+    <p><a href="@Model.Link">More information</a></p>
+</section>
+}

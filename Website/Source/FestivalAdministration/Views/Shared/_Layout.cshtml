@@ -38,12 +38,16 @@
                         <li>@Html.ActionLink("Home", "Index", "Band")</li>
                         <li>@Html.ActionLink("Location", "Location", "Home")</li>
                         <li>@Html.ActionLink("Tickets", "Index", "Ticket")</li>
+                        <li>@Html.ActionLink("RSS", "RSS", "Home")</li>
                     </ul>
                 </nav>
             </div>
         </header>
         <div>
-            @RenderSection("featured", required: false)
+            @*@RenderSection("featured", required: false)*@
+            <aside>
+                @Html.Action("News", "Home")
+            </aside>
             <section>
                 @RenderBody()
             </section>

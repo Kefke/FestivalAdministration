@@ -1,0 +1,44 @@
+﻿@model FestivalAdministration.Models.RssItem
+
+@{
+    ViewBag.Title = "Create RSS Item";
+}
+
+<h1>Create New RSS Item</h1>
+
+<section class="form">
+@using (Html.BeginForm("SaveRSSItem", "Home", FormMethod.Post)) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <ul>
+        <li>
+            @Html.Label("ITitle", "Title:")
+            @Html.Editor("ITitle")
+            @Html.ValidationMessage("ITitle", "Please insert a title")
+        </li>
+        <li>
+            @Html.Label("Description", "Description:")
+            @Html.Editor("Description")
+            @Html.ValidationMessage("Description", "Please insert a description")
+        </li>
+        <li>
+            @Html.Label("Link", "Link:")
+            @Html.Editor("Link")
+            @Html.ValidationMessage("Link", "Please insert a link")
+        </li>
+    </ul>
+
+    <p>
+        <input type="submit" value="Save" />
+    </p>
+}
+</section>
+
+<div>
+    @Html.ActionLink("Back to List", "RSSOverview")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

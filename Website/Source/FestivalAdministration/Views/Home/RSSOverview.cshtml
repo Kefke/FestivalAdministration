@@ -1,0 +1,48 @@
+﻿@{
+    ViewBag.Title = "RSS Overview";
+}
+
+<h1>RSS Overview</h1>
+
+<p>
+    @Html.ActionLink("Edit Channel", "CreateRSS")
+</p>
+
+<section class="data">
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Link</th>
+    </tr>
+
+    <tr>
+        <td>@ViewBag.RSS.Title</td>
+        <td>@ViewBag.RSS.Description</td>
+        <td>@ViewBag.RSS.Link</td>
+    </tr>
+
+</table>
+</section>
+
+<p>
+    @Html.ActionLink("Create New Message", "CreateRSSItem")
+</p>
+
+<section class="data">
+<table>
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+    </tr>
+
+@foreach (var item in ViewBag.RSS.Items) 
+{
+    <tr>
+        <td>@item.Title</td>
+        <td>@item.Description</td>
+    </tr>
+}
+
+</table>
+</section>

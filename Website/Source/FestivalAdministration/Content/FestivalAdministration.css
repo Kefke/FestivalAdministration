@@ -103,6 +103,23 @@ header a {
     font-weight:bold;
 }
 
+/* News */
+.news {
+    padding: 10px;
+    margin: 0;
+    background-color:#c8d6d6; 
+    border-bottom: 1px solid #70777c;
+}
+
+.news h1 {
+    font-size:1.2em;
+    text-align: left;
+}
+
+.news p {
+    margin: 0;
+}
+
 /* Body */
 body>div {
     clear:both;
