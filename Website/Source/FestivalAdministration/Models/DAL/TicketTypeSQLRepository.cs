@@ -43,6 +43,7 @@ namespace FestivalAdministration.Models.DAL
                     // Add TicketType
                     ticketTypes.Add(type);
                 }
+                reader.Close();
                 return ticketTypes;
             }
 
@@ -88,6 +89,7 @@ namespace FestivalAdministration.Models.DAL
                     else type.TicketsLeft = Convert.ToInt32(record["TicketsLeft"].ToString());
 
                 }
+                reader.Close();
                 return type;
             }
 

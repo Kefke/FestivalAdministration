@@ -54,6 +54,7 @@ namespace FestivalAdministration.Models.DAL
 
                     bands.Add(band);
                 }
+                reader.Close();
                 
                 return bands;
             }
@@ -170,6 +171,7 @@ namespace FestivalAdministration.Models.DAL
 
                     bands.Add(band);
                 }
+                reader.Close();
             }
 
             // Fail
@@ -223,6 +225,7 @@ namespace FestivalAdministration.Models.DAL
 
                     bands.Add(band);
                 }
+                reader.Close();
             }
 
             // Fail
@@ -275,6 +278,7 @@ namespace FestivalAdministration.Models.DAL
 
                     return band;
                 }
+                reader.Close();
             }
 
             // Fail

@@ -46,7 +46,7 @@ namespace FestivalAdministration.Models.DAL
                     // Add TimeSlot
                     times.Add(time);
                 }
-
+                reader.Close();
                 return times;
             }
 

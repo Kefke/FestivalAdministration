@@ -47,6 +47,7 @@ namespace FestivalAdministration.Models.DAL
                     // Add _Tickets
                     Tickets.Add(ticket);
                 }
+                reader.Close();
                 return Tickets;
             }
 
@@ -96,6 +97,7 @@ namespace FestivalAdministration.Models.DAL
 
                     tickets.Add(ticket);
                 }
+                reader.Close();
                 return tickets;
             }
 
@@ -158,8 +160,12 @@ namespace FestivalAdministration.Models.DAL
                 foreach (DbDataRecord record in reader)
                 {
                     // Get Amount
-                    if (DBNull.Value.Equals(record["Amount"])) return 0;
-                    else return Convert.ToInt32(record["Amount"].ToString());
+                    int amount = 0;
+                    if (!DBNull.Value.Equals(record["Amount"]))
+                        amount = Convert.ToInt32(record["Amount"].ToString());
+
+                    reader.Close();
+                    return amount;
                 }
             }
 

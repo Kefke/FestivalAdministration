@@ -35,6 +35,7 @@ namespace FestivalAdministration.Models.DAL
                     if (DBNull.Value.Equals(record["City"])) festival.City = "";
                     else festival.City = record["City"].ToString();
 
+                    reader.Close();
                     return festival;
                 }
             }

@@ -32,7 +32,7 @@ namespace FestivalAdministration.Models.DAL
                     // Add Genre
                     genres.Add(genre);
                 }
-
+                reader.Close();
                 return genres;
             }
 
