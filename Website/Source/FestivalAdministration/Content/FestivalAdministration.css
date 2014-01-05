@@ -37,6 +37,19 @@ figure {
     margin:0;
 }
 
+a {
+    color:#6E7478;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+a:visited,
+a:active  {
+    color:#464C4F;
+    font-weight: bold;
+    text-decoration: none;
+}
+
 /* Header */
 header figure {
     float:left;
@@ -97,7 +110,9 @@ nav>ul>li {
     margin:10px 0 10px 10px;
 }
 
-header a {
+header a,
+header a:visited, 
+header a:active {
     color:#FFF;
     text-decoration:none;
     font-weight:bold;
