@@ -56,6 +56,8 @@ namespace FestivalAdministration.Model
                         // Add Genre
                         _genres.Add(genre);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -90,6 +92,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) genre.ID = -1;
                     else genre.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _genres.Add(genre);
                 return genre.ID;

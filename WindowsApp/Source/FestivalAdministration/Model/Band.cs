@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class Band
+    public class Band
     {
         private int _ID;
 
@@ -104,6 +104,8 @@ namespace FestivalAdministration.Model
                         // Add Band
                         _Bands.Add(band);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -143,6 +145,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) band.ID = -1;
                     else band.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _Bands.Add(band);
                 return band.ID;
@@ -205,6 +209,15 @@ namespace FestivalAdministration.Model
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public static string GetBandById(int id)
+        {
+            for (int i = 0; i < _Bands.Count; ++i)
+            {
+                if (_Bands[i].ID == id) return _Bands[i].Name;
+            }
+            return "";
         }
 
         public static int GetIndexByID(int id)

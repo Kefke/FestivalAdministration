@@ -63,6 +63,15 @@ namespace FestivalAdministration.ViewModel
                 SelectionChanged(this); }
         }
 
+        private string _searchName;
+
+        public string SearchName
+        {
+            get { return _searchName; }
+            set { _searchName = value; OnPropertyChanged("SearchName"); }
+        }
+        
+
         private string _showedit;
 
         public string ShowEdit
@@ -125,6 +134,17 @@ namespace FestivalAdministration.ViewModel
             contactvm.ShowCancel = "Visible";
             contactvm.ShowSave = "Visible";
             contactvm.Enabled = true;
+        }
+
+        public ICommand SearchContactCommand
+        {
+            get { return new RelayCommand<ContactDetailsVM>(SearchContact); }
+        }
+
+        private void SearchContact(ContactDetailsVM contactvm)
+        {
+            CancelUpdateContact(this);
+            Contacts = Contactperson.SearchContactpersons(SearchName);
         }
 
         public ICommand DeleteContactCommand

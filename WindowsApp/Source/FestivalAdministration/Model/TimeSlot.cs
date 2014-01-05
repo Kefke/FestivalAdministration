@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class TimeSlot
+    public class TimeSlot
     {
         private int _ID;
 
@@ -93,6 +93,8 @@ namespace FestivalAdministration.Model
                         // Add TimeSlot
                         _TimeSlots.Add(timeslot);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -130,6 +132,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) timeSlot.ID = -1;
                     else timeSlot.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _TimeSlots.Add(timeSlot);
                 return timeSlot.ID;
@@ -201,6 +205,11 @@ namespace FestivalAdministration.Model
                 if (_TimeSlots[i].ID == id) return i;
             }
             return -1;
+        }
+
+        public TimeSlot Copy()
+        {
+            return new TimeSlot() { ID = this.ID, BandID = this.BandID, StageID = this.StageID, StartDate = this.StartDate, EndDate = this.EndDate };
         }
     }
 }

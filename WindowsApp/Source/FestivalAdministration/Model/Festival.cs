@@ -80,6 +80,8 @@ namespace FestivalAdministration.Model
                         // Add Festival
                         _Festivals.Add(festival);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -116,6 +118,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) festival.ID = -1;
                     else festival.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _Festivals.Add(festival);
                 return festival.ID;

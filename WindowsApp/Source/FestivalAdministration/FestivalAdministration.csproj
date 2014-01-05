@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>5.0.40218.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -64,14 +65,19 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converter\DoubleToPriceStringConverter.cs" />
+    <Compile Include="Converter\IDtoBandConverter.cs" />
+    <Compile Include="Converter\IDtoBandNameConverter.cs" />
     <Compile Include="Converter\IDtoContactTypeIndexConverter.cs" />
     <Compile Include="Converter\IDtoContactTypeConverter.cs" />
     <Compile Include="Converter\IDtoGenreConverter.cs" />
+    <Compile Include="Converter\IDtoStageConverter.cs" />
+    <Compile Include="Converter\IDtoStageNameConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeConverter.cs" />
     <Compile Include="Converter\IDtoTicketTypeIndexConverter.cs" />
     <Compile Include="Converter\ImagePathToByteArrayConverter.cs" />
     <Compile Include="Model\BandGenre.cs" />
     <Compile Include="Model\Database.cs" />
+    <Compile Include="Model\DateRange.cs" />
     <Compile Include="Model\TimeSlot.cs" />
     <Compile Include="ViewModel\ApplicationVM.cs" />
     <Compile Include="ViewModel\BandVM.cs" />
@@ -85,8 +91,10 @@
     <Compile Include="ViewModel\LineupVM.cs" />
     <Compile Include="ViewModel\MusicVM.cs" />
     <Compile Include="ViewModel\ObservableObject.cs" />
+    <Compile Include="ViewModel\StageVM.cs" />
     <Compile Include="ViewModel\TicketsVM.cs" />
     <Compile Include="ViewModel\TicketTypesVM.cs" />
+    <Compile Include="ViewModel\TimeSlotVM.cs" />
     <Compile Include="View\BandDetail.xaml.cs">
       <DependentUpon>BandDetail.xaml</DependentUpon>
     </Compile>
@@ -114,6 +122,13 @@
     <Compile Include="View\TicketType.xaml.cs">
       <DependentUpon>TicketType.xaml</DependentUpon>
     </Compile>
+    <Compile Include="View\Timeslots.xaml.cs">
+      <DependentUpon>Timeslots.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Simple Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="View\BandDetail.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +195,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="View\TicketType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Timeslots.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

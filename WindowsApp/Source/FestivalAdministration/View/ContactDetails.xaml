@@ -31,8 +31,8 @@
             </Grid.RowDefinitions>
             <!-- ROW 1 -->
             <!-- Zoek -->
-            <TextBox Height="20" Margin="10,5,30,0" TextWrapping="Wrap" Text="" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
-            <Button Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0"/>
+            <TextBox Name="Search" Height="20" Margin="10,5,30,0" TextWrapping="Wrap" Text="{Binding SearchName}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
+            <Button Name="SearchBtn" Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0" Command="{Binding DataContext.SearchContactCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
 
             <!-- ROW 2 -->
             <!-- Contacts -->

@@ -57,6 +57,8 @@ namespace FestivalAdministration.Model
                         // Add ContactpersonType
                         _ContactpersonTypes.Add(type);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -93,6 +95,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) type.ID = -1;
                     else type.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _ContactpersonTypes.Add(type);
                 return type.ID;

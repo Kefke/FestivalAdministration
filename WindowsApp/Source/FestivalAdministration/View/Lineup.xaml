@@ -3,40 +3,48 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:c="clr-namespace:FestivalAdministration.Converter"
+             xmlns:vm="clr-namespace:FestivalAdministration.ViewModel"
+             xmlns:v="clr-namespace:FestivalAdministration.View"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="500">
+    <UserControl.DataContext>
+        <vm:LineupVM />
+    </UserControl.DataContext>
+        
+    <UserControl.Resources>
+        <DataTemplate DataType="{x:Type vm:TimeSlotVM}">
+            <v:Timeslots/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:StageVM}">
+            <v:StageDetail/>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-            <ColumnDefinition Width="auto"/>
-            <ColumnDefinition Width="*" MinWidth="200"/>
-        </Grid.ColumnDefinitions>
-        <ListView Name="bands" Grid.Column="0" ItemsSource="{Binding Bands}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Name" Width="auto" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Twitter" Width="auto" DisplayMemberBinding="{Binding Twitter}"/>
-                    <GridViewColumn Header="Facebook" Width="auto" DisplayMemberBinding="{Binding Facebook}"/>
-                </GridView>
-            </ListView.View>
-        </ListView>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
-        <!-- Line -->
-        <GridSplitter Grid.Column="1" Margin="0,10,0,10" VerticalAlignment="Stretch" HorizontalAlignment="Center" Width="1" Background="DarkGray"/>
+        <Label Grid.Row="0" Content="Line-up Information" HorizontalAlignment="Left" Margin="10,3,0,0" FontWeight="Bold" FontSize="14"/>
+        
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Pages}" HorizontalAlignment="Left" Grid.Column="0" Margin="15, 10, 0, 0">
+            <!-- Make the tabs next to each other -->
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
 
-        <Grid Grid.Column="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="2*" MinHeight="100" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackPanel Grid.Row="0">
-                <TextBox Text="{Binding SelectedItem.Name, ElementName=bands}" Margin="10" />
-                <TextBox Text="{Binding SelectedItem.Twitter, ElementName=bands}" Margin="10" />
-                <TextBox Text="{Binding SelectedItem.Facebook, ElementName=bands}" Margin="10" />
-            </StackPanel>
-            <Image Grid.Row="1" Source="{Binding SelectedItem.Picture, ElementName=bands}" Margin="10" MaxHeight="500" HorizontalAlignment="Stretch" Stretch="Uniform"/>
-            <TextBox Grid.Row="2" Text="{Binding SelectedItem.Description, ElementName=bands}" Margin="10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True"/>
-        </Grid>
+            <!-- Add the buttons -->
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="0" Padding="10, 5" Content="{Binding Name}" Command="{Binding DataContext.ChangePageCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+            
+        <ContentControl Grid.Row="2" Content="{Binding CurrentPage}" />
     </Grid>
 </UserControl>

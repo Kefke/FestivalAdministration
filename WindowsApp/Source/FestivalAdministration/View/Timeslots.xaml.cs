@@ -10,28 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace FestivalAdministration.View
 {
     /// <summary>
-    /// Interaction logic for Band.xaml
+    /// Interaction logic for Timeslots.xaml
     /// </summary>
-    public partial class Band : Window
+    public partial class Timeslots : UserControl
     {
-        public Band()
+        public Timeslots()
         {
             InitializeComponent();
-        }
-
-        private void Add_Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
-        }
-
-        private void Delete_Button_Click(object sender, RoutedEventArgs e)
-        {
-            this.Close();
         }
     }
 }

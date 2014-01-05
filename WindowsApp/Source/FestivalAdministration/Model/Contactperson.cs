@@ -140,6 +140,8 @@ namespace FestivalAdministration.Model
                         // Add Contactperson
                         _Contactpersons.Add(contact);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -156,6 +158,74 @@ namespace FestivalAdministration.Model
 
             // Return _Contactperson
             return _Contactpersons;
+        }
+
+        public static ObservableCollection<Contactperson> SearchContactpersons(string name)
+        {
+            try
+            {
+                // Create _Contactperson
+                ObservableCollection<Contactperson> results = new ObservableCollection<Contactperson>();
+
+                // Get data
+                DbParameter param = Database.AddParameter("@name", "%"+name+"%");
+                DbDataReader reader = Database.GetData("SELECT * FROM contact WHERE Name LIKE @name", param);
+                foreach (DbDataRecord record in reader)
+                {
+                    // Create new Contactperson
+                    Contactperson contact = new Contactperson();
+
+                    // Get ID
+                    if (DBNull.Value.Equals(record["ID"])) contact.ID = -1;
+                    else contact.ID = Convert.ToInt32(record["ID"]);
+
+                    // Get Name
+                    if (DBNull.Value.Equals(record["Name"])) contact.Name = "";
+                    else contact.Name = record["Name"].ToString();
+
+                    // Get Company
+                    if (DBNull.Value.Equals(record["Company"])) contact.Company = "";
+                    else contact.Company = record["Company"].ToString();
+
+                    // Get Function
+                    if (DBNull.Value.Equals(record["Function"])) contact.Job = -1;
+                    else contact.Job = Convert.ToInt32(record["Function"].ToString());
+
+                    // Get Street
+                    if (DBNull.Value.Equals(record["Street"])) contact.Street = "";
+                    else contact.Street = record["Street"].ToString();
+
+                    // Get City
+                    if (DBNull.Value.Equals(record["City"])) contact.City = "";
+                    else contact.City = record["City"].ToString();
+
+                    // Get Tel
+                    if (DBNull.Value.Equals(record["Tel"])) contact.Phone = "";
+                    else contact.Phone = record["Tel"].ToString();
+
+                    // Get Email
+                    if (DBNull.Value.Equals(record["Email"])) contact.Email = "";
+                    else contact.Email = record["Email"].ToString();
+
+                    // Get Extra
+                    if (DBNull.Value.Equals(record["Extra"])) contact.Extra = "";
+                    else contact.Extra = record["Extra"].ToString();
+
+                    // Add Contactperson
+                    results.Add(contact);
+                }
+                if (reader != null)
+                    reader.Close();
+
+                return results;
+            }
+
+            // Fail
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            return null;
         }
 
         public static int AddContactperson(Contactperson person)
@@ -182,6 +252,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) person.ID = -1;
                     else person.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _Contactpersons.Add(person);
                 return person.ID;

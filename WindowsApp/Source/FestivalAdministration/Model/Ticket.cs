@@ -92,6 +92,8 @@ namespace FestivalAdministration.Model
                         // Add _Tickets
                         _Tickets.Add(ticket);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -129,6 +131,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) ticket.ID = -1;
                     else ticket.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _Tickets.Add(ticket);
                 return ticket.ID;

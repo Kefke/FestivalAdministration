@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class Stage
+    public class Stage
     {
         private int _ID;
 
@@ -56,6 +56,8 @@ namespace FestivalAdministration.Model
                         // Add Stage
                         _stages.Add(stage);
                     }
+                    if (reader != null)
+                        reader.Close();
                 }
 
                 // Fail
@@ -90,6 +92,8 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) stage.ID = -1;
                     else stage.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
 
                 _stages.Add(stage);
                 return stage.ID;
@@ -150,7 +154,7 @@ namespace FestivalAdministration.Model
             }
         }
 
-        public static string GetTypeByID(int id)
+        public static string GetStageByID(int id)
         {
             // If _Stage is null, create the Observable Collection
             if (_stages == null) GetStages();
@@ -178,5 +182,9 @@ namespace FestivalAdministration.Model
             return -1;
         }
 
+        public Stage Copy()
+        {
+            return new Stage() { ID = this.ID, Name = this.Name };
+        }
     }
 }

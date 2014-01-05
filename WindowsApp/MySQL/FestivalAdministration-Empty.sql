@@ -1,205 +1,209 @@
-SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
-SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
-SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+-- phpMyAdmin SQL Dump
+-- version 4.0.4.2
+-- http://www.phpmyadmin.net
+--
+-- Machine: localhost
+-- Genereertijd: 05 jan 2014 om 15:51
+-- Serverversie: 5.6.13
+-- PHP-versie: 5.4.17
 
-DROP SCHEMA IF EXISTS `festivaladmin` ;
-CREATE SCHEMA IF NOT EXISTS `festivaladmin` DEFAULT CHARACTER SET latin1 ;
-USE `festivaladmin` ;
-
--- -----------------------------------------------------
--- Table `festivaladmin`.`band`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`band` ;
-
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`band` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  `Twitter` VARCHAR(50) NOT NULL,
-  `Facebook` VARCHAR(50) NOT NULL,
-  `Picture` MEDIUMBLOB NOT NULL,
-  `Description` VARCHAR(1500) NULL DEFAULT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
 
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`contacttype`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`contacttype` ;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`contacttype` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
+--
+-- Databank: `festivaladmin`
+--
+CREATE DATABASE IF NOT EXISTS `festivaladmin` DEFAULT CHARACTER SET latin1 COLLATE latin1_swedish_ci;
+USE `festivaladmin`;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `band`
+--
+
+CREATE TABLE IF NOT EXISTS `band` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  `Twitter` varchar(50) NOT NULL,
+  `Facebook` varchar(50) NOT NULL,
+  `Picture` mediumblob NOT NULL,
+  `Description` varchar(2000) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `bandgenre`
+--
+
+CREATE TABLE IF NOT EXISTS `bandgenre` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BandID` int(11) NOT NULL,
+  `GenreID` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Name` (`Name` ASC),
-  UNIQUE INDEX `ID` (`ID` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 28
-DEFAULT CHARACTER SET = latin1;
+  KEY `Band_idx` (`BandID`),
+  KEY `Genre_idx` (`GenreID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=49 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`contact`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`contact` ;
+--
+-- Tabelstructuur voor tabel `contact`
+--
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`contact` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  `Company` VARCHAR(50) NOT NULL,
-  `Function` INT(11) NOT NULL,
-  `Street` VARCHAR(50) NULL DEFAULT NULL,
-  `City` VARCHAR(50) NULL DEFAULT NULL,
-  `Tel` VARCHAR(15) NOT NULL,
-  `Email` VARCHAR(50) NOT NULL,
-  `Extra` VARCHAR(250) NULL DEFAULT NULL,
+CREATE TABLE IF NOT EXISTS `contact` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  `Company` varchar(50) NOT NULL,
+  `Function` int(11) NOT NULL,
+  `Street` varchar(50) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  `Tel` varchar(15) NOT NULL,
+  `Email` varchar(50) NOT NULL,
+  `Extra` varchar(250) DEFAULT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `Function_idx` (`Function` ASC),
-  CONSTRAINT `Function`
-    FOREIGN KEY (`Function`)
-    REFERENCES `festivaladmin`.`contacttype` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 4;
+  KEY `Function_idx` (`Function`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=8 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`festival`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`festival` ;
+--
+-- Tabelstructuur voor tabel `contacttype`
+--
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`festival` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  `Street` VARCHAR(50) NULL DEFAULT NULL,
-  `City` VARCHAR(50) NULL DEFAULT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 2
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `festivaladmin`.`genre`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`genre` ;
-
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`genre` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1
-DEFAULT CHARACTER SET = latin1;
-
-
--- -----------------------------------------------------
--- Table `festivaladmin`.`stage`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`stage` ;
-
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`stage` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  PRIMARY KEY (`ID`))
-ENGINE = InnoDB
-AUTO_INCREMENT = 1;
-
-
--- -----------------------------------------------------
--- Table `festivaladmin`.`tickettype`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`tickettype` ;
-
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`tickettype` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `Name` VARCHAR(50) NOT NULL,
-  `Price` FLOAT NOT NULL,
-  `AvailableTickets` INT(11) NOT NULL,
-  `TicketsLeft` INT(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `contacttype` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
   PRIMARY KEY (`ID`),
-  UNIQUE INDEX `Name` (`Name` ASC))
-ENGINE = InnoDB
-AUTO_INCREMENT = 6
-DEFAULT CHARACTER SET = latin1;
+  UNIQUE KEY `Name` (`Name`),
+  UNIQUE KEY `ID` (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=34 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`ticket`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`ticket` ;
+--
+-- Tabelstructuur voor tabel `festival`
+--
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`ticket` (
-  `ID` INT(11) NOT NULL AUTO_INCREMENT,
-  `TicketHolder` VARCHAR(50) NOT NULL,
-  `TicketHolderEmail` VARCHAR(50) NOT NULL,
-  `TicketType` INT(11) NOT NULL,
-  `Amount` INT(11) NOT NULL,
+CREATE TABLE IF NOT EXISTS `festival` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  `Street` varchar(50) DEFAULT NULL,
+  `City` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `genre`
+--
+
+CREATE TABLE IF NOT EXISTS `genre` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=17 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `stage`
+--
+
+CREATE TABLE IF NOT EXISTS `stage` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+-- --------------------------------------------------------
+
+--
+-- Tabelstructuur voor tabel `ticket`
+--
+
+CREATE TABLE IF NOT EXISTS `ticket` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `TicketHolder` varchar(50) NOT NULL,
+  `TicketHolderEmail` varchar(50) NOT NULL,
+  `TicketType` int(11) NOT NULL,
+  `Amount` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `TicketType_idx` (`TicketType` ASC),
-  CONSTRAINT `TicketType`
-    FOREIGN KEY (`TicketType`)
-    REFERENCES `festivaladmin`.`tickettype` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB
-AUTO_INCREMENT = 7;
+  KEY `TicketType_idx` (`TicketType`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=20 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`bandgenre`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`bandgenre` ;
+--
+-- Tabelstructuur voor tabel `tickettype`
+--
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`bandgenre` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `BandID` INT NOT NULL,
-  `GenreID` INT NOT NULL,
+CREATE TABLE IF NOT EXISTS `tickettype` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Name` varchar(50) NOT NULL,
+  `Price` float NOT NULL,
+  `AvailableTickets` int(11) NOT NULL,
+  `TicketsLeft` int(11) NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `Band_idx` (`BandID` ASC),
-  INDEX `Genre_idx` (`GenreID` ASC),
-  CONSTRAINT `Band`
-    FOREIGN KEY (`BandID`)
-    REFERENCES `festivaladmin`.`band` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `Genre`
-    FOREIGN KEY (`GenreID`)
-    REFERENCES `festivaladmin`.`genre` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  UNIQUE KEY `Name` (`Name`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=10 ;
 
+-- --------------------------------------------------------
 
--- -----------------------------------------------------
--- Table `festivaladmin`.`timeslot`
--- -----------------------------------------------------
-DROP TABLE IF EXISTS `festivaladmin`.`timeslot` ;
+--
+-- Tabelstructuur voor tabel `timeslot`
+--
 
-CREATE TABLE IF NOT EXISTS `festivaladmin`.`timeslot` (
-  `ID` INT NOT NULL AUTO_INCREMENT,
-  `BandID` INT NOT NULL,
-  `StageID` INT NOT NULL,
-  `StartDate` DATETIME NOT NULL,
-  `EndDate` DATETIME NOT NULL,
+CREATE TABLE IF NOT EXISTS `timeslot` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BandID` int(11) NOT NULL,
+  `StageID` int(11) NOT NULL,
+  `StartDate` datetime NOT NULL,
+  `EndDate` datetime NOT NULL,
   PRIMARY KEY (`ID`),
-  INDEX `BandID_idx` (`BandID` ASC),
-  INDEX `StageID_idx` (`StageID` ASC),
-  CONSTRAINT `BandID`
-    FOREIGN KEY (`BandID`)
-    REFERENCES `festivaladmin`.`band` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `StageID`
-    FOREIGN KEY (`StageID`)
-    REFERENCES `festivaladmin`.`stage` (`ID`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+  KEY `BandID_idx` (`BandID`),
+  KEY `StageID_idx` (`StageID`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
 
+--
+-- Beperkingen voor gedumpte tabellen
+--
 
-SET SQL_MODE=@OLD_SQL_MODE;
-SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
-SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+--
+-- Beperkingen voor tabel `bandgenre`
+--
+ALTER TABLE `bandgenre`
+  ADD CONSTRAINT `Band` FOREIGN KEY (`BandID`) REFERENCES `band` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `Genre` FOREIGN KEY (`GenreID`) REFERENCES `genre` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `contact`
+--
+ALTER TABLE `contact`
+  ADD CONSTRAINT `Function` FOREIGN KEY (`Function`) REFERENCES `contacttype` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `ticket`
+--
+ALTER TABLE `ticket`
+  ADD CONSTRAINT `TicketType` FOREIGN KEY (`TicketType`) REFERENCES `tickettype` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Beperkingen voor tabel `timeslot`
+--
+ALTER TABLE `timeslot`
+  ADD CONSTRAINT `BandID` FOREIGN KEY (`BandID`) REFERENCES `band` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `StageID` FOREIGN KEY (`StageID`) REFERENCES `stage` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

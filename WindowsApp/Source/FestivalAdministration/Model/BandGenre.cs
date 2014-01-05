@@ -64,6 +64,9 @@ namespace FestivalAdministration.Model
                     // Add BandGenre
                     result.Add(bandgenre);
                 }
+                if (reader != null)
+                    reader.Close();
+
                 return result;
             }
 
@@ -90,6 +93,9 @@ namespace FestivalAdministration.Model
                     if (DBNull.Value.Equals(record["ID"])) bandgenre.ID = -1;
                     else bandgenre.ID = Convert.ToInt32(record["ID"]);
                 }
+                if (reader != null)
+                    reader.Close();
+
                 return bandgenre.ID;
             }
 
