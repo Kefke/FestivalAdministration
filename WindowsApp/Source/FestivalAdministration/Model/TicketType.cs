@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class TicketType
+    public class TicketType
     {
         private int _ID;
 

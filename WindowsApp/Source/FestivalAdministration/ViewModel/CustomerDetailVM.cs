@@ -1,11 +1,13 @@
 ﻿using FestivalAdministration.Model;
 using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace FestivalAdministration.ViewModel
@@ -155,6 +157,35 @@ namespace FestivalAdministration.ViewModel
             ShowEdit = "Hidden";
             ShowCancel = "Hidden";
             ShowSave = "Visible";
+        }
+
+        public ICommand SaveWordCommand
+        {
+            get { return new RelayCommand<CustomerDetailVM>(SaveWord); }
+        }
+
+        private void SaveWord(CustomerDetailVM customervm)
+        {
+            // Create Save Dialog
+            SaveFileDialog dlg = new SaveFileDialog();
+            dlg.DefaultExt = ".docx";
+            dlg.Filter = "Word files (*.docx)|*.docx";
+            dlg.ShowDialog();
+
+            // Get path
+            if (dlg.FileName != "")
+            {
+                try
+                {
+                    SelectedCustomer.CreateWord(dlg.FileName);
+                    return;
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                    MessageBox.Show("Error:\nCould not save the ticket.", "Error: Save");
+                }
+            }
         }
 
         public ICommand SaveUpdateCustomerCommand

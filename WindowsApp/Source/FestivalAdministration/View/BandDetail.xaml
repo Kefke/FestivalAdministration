@@ -84,7 +84,7 @@
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="5,-2,0,5" VerticalAlignment="Top" />
                 <Button Grid.Column="0" Content="Browse" Margin="10" Visibility="{Binding ShowSave}" Command="{Binding DataContext.BrowseCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-                <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="300" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
+                <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="280" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
             </Grid>
             <Label Grid.Row="3" Content="Description: " HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" />
             <TextBox Grid.Row="3" Text="{Binding SelectedBand.Description}" Margin="10,25,10,10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsEnabled="{Binding Enabled}"/>

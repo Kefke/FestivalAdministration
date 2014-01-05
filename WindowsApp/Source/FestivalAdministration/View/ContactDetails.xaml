@@ -32,7 +32,13 @@
             <!-- ROW 1 -->
             <!-- Zoek -->
             <TextBox Name="Search" Height="20" Margin="10,5,30,0" TextWrapping="Wrap" Text="{Binding SearchName}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="0" Grid.Row="0"/>
-            <Button Name="SearchBtn" Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0" Command="{Binding DataContext.SearchContactCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}"/>
+            <Button Name="SearchBtn" Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="0" Grid.Row="0" Command="{Binding DataContext.SearchContactCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}">
+                <Button.Template>
+                    <ControlTemplate>
+                        <Image Source="/Images/search.png" Margin="2px"/>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
 
             <!-- ROW 2 -->
             <!-- Contacts -->

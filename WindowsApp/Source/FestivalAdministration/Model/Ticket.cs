@@ -1,14 +1,17 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Common;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class Ticket
+    public class Ticket
     {
         private int _ID;
 
@@ -208,6 +211,40 @@ namespace FestivalAdministration.Model
         public Ticket Copy()
         {
             return new Ticket() { ID = this.ID, TicketHolder = this.TicketHolder, TicketHolderEmail = this.TicketHolderEmail, TicketType = this.TicketType, Amount = this.Amount };
+        }
+
+        public void CreateWord(string path)
+        {
+            //Ticket afdrukken naar WORD
+            File.Copy("C:\\NMCT\\2e Jaar\\Business Applications\\Project\\FestivalAdministration\\FestivalAdministration\\Files\\ticket-template.docx", path, true);
+
+            WordprocessingDocument newdoc = WordprocessingDocument.Open(path, true);
+            IDictionary<String, BookmarkStart> bookmarks = new Dictionary<String, BookmarkStart>();
+            foreach (BookmarkStart bms in newdoc.MainDocumentPart.RootElement.Descendants<BookmarkStart>())
+            {
+                bookmarks[bms.Name] = bms;
+            }
+
+            long code = this.TicketType * this.Amount * 82146;
+            while (code > 999999999999)
+            {
+                code -= 999999999999;
+            }
+
+            string codeString = code.ToString();
+            while (codeString.Length < 12)
+            {
+                codeString = codeString.Insert(0, "0");
+            }
+
+            bookmarks["Name"].Parent.InsertAfter<Run>(new Run(new Text(this.TicketHolder)), bookmarks["Name"]);
+            bookmarks["TicketType"].Parent.InsertAfter<Run>(new Run(new Text(FestivalAdministration.Model.TicketType.GetTypeByID(this.TicketType))), bookmarks["TicketType"]);
+            bookmarks["Amount"].Parent.InsertAfter<Run>(new Run(new Text(this.Amount.ToString())), bookmarks["Amount"]);
+            bookmarks["BarCode"].Parent.InsertAfter<Run>(new Run(new Text(codeString)), bookmarks["BarCode"]);
+            bookmarks["Code"].Parent.InsertAfter<Run>(new Run(new Text(codeString)), bookmarks["Code"]);
+            newdoc.Close();
+
+            Console.WriteLine("Ticket Printed");
         }
     }
 }

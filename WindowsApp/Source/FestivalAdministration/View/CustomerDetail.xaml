@@ -44,9 +44,26 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
+            
+            <Grid Grid.Column="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Label Content="Customers" HorizontalAlignment="Left" Margin="10,3,0,0" VerticalAlignment="Top" Grid.Column="0" FontWeight="Bold"/>
+                <Button Name="SearchBtn" Height="20" Width="20" Margin="0,5,10,0" HorizontalAlignment="Right" VerticalAlignment="Top"  Grid.Column="1" Command="{Binding DataContext.SaveWordCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" Visibility="{Binding ShowEdit}">
+                    <Button.Template>
+                        <ControlTemplate>
+                            <Image Source="/Images/save.png" Margin="2px"/>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </Grid>
             <!-- Create 2 Columns -->
-            <Grid Grid.Row="0">
+            <Grid Grid.Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
@@ -71,7 +88,7 @@
             </Grid>
 
             <!-- ROW 3 -->
-            <Grid Grid.Row="1">
+            <Grid Grid.Row="2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
