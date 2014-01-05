@@ -315,14 +315,14 @@ label {
 }
 
 .data th {
-    padding:5px;
+    padding:5px 10px;
     font-weight:bold;
     font-size:1em;
     text-align:center;
 }
 
 .data tr {
-    padding:5px;
+    padding:5px 10px;
     text-align:center;
     font-size:1em;
 }
