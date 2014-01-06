@@ -110,6 +110,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateFestival(GeneralVM generalvm)
         {
+            if (!Festival.IsValid())
+                return;
             // Save Changes
             if (_OldFestival == null)
             {

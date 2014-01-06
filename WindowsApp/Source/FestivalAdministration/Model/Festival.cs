@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class Festival
+    class Festival : INotifyPropertyChanged, IDataErrorInfo
     {
         private int _ID;
 
@@ -20,6 +23,8 @@ namespace FestivalAdministration.Model
         
         private string _Name;
 
+        [Required(ErrorMessage = "The Name is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Name has to be between 3 and 50 characters")]
         public string Name
         {
             get { return _Name; }
@@ -28,6 +33,7 @@ namespace FestivalAdministration.Model
 
         private string _Street;
 
+        [StringLength(50, MinimumLength = 0, ErrorMessage = "The Street can maximum be 50 characters")]
         public string Street
         {
             get { return _Street; }
@@ -36,6 +42,7 @@ namespace FestivalAdministration.Model
 
         private string _City;
 
+        [StringLength(50, MinimumLength = 0, ErrorMessage = "The City can maximum be 50 characters")]
         public string City
         {
             get { return _City; }
@@ -191,5 +198,41 @@ namespace FestivalAdministration.Model
                 Console.WriteLine(ex.Message);
             }
         }*/
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
+        }
     }
 }

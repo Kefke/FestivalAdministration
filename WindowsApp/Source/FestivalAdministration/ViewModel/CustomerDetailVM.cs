@@ -166,6 +166,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveWord(CustomerDetailVM customervm)
         {
+            if (!SelectedCustomer.IsValid())
+                return;
             // Create Save Dialog
             SaveFileDialog dlg = new SaveFileDialog();
             dlg.DefaultExt = ".docx";
@@ -195,6 +197,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateCustomer(CustomerDetailVM customervm)
         {
+            if (!SelectedCustomer.IsValid())
+                return;
             // Save Changes
             if (_oldCustomer == null)
             {

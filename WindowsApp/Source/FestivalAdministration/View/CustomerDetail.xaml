@@ -72,19 +72,19 @@
 
                 <!-- Name -->
                 <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.TicketHolder}" VerticalAlignment="Top" Margin="5,3,10,10" IsEnabled="{Binding Enabled}"/>
+                <TextBox Name="CustomerName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.TicketHolder, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,3,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Email -->
                 <Label Content="Email: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.TicketHolderEmail}" VerticalAlignment="Top" Margin="5,28,10,10" IsEnabled="{Binding Enabled}"/>
+                <TextBox Name="CustomerEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.TicketHolderEmail, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,28,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Type -->
                 <Label Content="Type: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <ComboBox Name="CustomerTicketType" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding TicketTypes, Mode=OneWay}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedCustomer.TicketType, Converter={StaticResource IDtoTicketTypeIndexConverter}}" IsEnabled="{Binding Enabled}"/>
+                <ComboBox Name="CustomerTicketType" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding TicketTypes, Mode=OneWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedCustomer.TicketType, Converter={StaticResource IDtoTicketTypeIndexConverter}}" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Quantity -->
                 <Label Content="Quantity: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="CustomerTicketQuantity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.Amount}" VerticalAlignment="Top" Margin="5,78,10,10" IsEnabled="{Binding Enabled}"/>
+                <TextBox Name="CustomerTicketQuantity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedCustomer.Amount, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,78,10,10" IsEnabled="{Binding Enabled}"/>
             </Grid>
 
             <!-- ROW 3 -->

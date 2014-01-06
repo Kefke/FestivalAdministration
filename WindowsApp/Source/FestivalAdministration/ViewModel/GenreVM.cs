@@ -148,6 +148,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateGenre(GenreVM genrevm)
         {
+            if (!SelectedGenre.IsValid())
+                return;
             // Save Changes
             if (_oldGenre == null)
             {

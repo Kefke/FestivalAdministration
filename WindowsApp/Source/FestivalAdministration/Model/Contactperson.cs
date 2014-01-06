@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FestivalAdministration.Model
 {
-    class Contactperson
+    class Contactperson : INotifyPropertyChanged, IDataErrorInfo
     {
         private int _ID;
 
@@ -20,6 +23,8 @@ namespace FestivalAdministration.Model
 
         private string _Name;
 
+        [Required(ErrorMessage = "The Name is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Name has to be between 3 and 50 characters")]
         public string Name
         {
             get { return _Name; }
@@ -28,6 +33,8 @@ namespace FestivalAdministration.Model
 
         private string _Company;
 
+        [Required(ErrorMessage = "The Company is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Company has to be between 3 and 50 characters")]
         public string Company
         {
             get { return _Company; }
@@ -36,6 +43,8 @@ namespace FestivalAdministration.Model
 
         private int _Job;
 
+        [Required(ErrorMessage = "The Job is required")]
+        [Range(0, int.MaxValue, ErrorMessage = "The Job is required")]
         public int Job
         {
             get { return _Job; }
@@ -44,6 +53,8 @@ namespace FestivalAdministration.Model
 
         private string _City;
 
+        [Required(ErrorMessage = "The City is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The City has to be between 3 and 50 characters")]
         public string City
         {
             get { return _City; }
@@ -52,6 +63,8 @@ namespace FestivalAdministration.Model
 
         private string _Street;
 
+        [Required(ErrorMessage = "The Street is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Street has to be between 3 and 50 characters")]
         public string Street
         {
             get { return _Street; }
@@ -60,6 +73,8 @@ namespace FestivalAdministration.Model
 
         private string _Phone;
 
+        [Required(ErrorMessage = "The Phone Number is required")]
+        [Phone(ErrorMessage = "Please enter a valid Phone Number")]
         public string Phone
         {
             get { return _Phone; }
@@ -68,6 +83,8 @@ namespace FestivalAdministration.Model
 
         private string _Email;
 
+        [Required(ErrorMessage = "The Email Address is required")]
+        [EmailAddress(ErrorMessage = "Please enter a valid Email Address")]
         public string Email
         {
             get { return _Email; }
@@ -76,6 +93,7 @@ namespace FestivalAdministration.Model
 
         private string _Extra;
 
+        [StringLength(250, MinimumLength = 0, ErrorMessage = "The Extra Information can maximum be 250 characters")]
         public string Extra
         {
             get { return _Extra; }
@@ -333,6 +351,43 @@ namespace FestivalAdministration.Model
         public Contactperson Copy()
         {
             return new Contactperson() { ID = this.ID, Name = this.Name, Company = this.Company, Job = this.Job, Street = this.Street, City = this.City, Phone = this.Phone, Email = this.Email, Extra = this.Extra};
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

@@ -148,6 +148,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateStage(StageVM stagevm)
         {
+            if (!SelectedStage.IsValid())
+                return;
             // Save Changes
             if (_oldType == null)
             {

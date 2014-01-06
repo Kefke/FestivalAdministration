@@ -148,6 +148,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateContactType(ContactTypeVM contacttypevm)
         {
+            if (!SelectedType.IsValid())
+                return;
             // Save Changes
             if (_oldType == null)
             {

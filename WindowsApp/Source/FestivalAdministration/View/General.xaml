@@ -20,14 +20,14 @@
 
             <!-- Name -->
             <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" Grid.Column="0"/>
-            <TextBox Height="20" Margin="0,3,10,10" TextWrapping="Wrap" Text="{Binding Festival.Name}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="1" IsEnabled="{Binding Enabled}"/>
+            <TextBox Height="20" Margin="0,3,10,10" TextWrapping="Wrap" Text="{Binding Festival.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="1" IsEnabled="{Binding Enabled}"/>
 
             <!-- Location -->
             <Label Content="Location: " HorizontalAlignment="Left" Margin="10,25,0,0" Grid.Column="0"/>
         </Grid>
 
-        <TextBox Height="20" Margin="10,0,10,0" TextWrapping="Wrap" Text="{Binding Festival.Street}" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsEnabled="{Binding Enabled}" />
-        <TextBox Height="20" Margin="10,10,10,0" TextWrapping="Wrap" Text="{Binding Festival.City}" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsEnabled="{Binding Enabled}" />
+        <TextBox Height="20" Margin="10,0,10,0" TextWrapping="Wrap" Text="{Binding Festival.Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsEnabled="{Binding Enabled}" />
+        <TextBox Height="20" Margin="10,10,10,0" TextWrapping="Wrap" Text="{Binding Festival.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" HorizontalAlignment="Stretch" VerticalAlignment="Top" IsEnabled="{Binding Enabled}" />
         
         <Grid>
             <Grid.ColumnDefinitions>

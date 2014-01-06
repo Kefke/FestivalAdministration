@@ -145,6 +145,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateTicketType(TicketTypesVM tickettypevm)
         {
+            if (!SelectedType.IsValid())
+                return;
             // Save Changes
             if (_oldType == null)
             {

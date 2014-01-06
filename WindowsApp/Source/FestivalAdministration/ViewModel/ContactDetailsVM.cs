@@ -172,6 +172,8 @@ namespace FestivalAdministration.ViewModel
 
         private void SaveUpdateContact(ContactDetailsVM contactvm)
         {
+            if (!SelectedPerson.IsValid())
+                return;
             // Save Changes
             if (_oldPerson == null)
             {

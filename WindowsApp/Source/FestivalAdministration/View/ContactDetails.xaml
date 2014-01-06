@@ -79,35 +79,35 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Name -->
-                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Name}" VerticalAlignment="Top" Margin="5,3,10,10" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Name: " HorizontalAlignment="Left" Margin="10,5,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="ContactName" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,3,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Company -->
-                <Label Content="Company: " HorizontalAlignment="Left" Margin="10,25,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactCompany" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Company}" VerticalAlignment="Top" Margin="5,28,10,10" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Company: " HorizontalAlignment="Left" Margin="10,30,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="ContactCompany" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Company, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,28,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Function -->
-                <Label Content="Function: " HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <ComboBox Name="ContactFunction" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding ContactTypes}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedPerson.Job, Converter={StaticResource IDtoContactTypeIndexConverter}}" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Function: " HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <ComboBox Name="ContactFunction" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" VerticalAlignment="Top" Margin="5,53,10,10" ItemsSource="{Binding ContactTypes}" DisplayMemberPath="Name" SelectedIndex="{Binding SelectedPerson.Job, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True, Converter={StaticResource IDtoContactTypeIndexConverter}}" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Address -->
-                <Label Content="Address: " HorizontalAlignment="Left" Margin="10,75,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactStreet" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Street}" VerticalAlignment="Top" Margin="5,78,10,10" IsEnabled="{Binding Enabled}"/>
-                <TextBox Name="ContactCity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.City}" VerticalAlignment="Top" Margin="5,103,10,10" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Address: " HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="ContactStreet" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Street, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,78,10,10" IsEnabled="{Binding Enabled}"/>
+                <TextBox Name="ContactCity" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.City, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,103,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Telephone -->
-                <Label Content="Telephone: " HorizontalAlignment="Left" Margin="10,125,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactPhone" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Phone}" VerticalAlignment="Top" Margin="5,128,10,10" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Telephone: " HorizontalAlignment="Left" Margin="10,130,0,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="ContactPhone" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Phone, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,128,10,10" IsEnabled="{Binding Enabled}"/>
 
                 <!-- Email -->
-                <Label Content="Email: " HorizontalAlignment="Left" Margin="10,150,0,0" VerticalAlignment="Top" Grid.Column="0"/>
-                <TextBox Name="ContactEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Email}" VerticalAlignment="Top" Margin="5,153,10,0" IsEnabled="{Binding Enabled}"/>
+                <Label Content="Email: " HorizontalAlignment="Left" Margin="10,155,5,0" VerticalAlignment="Top" Grid.Column="0"/>
+                <TextBox Name="ContactEmail" HorizontalAlignment="Stretch" Grid.Column="1" Height="20" Text="{Binding SelectedPerson.Email, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Top" Margin="5,153,10,0" IsEnabled="{Binding Enabled}"/>
             </Grid>
 
             <!-- ROW 3 -->
             <!-- Exta Info -->
             <Label Content="Extra Info: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Grid.Row="2"/>
-            <TextBox Name="ContactInfo" HorizontalAlignment="Stretch" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SelectedPerson.Extra}" VerticalAlignment="Stretch" Margin="10,25,10,10" IsEnabled="{Binding Enabled}"/>
+            <TextBox Name="ContactInfo" HorizontalAlignment="Stretch" Grid.Row="2" TextWrapping="Wrap" Text="{Binding SelectedPerson.Extra, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" VerticalAlignment="Stretch" Margin="10,25,10,10" IsEnabled="{Binding Enabled}"/>
 
             <!-- ROW 4 -->
             <Grid Grid.Row="3">
