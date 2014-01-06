@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Common;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace FestivalAdministration.Model
 {
-    public class Band
+    public class Band : INotifyPropertyChanged, IDataErrorInfo
     {
         private int _ID;
 
@@ -20,6 +23,8 @@ namespace FestivalAdministration.Model
 
         private string _Name;
 
+        [Required(ErrorMessage = "The Name is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "The Name has to be between 3 and 50 characters")]
         public string Name
         {
             get { return _Name; }
@@ -28,6 +33,9 @@ namespace FestivalAdministration.Model
 
         private string _Twitter;
 
+        [Required(ErrorMessage = "Twitter URL is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Twitter URL has to be between 3 and 50 characters")]
+        [Url(ErrorMessage="Please insert an URL")]
         public string Twitter
         {
             get { return _Twitter; }
@@ -36,6 +44,9 @@ namespace FestivalAdministration.Model
 
         private string _Facebook;
 
+        [Required(ErrorMessage = "Facebook URL is required")]
+        [StringLength(50, MinimumLength = 3, ErrorMessage = "Facebook URL has to be between 3 and 50 characters")]
+        [Url(ErrorMessage = "Please insert an URL")]
         public string Facebook
         {
             get { return _Facebook; }
@@ -44,6 +55,7 @@ namespace FestivalAdministration.Model
 
         private byte[] _Picture;
 
+        [Required(ErrorMessage = "Picture is required")]
         public byte[] Picture
         {
             get { return _Picture; }
@@ -52,6 +64,7 @@ namespace FestivalAdministration.Model
 
         private string _Description;
 
+        [StringLength(2000, MinimumLength = 0, ErrorMessage = "The description is maximum 2000 characters")]
         public string Description
         {
             get { return _Description; }
@@ -232,6 +245,43 @@ namespace FestivalAdministration.Model
         public Band Copy()
         {
             return new Band() { ID = this.ID, Name = this.Name, Twitter = this.Twitter, Facebook = this.Facebook, Picture = this.Picture, Description = this.Description };
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public string Error
+        {
+            get { return null; }
+        }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                try
+                {
+                    object value = this.GetType().GetProperty(columnName).GetValue(this);
+                    Validator.ValidateProperty(value, new ValidationContext(this, null, null) { MemberName = columnName });
+                }
+                catch (ValidationException ex)
+                {
+                    return ex.Message;
+                }
+                return String.Empty;
+            }
+        }
+
+        public bool IsValid()
+        {
+            return Validator.TryValidateObject(this, new ValidationContext(this, null, null), null, true);
         }
     }
 }

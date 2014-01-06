@@ -13,7 +13,7 @@
     <UserControl.Resources>
         <c:IDtoGenreConverter x:Key="IDtoGenreConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="200"/>
@@ -47,27 +47,27 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0">
-                    <Label Content="Name: " HorizontalAlignment="Left" Margin="5,5,0,2" VerticalAlignment="Top" />
-                    <Label Content="Twitter: " HorizontalAlignment="Left" Margin="5,0,0,2" VerticalAlignment="Top" />
-                    <Label Content="Facebook: " HorizontalAlignment="Left" Margin="5,0,0,2" VerticalAlignment="Top" />
-                    <Label Content="Genre(s): " HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" />
+                    <Label Content="Name: " HorizontalAlignment="Left" Margin="10" VerticalAlignment="Top" />
+                    <Label Content="Twitter: " HorizontalAlignment="Left" Margin="10 5 10 10" VerticalAlignment="Top" />
+                    <Label Content="Facebook: " HorizontalAlignment="Left" Margin="10 5 10 10" VerticalAlignment="Top" />
+                    <Label Content="Genre(s): " HorizontalAlignment="Left" Margin="10 5" VerticalAlignment="Top" />
                     <Button Grid.Column="0" Content="Add" Margin="10" Visibility="{Binding ShowSave}" Command="{Binding DataContext.AddGenreCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"/>
                 </StackPanel>
                 <StackPanel Grid.Column="1">
-                    <TextBox Text="{Binding SelectedBand.Name}" Margin="5,10,10,5" IsEnabled="{Binding Enabled}" />
-                    <TextBox Text="{Binding SelectedBand.Twitter}" Margin="5,5,10,5" IsEnabled="{Binding Enabled}" />
-                    <TextBox Text="{Binding SelectedBand.Facebook}" Margin="5,5,10,0" IsEnabled="{Binding Enabled}" />
+                    <TextBox Text="{Binding SelectedBand.Name, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="5,10,10,5" IsEnabled="{Binding Enabled}" Style="{StaticResource TextboxError}"/>
+                    <TextBox Text="{Binding SelectedBand.Twitter, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="5,5,10,5" IsEnabled="{Binding Enabled}" Style="{StaticResource TextboxError}"/>
+                    <TextBox Text="{Binding SelectedBand.Facebook, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Margin="5,5,10,0" IsEnabled="{Binding Enabled}" Style="{StaticResource TextboxError}"/>
 
                     <!-- Create Genres -->
                     <ItemsControl Grid.Row="1" ItemsSource="{Binding SelectedBandGenres}" HorizontalAlignment="Stretch" Grid.Column="0" Margin="5,5,10,0">
-                        <!-- Make the tabs next to each other -->
+                        <!-- Make the Comboboxes under eachother -->
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <StackPanel />
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
 
-                        <!-- Add the CompoBoxes -->
+                        <!-- Add the ComboBoxes -->
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <ComboBox Margin="0,5" Height="20" ItemsSource="{Binding DataContext.Genres, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" DisplayMemberPath="Name" SelectedItem="{Binding GenreID, Converter={StaticResource IDtoGenreConverter}}" IsEnabled="{Binding DataContext.Enabled, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"/>
@@ -82,12 +82,12 @@
                     <ColumnDefinition Width="auto" MinWidth="72"/>
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="5,-2,0,5" VerticalAlignment="Top" />
+                <Label Grid.Column="0" Content="Picture: " HorizontalAlignment="Left" Margin="10,-2,0,5" VerticalAlignment="Top" />
                 <Button Grid.Column="0" Content="Browse" Margin="10" Visibility="{Binding ShowSave}" Command="{Binding DataContext.BrowseCommand, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" CommandParameter="{Binding}" MaxWidth="100" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                 <Image Grid.Column="1" Source="{Binding SelectedBand.Picture}" Margin="10" MaxHeight="280" VerticalAlignment="Stretch" HorizontalAlignment="Left" Stretch="Uniform"/>
             </Grid>
-            <Label Grid.Row="3" Content="Description: " HorizontalAlignment="Left" Margin="5,0,0,0" VerticalAlignment="Top" />
-            <TextBox Grid.Row="3" Text="{Binding SelectedBand.Description}" Margin="10,25,10,10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsEnabled="{Binding Enabled}"/>
+            <Label Grid.Row="3" Content="Description: " HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" />
+            <TextBox Grid.Row="3" Text="{Binding SelectedBand.Description, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" Style="{StaticResource TextboxError}" Margin="10,25,10,10" VerticalAlignment="Stretch" TextWrapping="Wrap" AcceptsReturn="True" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.CanContentScroll="True" IsEnabled="{Binding Enabled}"/>
             <!-- ROW 4 -->
             <Grid Grid.Row="4">
                 <Grid.ColumnDefinitions>
