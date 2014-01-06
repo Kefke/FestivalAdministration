@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FestivalAdministration", "FestivalAdministration\FestivalAdministration.csproj", "{4DAE4B36-319F-46CE-8E42-CB750CB45BC8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroAppServer", "MetroAppServer\MetroAppServer.csproj", "{AD613E59-F235-40FE-B1A8-6E84CEAFE56D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{4DAE4B36-319F-46CE-8E42-CB750CB45BC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4DAE4B36-319F-46CE-8E42-CB750CB45BC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4DAE4B36-319F-46CE-8E42-CB750CB45BC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD613E59-F235-40FE-B1A8-6E84CEAFE56D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD613E59-F235-40FE-B1A8-6E84CEAFE56D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD613E59-F235-40FE-B1A8-6E84CEAFE56D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD613E59-F235-40FE-B1A8-6E84CEAFE56D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
