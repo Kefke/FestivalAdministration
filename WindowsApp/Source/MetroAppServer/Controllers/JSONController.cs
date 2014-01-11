@@ -17,10 +17,12 @@ namespace MetroAppServer.Controllers
 
         public ActionResult Index()
         {
-            return View();
+            List<Band> bands = BandSQLRepository.GetBands();
+            return Json(bands, JsonRequestBehavior.AllowGet);
+            //return View();
         }
 
-        public ActionResult lineup()
+        /*public ActionResult lineup()
         {
             List<Band> bands = BandSQLRepository.GetBandsOrderTimeSlot();
 
@@ -52,6 +54,6 @@ namespace MetroAppServer.Controllers
 
             // Return JSON
             return new JSONResult(sr.ReadToEnd());
-        }
+        }*/
     }
 }

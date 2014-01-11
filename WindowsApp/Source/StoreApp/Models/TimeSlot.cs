@@ -1,37 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MetroAppServer.Models
+namespace StoreApp.Models
 {
-    public class TimeSlot
+    public class TimeSlot: StoreApp.Common.BindableBase
     {
         private int _ID;
 
         public int ID
         {
             get { return _ID; }
-            set { _ID = value; }
+            set { _ID = value; OnPropertyChanged("ID"); }
         }
 
-        private int _bandID;
+        private Band _band;
 
-        public int BandID
+        public Band Band
         {
-            get { return _bandID; }
-            set { _bandID = value; }
-        }
-
-        private int _stageID;
-
-        public int StageID
-        {
-            get { return _stageID; }
-            set { _stageID = value; }
+            get { return _band; }
+            set { _band = value; OnPropertyChanged("Band"); }
         }
 
         private Stage _stage;
@@ -39,16 +30,15 @@ namespace MetroAppServer.Models
         public Stage Stage
         {
             get { return _stage; }
-            set { _stage = value; }
+            set { _stage = value; OnPropertyChanged("Stage"); }
         }
-        
         
         private DateTime _startDate;
 
         public DateTime StartDate
         {
             get { return _startDate; }
-            set { _startDate = value; }
+            set { _startDate = value; OnPropertyChanged("StartDate"); }
         }
 
         private DateTime _endDate;
@@ -56,7 +46,7 @@ namespace MetroAppServer.Models
         public DateTime EndDate
         {
             get { return _endDate; }
-            set { _endDate = value; }
+            set { _endDate = value; OnPropertyChanged("EndDate"); }
         }
 
         public string TimeToString()
@@ -72,9 +62,7 @@ namespace MetroAppServer.Models
 
         public string DateToString()
         {
-            //if (StartDate.Date == EndDate.Date)
-                return DateToString(StartDate);
-            //else return "From " + DateToString(StartDate) + " till " + DateToString(EndDate);
+            return DateToString(StartDate);
         }
 
         static public string DateToString(DateTime dt)

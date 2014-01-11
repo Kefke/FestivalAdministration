@@ -49,6 +49,7 @@ namespace MetroAppServer.Models
             get { return _Picture; }
             set { _Picture = value; }
         }
+        
 
         private string _Description;
 
