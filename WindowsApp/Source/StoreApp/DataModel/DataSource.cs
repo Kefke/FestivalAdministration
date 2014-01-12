@@ -175,7 +175,7 @@ namespace StoreApp.DataModel
                             band.Picture = ByteToImage(bytes).Result;
                             break;
                         case "Description":
-                            band.Facebook = val.GetString();
+                            band.Description = val.GetString();
                             break;
                         case "Genres":
                             if (val.GetArray().Count > 0)
