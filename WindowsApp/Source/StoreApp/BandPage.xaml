@@ -13,7 +13,6 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <c:BytesToImageConverter x:Key="BytesToImageConverter" />
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"

@@ -28,7 +28,6 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
-    <c:BytesToImageConverter x:Key="BytesToImageConverter" />
 
     <!-- RichTextBlock styles -->
 
