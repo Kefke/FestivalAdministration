@@ -1,5 +1,6 @@
 ﻿using StoreApp.Data;
 using StoreApp.DataModel;
+using StoreApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -51,7 +52,7 @@ namespace StoreApp
         /// </summary>
         /// <param name="sender">The Button used as a group header for the selected group.</param>
         /// <param name="e">Event data that describes how the click was initiated.</param>
-        void Header_Click(object sender, RoutedEventArgs e)
+        /*void Header_Click(object sender, RoutedEventArgs e)
         {
             // Determine what group the Button instance represents
             var group = (sender as FrameworkElement).DataContext;
@@ -59,7 +60,7 @@ namespace StoreApp
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
             this.Frame.Navigate(typeof(GroupDetailPage), ((SampleDataGroup)group).UniqueId);
-        }
+        }*/
 
         /// <summary>
         /// Invoked when an item within a group is clicked.
@@ -71,8 +72,8 @@ namespace StoreApp
         {
             // Navigate to the appropriate destination page, configuring the new page
             // by passing required information as a navigation parameter
-            var itemId = ((SampleDataItem)e.ClickedItem).UniqueId;
-            this.Frame.Navigate(typeof(ItemDetailPage), itemId);
+            var bandId = ((Band)e.ClickedItem).ID;
+            this.Frame.Navigate(typeof(BandPage), bandId);
         }
     }
 }

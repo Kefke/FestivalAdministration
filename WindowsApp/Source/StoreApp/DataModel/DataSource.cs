@@ -28,6 +28,20 @@ namespace StoreApp.DataModel
             get { return _timeSlots; }
         }
 
+        private ObservableCollection<Stage> _stages = new ObservableCollection<Stage>();
+
+        public ObservableCollection<Stage> Stages
+        {
+            get { return _stages; }
+        }
+
+        private ObservableCollection<Band> _bands = new ObservableCollection<Band>();
+
+        public ObservableCollection<Band> Bands
+        {
+            get { return _bands; }
+        }
+
         public static IEnumerable<Genre> GetGenres(string uniqueId)
         {
             if (!uniqueId.Equals("Genres")) throw new ArgumentException("Only 'Genres' is supported as a collection of genres");
@@ -40,6 +54,20 @@ namespace StoreApp.DataModel
             if (!uniqueId.Equals("TimeSlots")) throw new ArgumentException("Only 'TimeSlots' is supported as a collection of timeslots");
 
             return _dataSource.TimeSlots;
+        }
+
+        public static IEnumerable<Stage> GetStages(string uniqueId)
+        {
+            if (!uniqueId.Equals("Stages")) throw new ArgumentException("Only 'Stages' is supported as a collection of timeslots");
+
+            return _dataSource.Stages;
+        }
+
+        public static IEnumerable<Band> GetBands(string uniqueId)
+        {
+            if (!uniqueId.Equals("Bands")) throw new ArgumentException("Only 'Bands' is supported as a collection of bands");
+
+            return _dataSource.Bands;
         }
 
         public static Genre GetGenre(string uniqueId)
@@ -61,8 +89,17 @@ namespace StoreApp.DataModel
         public static Band GetBand(string uniqueId)
         {
             // Simple linear search is acceptable for small data sets
-            var matches = _dataSource.Genres.SelectMany(genre => genre.Bands).Where((band) => band.ID.Equals(uniqueId));
-            if (matches.Count() == 1) return matches.First();
+            /*var matches = _dataSource.Genres.SelectMany(genre => genre.Bands).Where((band) => band.ID.Equals(uniqueId));
+            if (matches.Count() >= 1) return matches.First();
+            return null;*/
+            foreach (var genre in _dataSource.Genres)
+            {
+                foreach (var band in genre.Bands)
+                {
+                    if (uniqueId == band.ID.ToString()) 
+                        return band;
+                }
+            }
             return null;
         }
 
@@ -88,6 +125,7 @@ namespace StoreApp.DataModel
                 var obj = item.GetObject();
                 Band band = new Band();
                 band.Genres = new ObservableCollection<Genre>();
+                band.TimeSlots = new ObservableCollection<TimeSlot>();
 
                 foreach (var key in obj.Keys)
                 {
@@ -149,8 +187,22 @@ namespace StoreApp.DataModel
                                 }
                             }
                             break;
+                        case "TimeSlots":
+                            if (val.GetArray().Count > 0)
+                            {
+                                for (uint i = 0; i < val.GetArray().Count; ++i)
+                                {
+                                    JsonObject timeslot = val.GetArray().GetObjectAt(i);
+                                    TimeSlot slot = CreateTimeSlot(timeslot);
+
+                                    band.TimeSlots.Add(slot);
+                                }
+                            }
+                            break;
                     }
                 }
+                // Save band in bands
+                _dataSource.Bands.Add(band);
 
                 // Update the band in the genres
                 if (band.Genres != null)
@@ -161,6 +213,15 @@ namespace StoreApp.DataModel
                             genre.Bands = new ObservableCollection<Band>();
 
                         genre.Bands.Add(band);
+                    }
+                }
+
+                // Update the band in the timeslots
+                if (band.TimeSlots != null)
+                {
+                    foreach (var slot in band.TimeSlots)
+                    {
+                        slot.Band = band;
                     }
                 }
             }
@@ -189,6 +250,105 @@ namespace StoreApp.DataModel
 
             _dataSource.Genres.Add(genre);
             return genre;
+        }
+
+        private static TimeSlot CreateTimeSlot(JsonObject obj)
+        {
+            TimeSlot slot = new TimeSlot();
+
+            foreach (var key in obj.Keys)
+            {
+                IJsonValue val;
+                if (!obj.TryGetValue(key, out val))
+                    continue;
+
+                switch (key)
+                {
+                    case "ID":
+                        slot.ID = (int)val.GetNumber();
+                        break;
+                    case "Stage":
+                        JsonObject stageTimeSlot = val.GetObject();
+                        Stage stage = null;
+                        IJsonValue stageID;
+                        if (!stageTimeSlot.TryGetValue("ID", out stageID))
+                            continue;
+
+                        int sID = (int)stageID.GetNumber();
+                        foreach (var s in _dataSource.Stages)
+                        {
+                            if (s.ID == sID)
+                                stage = s;
+                        }
+
+                        if (stage == null)
+                            stage = CreateStage(stageTimeSlot);
+
+                        slot.Stage = stage;
+                        break;
+                    case "StartDate":
+                        slot.StartDate = JsonToDateTime(val);
+                        break;
+                    case "EndDate":
+                        slot.EndDate = JsonToDateTime(val);
+                        break;
+                }
+            }
+
+            // Update the timeslots in the stages
+            if (slot.Stage != null)
+            {
+                if (slot.Stage.TimeSlots == null)
+                    slot.Stage.TimeSlots = new ObservableCollection<TimeSlot>();
+
+                slot.Stage.TimeSlots.Add(slot);
+            }
+
+            _dataSource.TimeSlots.Add(slot);
+            return slot;
+        }
+
+        private static Stage CreateStage(JsonObject obj)
+        {
+            Stage stage = new Stage();
+
+            foreach (var key in obj.Keys)
+            {
+                IJsonValue val;
+                if (!obj.TryGetValue(key, out val))
+                    continue;
+
+                switch (key)
+                {
+                    case "ID":
+                        stage.ID = (int)val.GetNumber();
+                        break;
+                    case "Name":
+                        stage.Name = val.GetString();
+                        break;
+                }
+            }
+
+            _dataSource.Stages.Add(stage);
+            return stage;
+        }
+
+        private static DateTime JsonToDateTime(IJsonValue val)
+        {
+            try
+            {
+                DateTime result = new DateTime(1970, 1, 1);
+
+                string json = val.Stringify();
+                string datestring = json.Split("()".ToCharArray())[1];
+                double millis = Convert.ToDouble(datestring);
+
+                return result.AddMilliseconds(millis);
+            }
+            catch (Exception ex)
+            {
+            }
+            return new DateTime();
         }
     }
 }

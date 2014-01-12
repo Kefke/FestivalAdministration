@@ -1,5 +1,6 @@
 ﻿using StoreApp.Data;
-
+using StoreApp.DataModel;
+using StoreApp.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -22,9 +23,9 @@ namespace StoreApp
     /// A page that displays details for a single item within a group while allowing gestures to
     /// flip through other items belonging to the same group.
     /// </summary>
-    public sealed partial class ItemDetailPage : StoreApp.Common.LayoutAwarePage
+    public sealed partial class BandPage: StoreApp.Common.LayoutAwarePage
     {
-        public ItemDetailPage()
+        public BandPage()
         {
             this.InitializeComponent();
         }
@@ -47,10 +48,14 @@ namespace StoreApp
             }
 
             // TODO: Create an appropriate data model for your problem domain to replace the sample data
-            var item = SampleDataSource.GetItem((String)navigationParameter);
-            this.DefaultViewModel["Group"] = item.Group;
-            this.DefaultViewModel["Items"] = item.Group.Items;
-            this.flipView.SelectedItem = item;
+            /*var band = DataSource.GetBand(navigationParameter.ToString());
+            this.DefaultViewModel["Genres"] = band.Genres[0];
+            this.DefaultViewModel["Bands"] = band.Genres[0].Bands;
+            this.flipView.SelectedItem = band;*/
+            var band = DataSource.GetBand(navigationParameter.ToString());
+            //this.DefaultViewModel["Genre"] = band.Genres[0];
+            this.DefaultViewModel["Bands"] = DataSource.GetBands("Bands");/*band.Genres[0].Bands;*/
+            this.flipView.SelectedItem = band;
         }
 
         /// <summary>
@@ -61,8 +66,8 @@ namespace StoreApp
         /// <param name="pageState">An empty dictionary to be populated with serializable state.</param>
         protected override void SaveState(Dictionary<String, Object> pageState)
         {
-            var selectedItem = (SampleDataItem)this.flipView.SelectedItem;
-            pageState["SelectedItem"] = selectedItem.UniqueId;
+            var selectedItem = (Band)this.flipView.SelectedItem;
+            pageState["SelectedItem"] = selectedItem.ID;
         }
     }
 }

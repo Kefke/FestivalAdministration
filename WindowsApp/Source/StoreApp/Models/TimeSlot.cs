@@ -49,6 +49,16 @@ namespace StoreApp.Models
             set { _endDate = value; OnPropertyChanged("EndDate"); }
         }
 
+        public string Day
+        {
+            get { return DateToString(StartDate); }
+        }
+
+        public string Time
+        {
+            get { return TimeToString(); }
+        }
+
         public string TimeToString()
         {
             return "From " + TimeToString(StartDate) + " till " + TimeToString(EndDate);

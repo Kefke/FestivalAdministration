@@ -51,7 +51,8 @@ namespace StoreApp
 
         private void LineUp(object sender, RoutedEventArgs e)
         {
-            this.Frame.Navigate(typeof(GenrePage), "TimeSlots");
+            //this.Frame.Navigate(typeof(LineupPage), "TimeSlots");
+            this.Frame.Navigate(typeof(LineupPage), "Stages");
         }
 
         private void Genre(object sender, RoutedEventArgs e)

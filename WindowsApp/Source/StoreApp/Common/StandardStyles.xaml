@@ -1663,6 +1663,20 @@
             </StackPanel>
         </Grid>
     </DataTemplate>
+    <DataTemplate x:Key="Standard250x250TimeslotTemplate">
+        <Grid HorizontalAlignment="Left" Width="250" Height="250">
+            <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                <Image Source="{Binding Band.Picture}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>
+            </Border>
+            <StackPanel VerticalAlignment="Top" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <TextBlock Text="{Binding Day}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="20" Margin="15,0,15,5"/>
+                <TextBlock Text="{Binding Time}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="30" Margin="15,5,15,0"/>
+            </StackPanel>
+            <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
+                <TextBlock Text="{Binding Band.Name}" Foreground="{StaticResource ListViewItemOverlayForegroundThemeBrush}" Style="{StaticResource TitleTextStyle}" Height="60" Margin="15,0,15,0"/>
+            </StackPanel>
+        </Grid>
+    </DataTemplate>
 
     <!-- Grid-appropriate 500 by 130 pixel item template as seen in the GroupDetailPage -->
     <DataTemplate x:Key="Standard500x130ItemTemplate">

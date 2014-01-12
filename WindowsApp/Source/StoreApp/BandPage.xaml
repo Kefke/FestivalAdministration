@@ -1,11 +1,11 @@
 ﻿<common:LayoutAwarePage
     x:Name="pageRoot"
-    x:Class="StoreApp.ItemDetailPage"
+    x:Class="StoreApp.BandPage"
     DataContext="{Binding DefaultViewModel, RelativeSource={RelativeSource Self}}"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:StoreApp"
-    xmlns:data="using:StoreApp.Data"
+    xmlns:data="using:StoreApp.DataModel"
     xmlns:common="using:StoreApp.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,8 +16,8 @@
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"
-            Source="{Binding Items}"
-            d:Source="{Binding AllGroups[0].Items, Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}"/>
+            Source="{Binding Bands}"
+            d:Source="{Binding Bands[0], Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}"/>
     </Page.Resources>
 
     <!--
@@ -27,8 +27,8 @@
     -->
     <Grid
         Style="{StaticResource LayoutRootStyle}"
-        DataContext="{Binding Group}"
-        d:DataContext="{Binding AllGroups[0], Source={d:DesignInstance Type=data:SampleDataSource, IsDesignTimeCreatable=True}}">
+        DataContext="{Binding Band}"
+        d:DataContext="{Binding Bands, Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -68,18 +68,18 @@
                             <common:RichTextColumns x:Name="richTextColumns" Margin="117,0,117,47">
                                 <RichTextBlock x:Name="richTextBlock" Width="560" Style="{StaticResource ItemRichTextStyle}" IsTextSelectionEnabled="False">
                                     <Paragraph>
-                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Title}"/>
+                                        <Run FontSize="26.667" FontWeight="Light" Text="{Binding Name}"/>
+                                        <!--<LineBreak/>
                                         <LineBreak/>
-                                        <LineBreak/>
-                                        <Run FontWeight="Normal" Text="{Binding Subtitle}"/>
+                                        <Run FontWeight="Normal" Text="{Binding Subtitle}"/>-->
                                     </Paragraph>
                                     <Paragraph LineStackingStrategy="MaxHeight">
                                         <InlineUIContainer>
-                                            <Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Image}" AutomationProperties.Name="{Binding Title}"/>
+                                            <Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Picture}" AutomationProperties.Name="{Binding Title}"/>
                                         </InlineUIContainer>
                                     </Paragraph>
                                     <Paragraph>
-                                        <Run FontWeight="SemiLight" Text="{Binding Content}"/>
+                                        <Run FontWeight="SemiLight" Text="{Binding Description}"/>
                                     </Paragraph>
                                 </RichTextBlock>
 
