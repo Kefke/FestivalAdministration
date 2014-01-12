@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Media;
 
 namespace StoreApp.Models
 {
@@ -41,9 +42,9 @@ namespace StoreApp.Models
             set { _Facebook = value; OnPropertyChanged("Facebook"); }
         }
 
-        private byte[] _Picture;
+        private ImageSource _Picture;
 
-        public byte[] Picture
+        public ImageSource Picture
         {
             get { return _Picture; }
             set { _Picture = value; OnPropertyChanged("Picture"); }

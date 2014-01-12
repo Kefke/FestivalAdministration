@@ -10,8 +10,9 @@
 
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:c="using:StoreApp.Converters">
+    
     <!-- Non-brush values that vary across themes -->
 
     <ResourceDictionary.ThemeDictionaries>
@@ -27,6 +28,7 @@
     </ResourceDictionary.ThemeDictionaries>
 
     <x:String x:Key="ChevronGlyph">&#xE26B;</x:String>
+    <c:BytesToImageConverter x:Key="BytesToImageConverter" />
 
     <!-- RichTextBlock styles -->
 
@@ -1656,6 +1658,7 @@
     <DataTemplate x:Key="Standard250x250BandTemplate">
         <Grid HorizontalAlignment="Left" Width="250" Height="250">
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                <!--<Image Source="{Binding Picture, Converter={StaticResource BytesToImageConverter}}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>-->
                 <Image Source="{Binding Picture}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>
             </Border>
             <StackPanel VerticalAlignment="Bottom" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">
@@ -1666,6 +1669,7 @@
     <DataTemplate x:Key="Standard250x250TimeslotTemplate">
         <Grid HorizontalAlignment="Left" Width="250" Height="250">
             <Border Background="{StaticResource ListViewItemPlaceholderBackgroundThemeBrush}">
+                <!--<Image Source="{Binding Band.Picture, Converter={StaticResource BytesToImageConverter}}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>-->
                 <Image Source="{Binding Band.Picture}" Stretch="UniformToFill" AutomationProperties.Name="{Binding Name}"/>
             </Border>
             <StackPanel VerticalAlignment="Top" Background="{StaticResource ListViewItemOverlayBackgroundThemeBrush}">

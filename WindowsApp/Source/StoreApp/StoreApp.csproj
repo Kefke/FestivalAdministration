@@ -106,6 +106,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\BytesToImageConverter.cs" />
     <Compile Include="DataModel\DataSource.cs" />
     <Compile Include="GenrePage.xaml.cs">
       <DependentUpon>GenrePage.xaml</DependentUpon>

@@ -2,11 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.Data.Json;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace StoreApp.DataModel
 {
@@ -150,13 +153,26 @@ namespace StoreApp.DataModel
                             break;
                         case "Picture":
                             var arr = val.GetArray();
-                            band.Picture = new byte[arr.Count];
+                            var bytes = new byte[arr.Count];
                             int index = 0;
                             foreach (var itm in arr)
                             {
-                                band.Picture[index] = (byte)itm.GetNumber();
+                                bytes[index] = (byte)itm.GetNumber();
                                 ++index;
                             }
+
+                            /*MemoryStream ms = new MemoryStream(bytes);
+                            InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream();
+                            ms.CopyTo(stream.AsStreamForWrite());*/
+                            /*var stream = new InMemoryRandomAccessStream();
+                            stream.WriteAsync(bytes.AsBuffer());
+                            stream.Seek(0);
+
+                            var picture = new BitmapImage();
+                            picture.SetSource(stream);
+
+                            band.Picture = picture;*/
+                            band.Picture = ByteToImage(bytes).Result;
                             break;
                         case "Description":
                             band.Facebook = val.GetString();
@@ -349,6 +365,19 @@ namespace StoreApp.DataModel
             {
             }
             return new DateTime();
+        }
+
+        private static async Task<BitmapImage> ByteToImage(byte[] imageBytes)
+        {
+            var image = new BitmapImage();
+            using (var randomAccessStream = new InMemoryRandomAccessStream())
+            {
+                var dw = new DataWriter(randomAccessStream.GetOutputStreamAt(0));
+                dw.WriteBytes(imageBytes);
+                await dw.StoreAsync();
+                image.SetSourceAsync(randomAccessStream);
+            }
+            return image;
         }
     }
 }

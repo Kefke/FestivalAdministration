@@ -9,15 +9,16 @@
     xmlns:common="using:StoreApp.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:c="using:StoreApp.Converters"
     mc:Ignorable="d">
 
     <Page.Resources>
-
+        <c:BytesToImageConverter x:Key="BytesToImageConverter" />
         <!-- Collection of items displayed by this page -->
         <CollectionViewSource
             x:Name="itemsViewSource"
             Source="{Binding Bands}"
-            d:Source="{Binding Bands[0], Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}"/>
+            d:Source="{Binding Bands, Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}"/>
     </Page.Resources>
 
     <!--
@@ -28,7 +29,7 @@
     <Grid
         Style="{StaticResource LayoutRootStyle}"
         DataContext="{Binding Band}"
-        d:DataContext="{Binding Bands, Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}">
+        d:DataContext="{Binding Bands[0], Source={d:DesignInstance Type=data:DataSource, IsDesignTimeCreatable=True}}">
 
         <Grid.RowDefinitions>
             <RowDefinition Height="140"/>
@@ -75,6 +76,7 @@
                                     </Paragraph>
                                     <Paragraph LineStackingStrategy="MaxHeight">
                                         <InlineUIContainer>
+                                            <!--<Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Picture, Converter={StaticResource BytesToImageConverter}}" AutomationProperties.Name="{Binding Title}"/>-->
                                             <Image x:Name="image" MaxHeight="480" Margin="0,20,0,10" Stretch="Uniform" Source="{Binding Picture}" AutomationProperties.Name="{Binding Title}"/>
                                         </InlineUIContainer>
                                     </Paragraph>
