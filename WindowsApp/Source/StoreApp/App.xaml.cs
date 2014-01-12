@@ -88,6 +88,7 @@ namespace StoreApp
 
             // Load data
             await DataSource.LoadJson();
+            DataSource.OrderData();
         }
 
         /// <summary>

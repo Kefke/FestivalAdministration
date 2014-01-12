@@ -106,6 +106,33 @@ namespace StoreApp.DataModel
             return null;
         }
 
+        public static void OrderData()
+        {
+            // Order Bands
+            List<Band> orderedBands = _dataSource.Bands.OrderBy((band) => band.Name).ToList();
+            _dataSource.Bands.Clear();
+            foreach (var band in orderedBands)
+                _dataSource.Bands.Add(band);
+            orderedBands.Clear();
+
+            // Order Genres
+            List<Genre> orderedGenres = _dataSource.Genres.OrderBy((genre) => genre.Name).ToList();
+            _dataSource.Genres.Clear();
+            foreach (var genre in orderedGenres)
+                _dataSource.Genres.Add(genre);
+            orderedGenres.Clear();
+
+            // Order TimeSlots in Stages
+            foreach (var stage in _dataSource.Stages)
+            {
+                List<TimeSlot> orderedSlots = stage.TimeSlots.OrderBy((slot) => slot.StartDate).ToList();
+                stage.TimeSlots.Clear();
+                foreach (var slot in orderedSlots)
+                    stage.TimeSlots.Add(slot);
+                orderedSlots.Clear();
+            }
+        }
+
         public static async Task LoadJson()
         {
             // Retrieve recipe data from Azure

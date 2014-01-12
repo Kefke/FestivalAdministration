@@ -13,7 +13,7 @@
     <Page.Resources>
 
         <!-- TODO: Delete this line if the key AppName is declared in App.xaml -->
-        <x:String x:Key="AppName">My Application</x:String>
+        <x:String x:Key="AppName">Music Fest</x:String>
     </Page.Resources>
 
     <!--
@@ -38,8 +38,8 @@
         </Grid>
         
         <StackPanel Grid.Row="1">
-            <Button Click="LineUp" Padding="100" Content="Show Line-up" Margin="50, 50, 50, 0"/>
-            <Button Click="Genre" Padding="100" Content="Show Genres" Margin="50, 50, 50, 0"/>
+            <Button Click="LineUp" Padding="100" Content="Show Line-up" FontSize="18" Margin="50, 50, 50, 0"/>
+            <Button Click="Genre" Padding="100" Content="Show Genres" FontSize="18" Margin="50, 50, 50, 0"/>
         </StackPanel>
 
         <VisualStateManager.VisualStateGroups>
