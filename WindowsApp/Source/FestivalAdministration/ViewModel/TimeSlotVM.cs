@@ -293,6 +293,8 @@ namespace FestivalAdministration.ViewModel
         {
             SelectedSlot.StartDate = new DateTime(StartDate.Year, StartDate.Month, StartDate.Day, StartHour, StartMinute, 0);
             SelectedSlot.EndDate = new DateTime(EndDate.Year, EndDate.Month, EndDate.Day, EndHour, EndMinute, 0);
+            // Check if the enddate is after the startdate
+            if (SelectedSlot.StartDate > SelectedSlot.EndDate) return;
 
             // Save Changes
             if (_oldSlot == null)

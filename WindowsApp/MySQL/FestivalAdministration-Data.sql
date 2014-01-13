@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 05 jan 2014 om 15:50
+-- Genereertijd: 13 jan 2014 om 08:35
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `band` (
   `Picture` mediumblob NOT NULL,
   `Description` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `band`
@@ -308,7 +308,7 @@ CREATE TABLE IF NOT EXISTS `timeslot` (
   PRIMARY KEY (`ID`),
   KEY `BandID_idx` (`BandID`),
   KEY `StageID_idx` (`StageID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Gegevens worden uitgevoerd voor tabel `timeslot`
@@ -322,7 +322,8 @@ INSERT INTO `timeslot` (`ID`, `BandID`, `StageID`, `StartDate`, `EndDate`) VALUE
 (5, 9, 1, '2014-04-19 22:15:00', '2014-04-19 23:45:00'),
 (6, 12, 1, '2014-04-19 20:45:00', '2014-04-19 21:45:00'),
 (7, 13, 2, '2014-04-19 21:45:00', '2014-04-19 23:15:00'),
-(8, 7, 2, '2014-04-19 20:15:00', '2014-04-19 21:15:00');
+(8, 7, 2, '2014-04-19 20:15:00', '2014-04-19 21:15:00'),
+(10, 8, 1, '2014-04-18 19:00:00', '2014-04-18 19:50:00');
 
 --
 -- Beperkingen voor gedumpte tabellen

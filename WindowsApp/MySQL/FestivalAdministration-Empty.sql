@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Machine: localhost
--- Genereertijd: 05 jan 2014 om 15:51
+-- Genereertijd: 13 jan 2014 om 08:36
 -- Serverversie: 5.6.13
 -- PHP-versie: 5.4.17
 
@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS `band` (
   `Picture` mediumblob NOT NULL,
   `Description` varchar(2000) DEFAULT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=15 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=18 ;
 
 -- --------------------------------------------------------
 
@@ -172,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `timeslot` (
   PRIMARY KEY (`ID`),
   KEY `BandID_idx` (`BandID`),
   KEY `StageID_idx` (`StageID`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=9 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=11 ;
 
 --
 -- Beperkingen voor gedumpte tabellen
